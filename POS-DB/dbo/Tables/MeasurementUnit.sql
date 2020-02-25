@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[MeasurementUnit]
+(
+	[ID] INT NOT NULL PRIMARY KEY IDENTITY(1, 1), 
+    [Value] VARCHAR(128) NOT NULL
+)
