@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="POS_UI.src.views.users_views.Users"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:POS_UI.src.views.users_views"
+             mc:Ignorable="d" Background="White"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Name="main_stack_panel" Margin="5">
+        <StackPanel Orientation="Horizontal" Margin="5 0">
+            <Button Content="Add"       Height="40" Width="40" Margin="5" />
+            <Button Content="Edit"       Height="40" Width="40" Margin="5" />
+            <Button Content="Print"       Height="40" Width="40" Margin="5" />
+            <Button Content="Delete"       Height="40" Width="40" Margin="5" />
+            <TextBox FontSize="18" Text="  Scan or Search Item" Height="30" Width="200" HorizontalAlignment="Left" Margin="20" Foreground="Gray"/>
+        </StackPanel>
+
+        <Grid Height="40">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="column_1"  Width="*"/>
+                <ColumnDefinition x:Name="column_2"  Width="*"/>
+                <ColumnDefinition x:Name="column_3"  Width="*"/>
+                <ColumnDefinition x:Name="column_4"  Width="*"/>
+                <ColumnDefinition x:Name="column_5"  Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="5"/>
+
+            <GridSplitter Grid.Column="0" Width="1" Background="Black"/>
+            <GridSplitter Grid.Column="1" Width="1" Background="Black"/>
+            <GridSplitter Grid.Column="2" Width="1" Background="Black"/>
+            <GridSplitter Grid.Column="3" Width="1" Background="Black"/>
+
+
+            <TextBlock Text="   Name"       Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="   Address"    Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="   Email"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="   Telephone"  Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="   Comments"   Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+
+        </Grid>
+
+        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListViewItem>
+                <Grid Height="30" Margin="0 2"
+                    Width="{Binding Path=ActualWidth, ElementName=main_stack_panel}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding Width,ElementName=column_1}"/>
+                        <ColumnDefinition Width="{Binding Width,ElementName=column_2}"/>
+                        <ColumnDefinition Width="{Binding Width,ElementName=column_3}"/>
+                        <ColumnDefinition Width="{Binding Width,ElementName=column_4}"/>
+                        <ColumnDefinition Width="{Binding Width,ElementName=column_5}"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <TextBlock Text="One"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="12,000" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="2"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="24,000" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="24,000" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <!--<Button Content="Del"    Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Width="50"/>-->
+                </Grid>
+            </ListViewItem>
+
+            <ListView.ItemTemplate>
+
+                <DataTemplate>
+                    <Grid Height="30" Margin="0 2"
+                        Width="{Binding Path=ActualWidth, ElementName=main_stack_panel}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="One"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Text="12,000" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Text="2"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Text="24,000" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Text="24,000" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <!--<Button Content="Del"    Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Width="50"/>-->
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackPanel>
+</UserControl>
