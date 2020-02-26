@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Supplier]
 (
 	[ID] INT NOT NULL PRIMARY KEY, 
-    [FirstName] NVARCHAR(100) NULL, 
+    [FirstName] NVARCHAR(100) NOT NULL, 
     [LastName] NVARCHAR(100) NULL, 
     [Company_ID] INT NULL, 
     [Address] NVARCHAR(200) NULL, 

@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\POS-Core\POS-Core.csproj">
+      <Project>{05c280bf-2f70-4ee0-9104-d6fad66cb823}</Project>
+      <Name>POS-Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
