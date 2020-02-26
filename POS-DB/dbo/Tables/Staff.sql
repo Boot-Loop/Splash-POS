@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[User]
+﻿CREATE TABLE [dbo].[Staff]
 (
 	[ID] INT NOT NULL PRIMARY KEY IDENTITY(1, 1), 
     [FirstName] NVARCHAR(100) NOT NULL, 

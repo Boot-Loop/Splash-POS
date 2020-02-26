@@ -47,6 +47,7 @@
     <Compile Include="src\db\api\ModelAPI.cs" />
     <Compile Include="src\db\Field.cs" />
     <Compile Include="src\db\models\Model.cs" />
+    <Compile Include="src\db\models\users\UserModel.cs" />
     <Compile Include="src\utils\Validator.cs" />
   </ItemGroup>
   <ItemGroup>

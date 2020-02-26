@@ -8,7 +8,7 @@ namespace Core.DB.Models
 {
 	public enum ModelType
 	{
-		// your model type for the systems goes here!
+		MODEL_STAFF,
 	}
 
 	[Serializable]
@@ -35,8 +35,7 @@ namespace Core.DB.Models
 
 		public static ModelType toModelType(Type type)
 		{
-			// if (type == typeof(ClientModel))		return ModelType.MODEL_CLIENT;
-			// if (type == typeof(SupplierModel))	return ModelType.MODEL_SUPPLIER;
+			if (type == typeof(StaffModel)) return ModelType.MODEL_STAFF;
 			throw new NotImplementedException("TODO:");
 		}
 
