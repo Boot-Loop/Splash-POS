@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:POS_UI.src.views.home_views"
         mc:Ignorable="d"
         Title="Home" Height="450" Width="800">
-    <DockPanel>
+    <!--<DockPanel>
         <Grid Width="80" DockPanel.Dock="Left" Background="LightBlue">
             <StackPanel>
                 <Label Content="LG" Height="80"/>
@@ -14,6 +14,6 @@
             
         </Grid>
         <Grid Height="80" DockPanel.Dock="Top" Background="LightBlue"/>
+    </DockPanel>-->
         <ContentControl x:Name="main_content_control"/>
-    </DockPanel>
 </Window>
