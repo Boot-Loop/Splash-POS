@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POS_UI.src.views.sales.new_sale_views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace POS_UI.src.views.new_sale_views
+namespace POS_UI.src.views.sales
 {
     /// <summary>
-    /// Interaction logic for NewSale.xaml
+    /// Interaction logic for Sales.xaml
     /// </summary>
-    public partial class NewSale : UserControl
+    public partial class Sales : UserControl
     {
-        public NewSale()
+        public Sales()
         {
             InitializeComponent();
+            sales_content_control.Content = new NewSale();
         }
     }
 }

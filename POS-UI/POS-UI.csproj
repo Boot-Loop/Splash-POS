@@ -68,14 +68,17 @@
     <Compile Include="src\views\inventory_views\Inventory.xaml.cs">
       <DependentUpon>Inventory.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\new_sale_views\NewSale.xaml.cs">
-      <DependentUpon>NewSale.xaml</DependentUpon>
-    </Compile>
     <Compile Include="src\views\products_views\Products.xaml.cs">
       <DependentUpon>Products.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\views\reports_views\Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\views\sales\new_sale_views\NewSale.xaml.cs">
+      <DependentUpon>NewSale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\views\sales\Sales.xaml.cs">
+      <DependentUpon>Sales.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\views\setting_views\Setting.xaml.cs">
       <DependentUpon>Setting.xaml</DependentUpon>
@@ -86,6 +89,9 @@
     <Compile Include="src\views\users_views\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\view_models\Inventory.cs" />
+    <Compile Include="src\view_models\NewSales.cs" />
+    <Compile Include="src\view_models\Sales.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -113,7 +119,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="src\models\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="src\views\customers_views\Customers.xaml">
       <SubType>Designer</SubType>
@@ -127,15 +135,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\new_sale_views\NewSale.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="src\views\products_views\Products.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\views\reports_views\Reports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\sales\new_sale_views\NewSale.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\sales\Sales.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
