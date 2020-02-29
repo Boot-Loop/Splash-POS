@@ -9,6 +9,10 @@ namespace Core.DB.Models
 	public enum ModelType
 	{
 		MODEL_STAFF,
+		MODEL_SUPPLIER,
+		MODEL_PRODUCT,
+		MODEL_BARCODE,
+		MODEL_BRAND,
 	}
 
 	[Serializable]
@@ -35,8 +39,12 @@ namespace Core.DB.Models
 
 		public static ModelType toModelType(Type type)
 		{
-			if (type == typeof(StaffModel)) return ModelType.MODEL_STAFF;
-			throw new NotImplementedException("TODO:");
+			if (type == typeof(StaffModel))		return ModelType.MODEL_STAFF;
+			if (type == typeof(SupplierModel))	return ModelType.MODEL_SUPPLIER;
+			if (type == typeof(ProductModel))	return ModelType.MODEL_PRODUCT;
+			if (type == typeof(BarcodeModel))	return ModelType.MODEL_BARCODE;
+			if (type == typeof(BrandModel))		return ModelType.MODEL_BRAND;
+			throw new NotImplementedException("TODO:ModelType");
 		}
 
 		public static Model newModel(ModelType model_type)
@@ -45,7 +53,7 @@ namespace Core.DB.Models
 			{
 				// case ModelType.MODEL_CLIENT: return new ClientModel();
 				// case ModelType.MODEL_SUPPLIER: return new SupplierModel();
-				default: throw new NotImplementedException("TODO:");
+				default: throw new NotImplementedException("TODO:Model");
 			}
 		}
 

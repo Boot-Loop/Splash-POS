@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Supplier]
 (
-	[ID] INT NOT NULL PRIMARY KEY, 
+	[ID] INT NOT NULL PRIMARY KEY IDENTITY(1, 1), 
     [FirstName] NVARCHAR(100) NOT NULL, 
     [LastName] NVARCHAR(100) NULL, 
     [Company_ID] INT NULL, 
