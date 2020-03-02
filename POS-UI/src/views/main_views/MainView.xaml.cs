@@ -10,19 +10,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.Views;
 
-namespace POS_UI.src.views.login_views
+namespace UI.Views
 {
     /// <summary>
-    /// Interaction logic for Login.xaml
+    /// Interaction logic for MainView.xaml
     /// </summary>
-    public partial class Login : UserControl
+    public partial class MainView : Window
     {
-        public Login()
+        public MainView()
         {
             InitializeComponent();
+            this.Content = new LoginView(this);
         }
     }
 }

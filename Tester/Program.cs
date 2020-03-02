@@ -23,6 +23,14 @@ namespace Tester
 			//		Console.WriteLine(propty.GetValue(product, null).ToString());
 			//	}
 			//}
+			StaffModel mod = new StaffModel();
+			mod.FirstName.value = "updatefn";
+			mod.LastName.value = "updateln";
+			mod.UserName.value = "updateun";
+			mod.Password.value = "updatepw";
+			mod.AccessLevel.value = 6;
+			StaffAccess.singleton.updateStaff(mod, 5);
+			Console.WriteLine("updated");
 			try
 			{
 
