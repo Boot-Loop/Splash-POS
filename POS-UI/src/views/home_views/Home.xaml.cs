@@ -1,10 +1,12 @@
 ﻿using POS_UI.src.views.customers_views;
+using POS_UI.src.views.login_views;
 using POS_UI.src.views.reports_views;
 using POS_UI.src.views.sales;
 using POS_UI.src.views.sales.new_sale_views;
 using POS_UI.src.views.setting_views;
 using POS_UI.src.views.suppliers_views;
 using POS_UI.src.views.users_views;
+using POS_UI.src.views.users_views.add_users_views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +31,7 @@ namespace POS_UI.src.views.home_views
         public Home()
         {
             InitializeComponent();
-            main_content_control.Content = new Users();
+            main_content_control.Content = new Login();
         }
     }
 }

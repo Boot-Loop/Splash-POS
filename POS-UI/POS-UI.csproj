@@ -68,6 +68,9 @@
     <Compile Include="src\views\inventory_views\Inventory.xaml.cs">
       <DependentUpon>Inventory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\views\login_views\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\views\products_views\Products.xaml.cs">
       <DependentUpon>Products.xaml</DependentUpon>
     </Compile>
@@ -86,12 +89,13 @@
     <Compile Include="src\views\suppliers_views\Suppliers.xaml.cs">
       <DependentUpon>Suppliers.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\views\users_views\add_users_views\AddUsers.xaml.cs">
+      <DependentUpon>AddUsers.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\views\users_views\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\view_models\Inventory.cs" />
-    <Compile Include="src\view_models\NewSales.cs" />
-    <Compile Include="src\view_models\Sales.cs" />
+    <Compile Include="src\view_models\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -121,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\models\" />
+    <Folder Include="src\view_models\commands\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\views\customers_views\Customers.xaml">
@@ -132,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\views\inventory_views\Inventory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\login_views\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -156,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\views\suppliers_views\Suppliers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\users_views\add_users_views\AddUsers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
