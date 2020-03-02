@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.DB.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -19,7 +20,18 @@ namespace Core.DB.Access
 			get { return instance; }
 		}
 
-
+		public List<BarcodeModel> getBarcodes() {
+			return excuteObject<BarcodeModel>("SELECT * FROM dbo.Barcode").ToList();
+		}
+		public List<BrandModel> getBrands() {
+			return excuteObject<BrandModel>("SELECT * FROM dbo.Brand").ToList();
+		}
+		public List<MeasurementUnitModel> getMeasurementUnits() {
+			return excuteObject<MeasurementUnitModel>("SELECT * FROM dbo.MeasurementUnit").ToList();
+		}
+		public List<ProductModel> getProducts() {
+			return excuteObject<ProductModel>("SELECT * FROM dbo.Product").ToList();
+		}
 
 		private DataTable select(string command_text) {
 			DataTable data_table = new DataTable();
