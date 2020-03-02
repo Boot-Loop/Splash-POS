@@ -62,14 +62,17 @@
     <Compile Include="src\views\customers_views\Customers.xaml.cs">
       <DependentUpon>Customers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\home_views\Home.xaml.cs">
-      <DependentUpon>Home.xaml</DependentUpon>
+    <Compile Include="src\views\home_views\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\views\inventory_views\Inventory.xaml.cs">
       <DependentUpon>Inventory.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\login_views\Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
+    <Compile Include="src\views\login_views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\views\main_views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\views\products_views\Products.xaml.cs">
       <DependentUpon>Products.xaml</DependentUpon>
@@ -95,6 +98,9 @@
     <Compile Include="src\views\users_views\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\view_models\HomeViewModel.cs" />
+    <Compile Include="src\view_models\LoginViewModel.cs" />
+    <Compile Include="src\view_models\commands\RelayCommand.cs" />
     <Compile Include="src\view_models\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -125,14 +131,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\models\" />
-    <Folder Include="src\view_models\commands\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\views\customers_views\Customers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\home_views\Home.xaml">
+    <Page Include="src\views\home_views\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -140,7 +145,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\login_views\Login.xaml">
+    <Page Include="src\views\login_views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\main_views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,6 +185,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\POS-Core\POS-Core.csproj">
+      <Project>{05c280bf-2f70-4ee0-9104-d6fad66cb823}</Project>
+      <Name>POS-Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

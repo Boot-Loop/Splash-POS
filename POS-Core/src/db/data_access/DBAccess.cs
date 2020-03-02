@@ -50,28 +50,6 @@ namespace Core.DB.Access
 			}
 			return items;
 		}
-
-		public void addStaff(StaffModel model) {
-			using (SqlConnection connection = new SqlConnection(CONNECTION_STRING)) {
-				string command_text = "INSERT INTO dbo.Staff (FirstName, LastName, UserName, Password, EMail, AccessLevel) VALUES (@FirstName, @LastName, @UserName, @Password, @EMail, @AccessLevel)";
-				using (SqlCommand command = new SqlCommand(command_text)) {
-					command.Connection = connection;
-					command.Parameters.Add("@FirstName",	System.Data.SqlDbType.NVarChar, 100).Value	= model.FirstName.value;
-					command.Parameters.Add("@LastName",		System.Data.SqlDbType.NVarChar, 100).Value	= !string.IsNullOrEmpty(model.LastName.value) ? model.LastName.value : (object)DBNull.Value;
-					command.Parameters.Add("@UserName",		System.Data.SqlDbType.VarChar, 100).Value	= model.UserName.value;
-					command.Parameters.Add("@Password",		System.Data.SqlDbType.VarChar, 128).Value	= model.Password.value;
-					command.Parameters.Add("@EMail",		System.Data.SqlDbType.VarChar, 100).Value	= !string.IsNullOrEmpty(model.EMail.value) ? model.EMail.value : (object)DBNull.Value;
-					command.Parameters.Add("@AccessLevel",	System.Data.SqlDbType.TinyInt).Value		= model.AccessLevel.value;
-					try {
-						connection.Open();
-						command.ExecuteNonQuery();
-						Console.WriteLine("successfully inserted");
-					}
-					catch (Exception ex) { Console.WriteLine("error caught" + ex); }
-					finally { connection.Close(); }
-				}
-			}
-		}
 		public void addSupplier(SupplierModel model) {
 			using (SqlConnection connection = new SqlConnection(CONNECTION_STRING)) {
 				string command_text = "INSERT INTO dbo.Supplier (FirstName, LastName, Company_ID, Address, EMail, Telephone, Comments) VALUES (@FirstName, @LastName, @Company_ID, @Address, @EMail, @Telephone, @Comments)";
@@ -89,7 +67,7 @@ namespace Core.DB.Access
 					{
 						connection.Open();
 						command.ExecuteNonQuery();
-						Console.WriteLine("successfully inserted");
+						Console.WriteLine("successfully updated");
 					}
 					catch (Exception ex) { Console.WriteLine("error caught" + ex); }
 					finally { connection.Close(); }
@@ -127,8 +105,7 @@ namespace Core.DB.Access
 					command.Parameters.Add("@Comments", System.Data.SqlDbType.Text).Value = !string.IsNullOrEmpty(model.Comments.value) ? model.Comments.value : (object)DBNull.Value;
 					command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = id;
 
-					try
-					{
+					try {
 						connection.Open();
 						command.ExecuteNonQuery();
 						Console.WriteLine("successfully updated");
@@ -140,9 +117,6 @@ namespace Core.DB.Access
 		}
 		public List<SupplierModel> getSuppliers() {
 			return excuteObject<SupplierModel>("SELECT * FROM dbo.Supplier").ToList();
-		}
-		public List<StaffModel> getStaffs() {
-			return excuteObject<StaffModel>("SELECT * FROM dbo.Staff").ToList();
 		}
 		public List<ProductModel> getProducts() {
 			return excuteObject<ProductModel>("SELECT * FROM dbo.Product").ToList();
