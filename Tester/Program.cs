@@ -16,12 +16,21 @@ namespace Tester
 	{
 		static void Main(string[] args)
 		{
-			List<ProductModel> products = new List<ProductModel>();
-			products = DBAccess.singleton.getProducts();
-			foreach (ProductModel product in  products) {
-				foreach (PropertyInfo propty in typeof(ProductModel).GetProperties()) {
-					Console.WriteLine(propty.GetValue(product, null).ToString());
-				}
+			//List<ProductModel> products = new List<ProductModel>();
+			//products = DBAccess.singleton.getProducts();
+			//foreach (ProductModel product in  products) {
+			//	foreach (PropertyInfo propty in typeof(ProductModel).GetProperties()) {
+			//		Console.WriteLine(propty.GetValue(product, null).ToString());
+			//	}
+			//}
+			try
+			{
+
+				StaffModel logged_in_user = StaffAccess.singleton.login("Passwoddrd");
+				Console.WriteLine(logged_in_user.UserName.value);
+			}catch (Exception ex)
+			{
+				Console.WriteLine(ex);
 			}
 
 			//SupplierModel supplier = new SupplierModel();

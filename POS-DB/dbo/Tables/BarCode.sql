@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[BarCode]
+﻿CREATE TABLE [dbo].[Barcode]
 (
 	[ID] INT NOT NULL PRIMARY KEY IDENTITY(1, 1), 
     [Product_ID] INT NOT NULL, 

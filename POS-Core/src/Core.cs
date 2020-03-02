@@ -16,10 +16,13 @@ namespace Core
 
     }
 
-    public class ValidationError : Exception
-	{
+    public class ValidationError : Exception {
 		public ValidationError() : base() { }
 		public ValidationError(string message) : base(message) { }
 	}
+    public class WrongPasswordError : Exception {
+        public WrongPasswordError() : base() { }
+        public WrongPasswordError(string message) : base(message) { }
+    }
 
 }

@@ -59,6 +59,7 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Publishes\" />
+    <Folder Include="dbo\Views" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Customer.sql" />
@@ -69,13 +70,14 @@
     <Build Include="dbo\Tables\Supplier.sql" />
     <Build Include="dbo\Tables\Company.sql" />
     <Build Include="dbo\Tables\Brand.sql" />
-    <Build Include="dbo\Tables\BarCode.sql" />
+    <Build Include="dbo\Tables\Barcode.sql" />
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="dbo\Tables\MeasurementUnit.sql" />
     <Build Include="dbo\Tables\Stock.sql" />
     <Build Include="dbo\Tables\Payment.sql" />
     <Build Include="dbo\Tables\SaleProduct.sql" />
     <Build Include="dbo\Tables\Staff.sql" />
+    <Build Include="dbo\Views\ProductView.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="POS-DB.refactorlog" />
