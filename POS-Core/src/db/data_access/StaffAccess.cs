@@ -19,9 +19,10 @@ namespace Core.DB.Access
 			get { return instance; }
 		}
 
-		//public List<StaffModel> getStaffs() {
-		//	return excuteObject<StaffModel>("SELECT * FROM dbo.Staff").ToList();
-		//}
+		public List<StaffModel> getStaffs() {
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Staff");
+			return excuteObject<StaffModel>(command).ToList();
+		}
 		public void addStaff(StaffModel model) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
 				string command_text = "INSERT INTO dbo.Staff (FirstName, LastName, UserName, Password, EMail, AccessLevel) VALUES (@FirstName, @LastName, @UserName, @Password, @EMail, @AccessLevel)";
