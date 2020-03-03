@@ -11,6 +11,7 @@ using Core.DB.Access;
 using System.Reflection;
 using System.IO;
 using System.Text.RegularExpressions;
+using Core;
 
 namespace Tester
 {
@@ -25,13 +26,13 @@ namespace Tester
 			////		Console.WriteLine(propty.GetValue(product, null).ToString());
 			////	}
 			////}
-			//StaffModel mod = new StaffModel();
-			//mod.FirstName.value = "updatefn";
-			//mod.LastName.value = "updateln";
-			//mod.UserName.value = "updateun";
-			//mod.Password.value = "updatepw";
-			//mod.AccessLevel.value = 6;
-			//StaffAccess.singleton.updateStaff(mod, 5);
+			StaffModel mod = new StaffModel();
+			mod.FirstName.value = "updatefn";
+			mod.LastName.value = "updateln";
+			mod.UserName.value = "updateun";
+			mod.Password.value = "updatepw";
+			mod.AccessLevel.value = 7;
+			StaffAccess.singleton.updateStaff(mod, 2);
 			//Console.WriteLine("updated");
 			//try
 			//{
@@ -56,42 +57,12 @@ namespace Tester
 			////Console.WriteLine(supplier.LastName.value);
 			//Console.ReadKey();
 
-			updatedatabase();
+			//updatedatabase();
+			//Application.singleton.initialize();
 
-		}
+			//updatedatabase();
+			Console.ReadKey();
 
-
-		public static void updatedatabase()
-		{
-
-			SqlConnection conn = new SqlConnection(@"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True");
-			try
-			{
-
-				conn.Open();
-
-				string script = File.ReadAllText(@"C:\Users\Azeem Muzammil\Documents\script.sql");
-
-				// split script on GO command
-				IEnumerable<string> commandStrings = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-				foreach (string commandString in commandStrings)
-				{
-					if (commandString.Trim() != "")
-					{
-						new SqlCommand(commandString, conn).ExecuteNonQuery();
-					}
-				}
-				Console.WriteLine("Database updated successfully.");
-
-			}
-			catch (SqlException er)
-			{
-				Console.WriteLine(er.Message);
-			}
-			finally
-			{
-				conn.Close();
-			}
 		}
 
 

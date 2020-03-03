@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.DB.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,17 +12,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using UI.ViewModels;
 
-namespace POS_UI.src.views.users_views.add_users_views
+namespace UI.Views
 {
     /// <summary>
     /// Interaction logic for AddUsers.xaml
     /// </summary>
     public partial class AddUsers : Window
     {
-        public AddUsers()
+        private AddUserViewModel _add_user_view_model;
+        public AddUsers(StaffModel model)
         {
             InitializeComponent();
+            this._add_user_view_model = new AddUserViewModel(model);
+            this.DataContext = _add_user_view_model;
         }
     }
 }

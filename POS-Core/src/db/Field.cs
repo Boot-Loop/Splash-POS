@@ -323,7 +323,7 @@ namespace Core.DB
         override public FieldType getType() => FieldType.EMAIL;
         public override void _validate(string value)
         {
-            if (!Validator.singleton.validateEmail(value)) throw new ValidationError("invalide email");
+            // if (!Validator.singleton.validateEmail(value)) throw new ValidationError("invalide email");
         }
     }
 

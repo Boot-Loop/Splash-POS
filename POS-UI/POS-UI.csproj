@@ -98,6 +98,7 @@
     <Compile Include="src\views\users_views\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\view_models\AddUserViewModel.cs" />
     <Compile Include="src\view_models\HomeViewModel.cs" />
     <Compile Include="src\view_models\LoginViewModel.cs" />
     <Compile Include="src\view_models\commands\RelayCommand.cs" />

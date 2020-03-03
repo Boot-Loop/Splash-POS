@@ -46,6 +46,5 @@ namespace UI.ViewModels
         private void onPropertyRaised(string property_name) {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));
         }
-
     }
 }
