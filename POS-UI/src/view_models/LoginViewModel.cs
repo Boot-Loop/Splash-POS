@@ -24,7 +24,6 @@ namespace UI.ViewModels
         
         public LoginViewModel(MainView main_view) {
             this.MainView = main_view;
-            this.Password = "test for work";
             this.LoginCommand = new RelayCommand(login);
         }
 

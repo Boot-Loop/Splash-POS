@@ -9,7 +9,7 @@
     <Grid Height="200" Width="300" Background="AliceBlue">
         <StackPanel>
             <Label Content="Login to your POS" HorizontalAlignment="Center" FontWeight="Bold" Margin="10" FontSize="18"/>
-            <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Foreground="LightGray" Width="240" Height="30" Padding="3" FontSize="16" Margin="0 40 0 0">
+            <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Width="240" Height="30" Padding="3" FontSize="16" Margin="0 40 0 0" FontFamily="{StaticResource PASSWORD_FONT}">
                 <TextBox.InputBindings>
                     <KeyBinding Key="Enter" Command="{Binding LoginCommand}" CommandParameter="{Binding Password}"/>
                 </TextBox.InputBindings>

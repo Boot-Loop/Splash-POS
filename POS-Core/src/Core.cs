@@ -16,6 +16,10 @@ namespace Core
 
     }
 
+    public class Constants
+    {
+        public static readonly string CONNECTION_STRING = @"Server=.\SQLEXPRESS;Database=POS-DB;Trusted_Connection=True";
+    }
     public class ValidationError : Exception {
 		public ValidationError() : base() { }
 		public ValidationError(string message) : base(message) { }

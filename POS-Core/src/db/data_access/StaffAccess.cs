@@ -11,8 +11,6 @@ namespace Core.DB.Access
 {
 	public class StaffAccess
 	{
-		private const string CONNECTION_STRING = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=POS-DB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
 
 		private static readonly StaffAccess instance = new StaffAccess();
 		private StaffAccess() { }
@@ -25,7 +23,7 @@ namespace Core.DB.Access
 		//	return excuteObject<StaffModel>("SELECT * FROM dbo.Staff").ToList();
 		//}
 		public void addStaff(StaffModel model) {
-			using (SqlConnection connection = new SqlConnection(CONNECTION_STRING)) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
 				string command_text = "INSERT INTO dbo.Staff (FirstName, LastName, UserName, Password, EMail, AccessLevel) VALUES (@FirstName, @LastName, @UserName, @Password, @EMail, @AccessLevel)";
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
@@ -46,7 +44,7 @@ namespace Core.DB.Access
 			}
 		}
 		public void deleteStaff(int id) {
-			using (SqlConnection connection = new SqlConnection(CONNECTION_STRING)) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
 				string command_text = "DELETE FROM dbo.Staff WHERE ID = @ID";
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
@@ -62,7 +60,7 @@ namespace Core.DB.Access
 			}
 		}
 		public void updateStaff(StaffModel model, int id) {
-			using (SqlConnection connection = new SqlConnection(CONNECTION_STRING)) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
 				string command_text = "UPDATE dbo.Staff SET FirstName = @FirstName, LastName = @LastName, UserName = @UserName, Password = @Password, EMail = @EMail, AccessLevel = @AccessLevel WHERE ID = @ID";
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
@@ -96,7 +94,7 @@ namespace Core.DB.Access
 
 		private DataTable select(SqlCommand sql_command) {
 			DataTable data_table = new DataTable();
-			using (SqlConnection connection = new SqlConnection(CONNECTION_STRING)) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
 				using (SqlCommand command = sql_command) {
 					command.Connection = connection;
 					try {

@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:POS_UI"
              StartupUri="src/views/main_views/MainView.xaml">
     <Application.Resources>
-         
+        
+        <ResourceDictionary>
+            <FontFamily x:Key="PASSWORD_FONT">./res/fonts/password.ttf#Password</FontFamily>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
