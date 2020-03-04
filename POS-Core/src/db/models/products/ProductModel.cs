@@ -9,25 +9,26 @@ namespace Core.DB.Models
 {
     public class ProductModel : Model
     {
-        public IntergerField    ID                  { get; set; } = new IntergerField(name: "ID");
-        public TextField        Name                { get; set; } = new TextField(name: "Name", is_required: true);
-        public IntergerField    ProductGroupID      { get; set; } = new IntergerField(name: "ProductGroup_ID");
-        public IntergerField    BrandID             { get; set; } = new IntergerField(name: "Brand_ID");
-        public IntergerField    MeasurementUnitID   { get; set; } = new IntergerField(name: "MeasurementUnit_ID");
-        public IntergerField    Code                { get; set; } = new IntergerField(name: "Code", is_required: true);
-        public TextField        Description         { get; set; } = new TextField(name: "Description");
-        public IntergerField    PLU                 { get; set; } = new IntergerField(name: "PLU");
-        public TextField        Image               { get; set; } = new TextField(name: "Image");
-        public TextField        Color               { get; set; } = new TextField(name: "Color");
-        public FloatField       Price               { get; set; } = new FloatField(name: "Price", is_required: true);
-        public BoolField        IsService           { get; set; } = new BoolField(name: "IsService", is_required: true);
-        public DateTimeField    DateCreated         { get; set; } = new DateTimeField(name: "DateCreated", is_required: true);
-        public DateTimeField    DateUpdated         { get; set; } = new DateTimeField(name: "DateUpdated", is_required: true);
+        public IntergerField        ID                  { get; set; } = new IntergerField(name: "ID");
+        public TextField            Name                { get; set; } = new TextField(name: "Name", is_required: true);
+        public IntergerField        ProductGroupID      { get; set; } = new IntergerField(name: "ProductGroup_ID");
+        public IntergerField        BrandID             { get; set; } = new IntergerField(name: "Brand_ID");
+        public IntergerField        MeasurementUnitID   { get; set; } = new IntergerField(name: "MeasurementUnit_ID");
+        public IntergerField        Code                { get; set; } = new IntergerField(name: "Code", is_required: true);
+        public TextField            Description         { get; set; } = new TextField(name: "Description");
+        public IntergerField        PLU                 { get; set; } = new IntergerField(name: "PLU");
+        public TextField            Image               { get; set; } = new TextField(name: "Image");
+        public TextField            Color               { get; set; } = new TextField(name: "Color");
+        public FloatField           Price               { get; set; } = new FloatField(name: "Price", is_required: true);
+        public BoolField            IsService           { get; set; } = new BoolField(name: "IsService", is_required: true);
+        public DateTimeField        DateCreated         { get; set; } = new DateTimeField(name: "DateCreated", is_required: true);
+        public DateTimeField        DateUpdated         { get; set; } = new DateTimeField(name: "DateUpdated", is_required: true);
+        public List<BarcodeModel>   Barcodes            { get; set; } = new List<BarcodeModel>();
+        public TextField            Barcode             { get; set; } = new TextField();
 
 
 
-        public ProductModel(DataRow data_row)
-        {
+        public ProductModel(DataRow data_row) {
             this.ID.value = Convert.ToInt32(data_row["ID"]);
             this.Name.value = data_row["Name"].ToString();
             if (!data_row.IsNull("ProductGroup_ID")) this.ProductGroupID.value = Convert.ToInt32(data_row["ProductGroup_ID"]); else this.ProductGroupID.setToNull();
@@ -44,7 +45,7 @@ namespace Core.DB.Models
             this.DateUpdated.value = Convert.ToDateTime(data_row["DateUpdated"]);
         }
 
-        public ProductModel() { }
+        public ProductModel() {}
 
         public override object getPK() => ID.value;
         public override ModelType getType() => ModelType.MODEL_PRODUCT;

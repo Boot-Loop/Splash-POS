@@ -4,37 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
+using System.Windows.Forms;
 using UI.ViewModels.Commands;
 using UI.Views;
 
 namespace UI.ViewModels
 {
-    //public class FetchedStaffModel
-    //{
-    //    public int ID { get; set; }
-    //    public string FirstName { get; set; }
-    //    public string LastName { get; set; }
-    //    public string UserName { get; set; }
-    //    public string Password { get; set; }
-    //    public string EMail { get; set; }
-    //    public int AccessLevel { get; set; }
-
-    //    public static List<StaffModel> fetchStaffs()
-    //    {
-    //        List<StaffModel> fetched_staffs = StaffAccess.singleton.getStaffs();
-    //        List<RecentProjectModel> recent_projects = new List<RecentProjectModel>();
-    //        foreach (ProgrameData.ProjectViewData recent_project in recent_projects_fetched)
-    //        {
-    //            string display_name = string.Format("{0} ({1})", recent_project.name, recent_project.client_name);
-    //            string path = recent_project.path;
-    //            RecentProjectModel recent_project_model = new RecentProjectModel() { DisplayName = display_name, Path = path };
-    //            recent_projects.Add(recent_project_model);
-    //        }
-    //        return recent_projects;
-    //    }
-    //}
-
     class UserViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<StaffModel> _staffs;
@@ -72,7 +47,8 @@ namespace UI.ViewModels
             refresh();
         }
         private void deleteRecord(object parameter) {
-            StaffAccess.singleton.deleteStaff(Convert.ToInt32(SelectedStaff.ID.value));
+            DialogResult result = MessageBox.Show("Are you sure to delete this user?", "Delete Staff", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes) StaffAccess.singleton.deleteStaff(Convert.ToInt32(SelectedStaff.ID.value));
             refresh();
         }
         private bool isSelectedStaffNotNull(object parameter) {

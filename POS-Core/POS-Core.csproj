@@ -53,12 +53,15 @@
     <Compile Include="src\db\data_access\DBAccess.cs" />
     <Compile Include="src\db\data_access\ProductAccess.cs" />
     <Compile Include="src\db\data_access\StaffAccess.cs" />
+    <Compile Include="src\db\data_access\StockAccess.cs" />
+    <Compile Include="src\db\data_access\SupplierAccess.cs" />
     <Compile Include="src\db\Field.cs" />
     <Compile Include="src\db\models\Model.cs" />
     <Compile Include="src\db\models\products\BarcodeModel.cs" />
     <Compile Include="src\db\models\products\BrandModel.cs" />
     <Compile Include="src\db\models\products\MeasurementUnitModel.cs" />
     <Compile Include="src\db\models\products\ProductModel.cs" />
+    <Compile Include="src\db\models\stocks\StockModel.cs" />
     <Compile Include="src\db\models\users\StaffModel.cs" />
     <Compile Include="src\db\models\users\SupplierModel.cs" />
     <Compile Include="src\utils\Logger.cs" />

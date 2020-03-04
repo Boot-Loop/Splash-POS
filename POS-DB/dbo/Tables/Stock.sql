@@ -2,7 +2,7 @@
 (
 	[ID] INT NOT NULL PRIMARY KEY IDENTITY(1, 1), 
     [Product_ID] INT NOT NULL, 
-    [Warehouse_ID] INT NOT NULL DEFAULT 1, 
+    [Warehouse_ID] INT NULL , 
     [Supplier_ID] INT NULL,
     [Quantity] INT NOT NULL DEFAULT 0, 
     [Date] DATETIME NULL, 

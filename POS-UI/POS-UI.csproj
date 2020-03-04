@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -74,6 +75,9 @@
     <Compile Include="src\views\main_views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\views\products_views\add_product_views\AddProduct.xaml.cs">
+      <DependentUpon>AddProduct.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\views\products_views\Products.xaml.cs">
       <DependentUpon>Products.xaml</DependentUpon>
     </Compile>
@@ -89,6 +93,15 @@
     <Compile Include="src\views\setting_views\Setting.xaml.cs">
       <DependentUpon>Setting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\views\stock_views\add_stock_view\AddStock.xaml.cs">
+      <DependentUpon>AddStock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\views\stock_views\Stocks.xaml.cs">
+      <DependentUpon>Stocks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\views\suppliers_views\add_supplier_views\AddSupplier.xaml.cs">
+      <DependentUpon>AddSupplier.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\views\suppliers_views\Suppliers.xaml.cs">
       <DependentUpon>Suppliers.xaml</DependentUpon>
     </Compile>
@@ -98,10 +111,16 @@
     <Compile Include="src\views\users_views\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\view_models\AddProductViewModel.cs" />
+    <Compile Include="src\view_models\AddStockViewModel.cs" />
+    <Compile Include="src\view_models\AddSupplierViewModel.cs" />
     <Compile Include="src\view_models\AddUserViewModel.cs" />
     <Compile Include="src\view_models\HomeViewModel.cs" />
     <Compile Include="src\view_models\LoginViewModel.cs" />
     <Compile Include="src\view_models\commands\RelayCommand.cs" />
+    <Compile Include="src\view_models\ProductViewModel.cs" />
+    <Compile Include="src\view_models\StockViewModel.cs" />
+    <Compile Include="src\view_models\SupplierViewModel.cs" />
     <Compile Include="src\view_models\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +174,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="src\views\products_views\add_product_views\AddProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\views\products_views\Products.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -172,6 +195,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\views\setting_views\Setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\stock_views\add_stock_view\AddStock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\stock_views\Stocks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\suppliers_views\add_supplier_views\AddSupplier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

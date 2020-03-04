@@ -19,14 +19,13 @@ namespace UI.Views
     /// <summary>
     /// Interaction logic for Users.xaml
     /// </summary>
-    public partial class Suppliers : UserControl
+    public partial class Stocks : UserControl
     {
-        private SupplierViewModel _supplier_view_model;
-        public Suppliers()
-        {
+        private StockViewModel _stock_view_model;
+        public Stocks() {
             InitializeComponent();
-            this._supplier_view_model = new SupplierViewModel();
-            this.DataContext = _supplier_view_model;
+            this._stock_view_model = new StockViewModel();
+            this.DataContext = _stock_view_model;
         }
     }
 }
