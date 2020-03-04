@@ -25,7 +25,6 @@ namespace UI.Views
         {
             InitializeComponent();
             this.Content = new LoginView(this);
-            //this.Content = new Customers();
         }
     }
 }

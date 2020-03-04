@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid Height="280" Width="300">
-        <StackPanel FocusManager.FocusedElement="{Binding ElementName=password_txt_box}">
+        <StackPanel>
             <Image Source="/res/images/pos.png" Width="80" Height="80"/>
             <Label Content="Login to your POS" HorizontalAlignment="Center" FontWeight="SemiBold" Margin="10" FontSize="22"/>
             
@@ -18,7 +18,7 @@
                             <KeyBinding Key="Enter" Command="{Binding LoginCommand}" CommandParameter="{Binding Password}"/>
                         </TextBox.InputBindings>
                     </TextBox>
-                <Button Height="20" Width="20" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="10" Style="{DynamicResource ButtonFlat}" Click="eyeButtonClick">
+                <Button Height="20" Width="20" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="10" Style="{DynamicResource ButtonFlat}" Click="eyeButtonClick" Focusable="False">
                     <Button.Content>
                         <Image Source="/res/icons/eye.png"/>
                     </Button.Content>

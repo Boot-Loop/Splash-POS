@@ -33,7 +33,7 @@ namespace UI.ViewModels
             try {
                 model = StaffAccess.singleton.login(password);
                 this.LoggedInUser = model;
-                MainView.Content = new HomeView(LoggedInUser);
+                MainView.Content = new HomeView(LoggedInUser, MainView);
             }
             catch (WrongPasswordError) {
                 MessageBox.Show("Login failed, Check your password and try again!", "Wrong Password", MessageBoxButton.OK, MessageBoxImage.Warning);
