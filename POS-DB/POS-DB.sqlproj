@@ -84,6 +84,6 @@
     <RefactorLog Include="POS-DB.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="dbo\Publishes\POS-DB_Publish.publish.publish.xml" />
+    <None Include="dbo\Publishes\POS-DB.publish.xml" />
   </ItemGroup>
 </Project>

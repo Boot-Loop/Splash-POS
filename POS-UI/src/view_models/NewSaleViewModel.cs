@@ -18,6 +18,8 @@ namespace UI.ViewModels
         private string _subtotal;
         private ObservableCollection<SaleProductModel> _sale_products;
         public RelayCommand BarcodeAddCommand { get; private set; }
+        public RelayCommand DeleteItemCommand { get; private set; }
+        public SaleProductModel SelectedItem { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -36,6 +38,7 @@ namespace UI.ViewModels
 
         public NewSaleViewModel() {
             this.BarcodeAddCommand = new RelayCommand(enterPressedOnBarcodeSearch);
+            this.DeleteItemCommand = new RelayCommand(deleteItem, isSelectedItemNotNull);
             this.SaleProducts = new ObservableCollection<SaleProductModel>();
             this.SubTotal = "0.00";
         }
@@ -48,7 +51,6 @@ namespace UI.ViewModels
                 MessageBox.Show("No product found please check the Barcode!", "No product found", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             this.SubTotal = calculateSubTotal().ToString("0.00");
-            Console.WriteLine(SaleProducts.Count);
         }
         private void addProductToList(ProductModel model) {
             bool found = false;
@@ -84,6 +86,13 @@ namespace UI.ViewModels
                 sub_total += sale_product.SubTotal.value;
             }
             return sub_total;
+        }
+        private void deleteItem(object parameter) {
+            SaleProducts.Remove(SelectedItem);
+            this.SubTotal = calculateSubTotal().ToString("0.00");
+        }
+        private bool isSelectedItemNotNull(object parameter) {
+            return SelectedItem == null ? false : true;
         }
 
         private void onPropertyRaised(string property_name) {
