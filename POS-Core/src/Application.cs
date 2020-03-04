@@ -22,43 +22,39 @@ namespace Core
 			createDatabase();
 		}
 
-		private bool checkDatabase(string database_name) {
-			string query = @"select count(*) from master.dbo.sysdatabases d where d.name like @db";
-			using (SqlConnection connection = new SqlConnection(query)) {
-				try {
-					connection.Open();
-					using (SqlCommand command = new SqlCommand(query, connection)) {
-						command.Parameters.Add("@db", SqlDbType.NVarChar).Value = database_name;
-						int nRet = Convert.ToInt32(command.ExecuteScalar());
-						return (nRet > 0);
-					}
+		public static bool checkDatabaseExists(string databaseName) {
+			using (SqlConnection connection = new SqlConnection(@"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True")) {
+				using (SqlCommand command = new SqlCommand($"SELECT db_id('{databaseName}')", connection)) {
+					try {
+						connection.Open();
+						return (command.ExecuteScalar() != DBNull.Value);
+					}catch (Exception ex) { Console.WriteLine(ex); }
 				}
-				catch (Exception) { return false; }
-				finally { connection.Close(); }
 			}
+			return false;
 		}
 
 		private void createDatabase() {
-			using (SqlConnection connection = new SqlConnection(@"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True")) {
-				string strAppPath = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-				string strFilePath = Path.Combine(strAppPath, "Resources");
-				string strFullFilename = Path.Combine(strFilePath, "script.sql");
-				string script = File.ReadAllText(strFullFilename);
-				try {
-					connection.Open();
-					Console.WriteLine("Connection Created");
-					IEnumerable<string> commandStrings = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-					foreach (string commandString in commandStrings) {
-						if (commandString.Trim() != "")
-						{
-							new SqlCommand(commandString, connection).ExecuteNonQuery();
+			if (!checkDatabaseExists("POS-DB")) {
+				using (SqlConnection connection = new SqlConnection(@"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True")) {
+					string strAppPath = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+					string strFilePath = Path.Combine(strAppPath, "Resources");
+					string strFullFilename = Path.Combine(strFilePath, "script.sql");
+					string script = File.ReadAllText(strFullFilename);
+					try {
+						connection.Open();
+						IEnumerable<string> commandStrings = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+						foreach (string commandString in commandStrings) {
+							if (commandString.Trim() != "") {
+								new SqlCommand(commandString, connection).ExecuteNonQuery();
+							}
 						}
 					}
+					catch (Exception ex) {
+						Console.WriteLine(ex);
+					}
+					finally { connection.Close(); }
 				}
-				catch (Exception ex) {
-					Console.WriteLine(ex);
-				}
-				finally { connection.Close(); }
 			}
 		}
 	}

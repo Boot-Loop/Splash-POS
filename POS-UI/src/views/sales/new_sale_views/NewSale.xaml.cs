@@ -12,17 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.ViewModels;
 
-namespace POS_UI.src.views.sales.new_sale_views
+namespace UI.Views
 {
     /// <summary>
     /// Interaction logic for NewSale.xaml
     /// </summary>
     public partial class NewSale : UserControl
     {
+        private NewSaleViewModel _new_sale_view_model;
         public NewSale()
         {
             InitializeComponent();
+            this._new_sale_view_model = new NewSaleViewModel();
+            this.DataContext = _new_sale_view_model;
         }
     }
 }

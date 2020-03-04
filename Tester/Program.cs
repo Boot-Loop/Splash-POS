@@ -48,12 +48,12 @@ namespace Tester
 			//List<BarcodeModel> bl = new List<BarcodeModel>();
 			//bl.Add(bm);
 
-			StockModel stock = new StockModel();
-			stock.ProductID.value = 5;
-			stock.SupplierID.value = 2;
-			stock.Quantity.value = 120;
-			stock.Date.value = DateTime.Now;
-			StockAccess.singleton.updateStock(stock, 1);
+			//StockModel stock = new StockModel();
+			//stock.ProductID.value = 5;
+			//stock.SupplierID.value = 2;
+			//stock.Quantity.value = 120;
+			//stock.Date.value = DateTime.Now;
+			//StockAccess.singleton.updateStock(stock, 1);
 
 			////var prod = DBAccess.singleton.getProducts();
 			////Console.WriteLine(supplier.LastName.value);
@@ -64,22 +64,27 @@ namespace Tester
 
 			//updatedatabase();
 			//ProductModel md = new ProductModel();
-			//md = ProductAccess.singleton.getProductsWithBarcodes()[0];
-			//Console.WriteLine(md.ID.getName() + " " + md.ID.value);
-			//Console.WriteLine(md.Name.getName() + " " + md.Name.value);
-			//Console.WriteLine(md.ProductGroupID.getName() + " " + md.ProductGroupID.value);
-			//Console.WriteLine(md.BrandID.getName() + " " + md.BrandID.value);
-			//Console.WriteLine(md.MeasurementUnitID.getName() + " " + md.MeasurementUnitID.value);
-			//Console.WriteLine(md.Code.getName() + " " + md.Code.value);
-			//Console.WriteLine(md.Description.getName() + " " + md.Description.value);
-			//Console.WriteLine(md.PLU.getName() + " " + md.PLU.value);
-			//Console.WriteLine(md.Image.getName() + " " + md.Image.value);
-			//Console.WriteLine(md.Color.getName() + " " + md.Color.value);
-			//Console.WriteLine(md.Price.getName() + " " + md.Price.value);
-			//Console.WriteLine(md.IsService.getName() + " " + md.IsService.value);
-			//Console.WriteLine(md.DateCreated.getName() + " " + md.DateCreated.value);
-			//Console.WriteLine(md.DateUpdated.getName() + " " + md.DateUpdated.value);
-			//Console.WriteLine("barcode: " + md.Barcode.ToString());
+			//md = ProductAccess.singleton.getProductUsingBarcode("1243123123");
+			//if (md == null) { Console.WriteLine("Null"); }
+			//else
+			//{
+			//	Console.WriteLine(md.ID.getName() + " " + md.ID.value);
+			//	Console.WriteLine(md.Name.getName() + " " + md.Name.value);
+			//	Console.WriteLine(md.ProductGroupID.getName() + " " + md.ProductGroupID.value);
+			//	Console.WriteLine(md.BrandID.getName() + " " + md.BrandID.value);
+			//	Console.WriteLine(md.MeasurementUnitID.getName() + " " + md.MeasurementUnitID.value);
+			//	Console.WriteLine(md.Code.getName() + " " + md.Code.value);
+			//	Console.WriteLine(md.Description.getName() + " " + md.Description.value);
+			//	Console.WriteLine(md.PLU.getName() + " " + md.PLU.value);
+			//	Console.WriteLine(md.Image.getName() + " " + md.Image.value);
+			//	Console.WriteLine(md.Color.getName() + " " + md.Color.value);
+			//	Console.WriteLine(md.Price.getName() + " " + md.Price.value);
+			//	Console.WriteLine(md.IsService.getName() + " " + md.IsService.value);
+			//	Console.WriteLine(md.DateCreated.getName() + " " + md.DateCreated.value);
+			//	Console.WriteLine(md.DateUpdated.getName() + " " + md.DateUpdated.value);
+			//	//Console.WriteLine("barcode: " + md.Barcode.ToString());
+			//}
+			Application.singleton.initialize();
 			Console.ReadKey();
 
 		}

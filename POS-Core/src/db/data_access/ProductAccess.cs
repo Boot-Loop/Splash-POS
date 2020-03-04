@@ -38,10 +38,16 @@ namespace Core.DB.Access
 				SqlCommand command = new SqlCommand("SELECT * FROM dbo.Barcode WHERE Product_ID = @ID");
 				command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = product.ID.value;
 				List<BarcodeModel> barcodes = excuteObject<BarcodeModel>(command).ToList();
-				product.Barcode = barcodes[0].Value;
+				product.Barcode = barcodes.Count == 0 ? null : barcodes[0].Value;
 				return_products.Add(product);
 			}
 			return return_products;
+		}
+		public ProductModel getProductUsingBarcode(string barcode) {
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product AS pr LEFT JOIN dbo.Barcode AS bc ON pr.ID = bc.Product_ID  WHERE Value = @Value");
+			command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = barcode;
+			List<ProductModel> models = excuteObject<ProductModel>(command).ToList();
+			return models.Count == 0 ? null : models[0];
 		}
 		public void addProduct(ProductModel model) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
