@@ -31,6 +31,8 @@ namespace UI.Views
             this.MainView = main_view;
             this._login_view_model = new LoginViewModel(main_view);
             this.DataContext = _login_view_model;
+            Console.WriteLine("Loaded");
+            password_txt_box.Focus();
         }
 
         private void eyeButtonClick(object sender, RoutedEventArgs e)
@@ -39,8 +41,11 @@ namespace UI.Views
             var fontstyle2 = FindResource("FONT_ROBOTO_REGULAR") as FontFamily;
 
             if (password_txt_box.FontFamily == fontstyle1)
-                password_txt_box.FontFamily = fontstyle2;
-            else password_txt_box.FontFamily = fontstyle1;
+            { password_txt_box.FontFamily = fontstyle2; password_txt_box.FontSize = 16; }
+
+            else { password_txt_box.FontFamily = fontstyle1; password_txt_box.FontSize = 18; }
+
+            password_txt_box.Focus();
         }
     }
 }

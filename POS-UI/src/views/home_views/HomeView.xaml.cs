@@ -1,4 +1,5 @@
 ﻿using Core.DB.Models;
+using POS_UI.src.views.setting_views;
 using System.Windows.Controls;
 using UI.ViewModels;
 
@@ -11,11 +12,13 @@ namespace UI.Views
     {
         public HomeViewModel HomeViewModel { get; set; }
 
-        public HomeView(StaffModel user)
+        public HomeView(StaffModel user, MainView main_view)
         {
             InitializeComponent();
-            this.HomeViewModel = new HomeViewModel(user);
-            this.Content = new NewSale();
+            this.HomeViewModel = new HomeViewModel(user, main_view);
+            this.DataContext = HomeViewModel;
         }
+
+        
     }
 }

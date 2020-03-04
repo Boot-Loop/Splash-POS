@@ -257,5 +257,11 @@
   <ItemGroup>
     <Resource Include="res\icons\eye.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\icons\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\icons\logout.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
