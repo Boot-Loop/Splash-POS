@@ -6,15 +6,26 @@
              xmlns:local="clr-namespace:UI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
-    <Grid Height="200" Width="300" Background="AliceBlue">
+    <Grid Height="280" Width="300">
         <StackPanel FocusManager.FocusedElement="{Binding ElementName=password_txt_box}">
-            <Label Content="Login to your POS" HorizontalAlignment="Center" FontWeight="Bold" Margin="10" FontSize="18"/>
-            <TextBox x:Name="password_txt_box" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Width="240" Height="30" Padding="3" FontSize="16" Margin="0 40 0 0" FontFamily="{StaticResource PASSWORD_FONT}">
-                <TextBox.InputBindings>
-                    <KeyBinding Key="Enter" Command="{Binding LoginCommand}" CommandParameter="{Binding Password}"/>
-                </TextBox.InputBindings>
-            </TextBox>
-            <Button Command="{Binding LoginCommand}" CommandParameter="{Binding Password}" Content="Login" Width="240" Height="30" Margin="0 20 0 0"/>
+            <Image Source="/res/images/pos.png" Width="80" Height="80"/>
+            <Label Content="Login to your POS" HorizontalAlignment="Center" FontWeight="SemiBold" Margin="10" FontSize="22"/>
+            
+                
+                <Grid Height="40" Width="300" Margin="0 20 0 0">
+                    <TextBox x:Name="password_txt_box" MaxLength="32" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="40" Padding="10 10 40 10" FontSize="18" FontFamily="{StaticResource PASSWORD_FONT}" BorderThickness="1" BorderBrush="Black">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding LoginCommand}" CommandParameter="{Binding Password}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                <Button Height="20" Width="20" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="10" Style="{DynamicResource ButtonFlat}" Click="eyeButtonClick">
+                    <Button.Content>
+                        <Image Source="/res/icons/eye.png"/>
+                    </Button.Content>
+                </Button>
+                </Grid>
+            
+            <Button FontSize="20" Command="{Binding LoginCommand}" CommandParameter="{Binding Password}" Content="Login" Width="300" Height="40" Margin="0 20 0 0" Style="{DynamicResource ButtonCommon}"/>
         </StackPanel>
     </Grid>
 </UserControl>

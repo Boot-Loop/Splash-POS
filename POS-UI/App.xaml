@@ -3,9 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Startup="applicationStartup">
     <Application.Resources>
-        
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/src/styles/button/common_button_style/CommonButtonStyle.xaml"/>
+                <ResourceDictionary Source="/src/styles/button/flat_button_style/FlatButtonStyle.xaml"/>
+                <ResourceDictionary Source="/src/styles/colors/Colors.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <FontFamily x:Key="PASSWORD_FONT">./res/fonts/password.ttf#Password</FontFamily>
+            <FontFamily x:Key="FONT_ROBOTO_REGULAR">./res/fonts/Roboto-Regular.ttf#Roboto</FontFamily>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

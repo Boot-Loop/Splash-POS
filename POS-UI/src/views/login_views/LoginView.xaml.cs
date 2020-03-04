@@ -32,5 +32,15 @@ namespace UI.Views
             this._login_view_model = new LoginViewModel(main_view);
             this.DataContext = _login_view_model;
         }
+
+        private void eyeButtonClick(object sender, RoutedEventArgs e)
+        {
+            var fontstyle1 = FindResource("PASSWORD_FONT") as FontFamily;
+            var fontstyle2 = FindResource("FONT_ROBOTO_REGULAR") as FontFamily;
+
+            if (password_txt_box.FontFamily == fontstyle1)
+                password_txt_box.FontFamily = fontstyle2;
+            else password_txt_box.FontFamily = fontstyle1;
+        }
     }
 }

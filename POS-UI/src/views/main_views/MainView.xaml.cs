@@ -1,4 +1,5 @@
-﻿using System;
+﻿using POS_UI.src.views.customers_views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,7 @@ namespace UI.Views
         {
             InitializeComponent();
             this.Content = new LoginView(this);
+            //this.Content = new Customers();
         }
     }
 }
