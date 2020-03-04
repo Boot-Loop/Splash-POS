@@ -13,6 +13,7 @@ namespace Core.DB.Models
 		MODEL_PRODUCT,
 		MODEL_BARCODE,
 		MODEL_BRAND,
+		MODEL_STOCK,
 	}
 
 	[Serializable]
@@ -44,6 +45,7 @@ namespace Core.DB.Models
 			if (type == typeof(ProductModel))	return ModelType.MODEL_PRODUCT;
 			if (type == typeof(BarcodeModel))	return ModelType.MODEL_BARCODE;
 			if (type == typeof(BrandModel))		return ModelType.MODEL_BRAND;
+			if (type == typeof(StockModel))		return ModelType.MODEL_STOCK;
 			throw new NotImplementedException("TODO:ModelType");
 		}
 

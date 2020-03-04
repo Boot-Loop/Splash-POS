@@ -15,7 +15,7 @@ namespace UI.Views
         {
             InitializeComponent();
             this.HomeViewModel = new HomeViewModel(user);
-            this.Content = new Users();
+            this.Content = new Stocks();
         }
     }
 }

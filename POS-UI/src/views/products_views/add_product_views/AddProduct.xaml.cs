@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.DB.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,23 +11,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UI.ViewModels;
 
 namespace UI.Views
 {
     /// <summary>
-    /// Interaction logic for Users.xaml
+    /// Interaction logic for AddUsers.xaml
     /// </summary>
-    public partial class Suppliers : UserControl
+    public partial class AddProduct : Window
     {
-        private SupplierViewModel _supplier_view_model;
-        public Suppliers()
+        private AddProductViewModel _add_product_view_model;
+        public AddProduct(ProductModel model)
         {
             InitializeComponent();
-            this._supplier_view_model = new SupplierViewModel();
-            this.DataContext = _supplier_view_model;
+            this._add_product_view_model = new AddProductViewModel(model);
+            this.DataContext = _add_product_view_model;
         }
     }
 }

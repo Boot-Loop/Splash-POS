@@ -16,31 +16,113 @@ namespace Core.DB.Access
 		}
 
 		public List<BarcodeModel> getBarcodes() {
-			return excuteObject<BarcodeModel>("SELECT * FROM dbo.Barcode").ToList();
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Barcode");
+			return excuteObject<BarcodeModel>(command).ToList();
 		}
 		public List<BrandModel> getBrands() {
-			return excuteObject<BrandModel>("SELECT * FROM dbo.Brand").ToList();
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Brand");
+			return excuteObject<BrandModel>(command).ToList();
 		}
 		public List<MeasurementUnitModel> getMeasurementUnits() {
-			return excuteObject<MeasurementUnitModel>("SELECT * FROM dbo.MeasurementUnit").ToList();
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Brand");
+			return excuteObject<MeasurementUnitModel>(command).ToList();
 		}
 		public List<ProductModel> getProducts() {
-			return excuteObject<ProductModel>("SELECT * FROM dbo.Product").ToList();
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product");
+			return excuteObject<ProductModel>(command).ToList();
+		}
+		public List<ProductModel> getProductsWithBarcodes() {
+			List<ProductModel> products = getProducts();
+			List<ProductModel> return_products = new List<ProductModel>();
+			foreach(ProductModel product in products) {
+				SqlCommand command = new SqlCommand("SELECT * FROM dbo.Barcode WHERE Product_ID = @ID");
+				command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = product.ID.value;
+				List<BarcodeModel> barcodes = excuteObject<BarcodeModel>(command).ToList();
+				product.Barcode = barcodes[0].Value;
+				return_products.Add(product);
+			}
+			return return_products;
+		}
+		public void addProduct(ProductModel model) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
+				string command_text = "INSERT INTO dbo.Product (Name, Code, Description, Price, IsService, DateCreated, DateUpdated) VALUES (@Name, @Code, @Description, @Price, @IsService, @DateCreated, @DateUpdated); INSERT INTO dbo.Barcode (Product_ID, Value) VALUES (SCOPE_IDENTITY(), @Value);";
+				using (SqlCommand command = new SqlCommand(command_text)) {
+					command.Connection = connection;
+					command.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar, 100).Value = model.Name.value;
+					command.Parameters.Add("@Code", System.Data.SqlDbType.Int).Value = model.Code.value;
+					command.Parameters.Add("@Description", System.Data.SqlDbType.Text).Value = !string.IsNullOrEmpty(model.Description.value) ? model.Description.value : (object)DBNull.Value;
+					command.Parameters.Add("@Price", System.Data.SqlDbType.Float).Value = model.Price.value;
+					command.Parameters.Add("@IsService", System.Data.SqlDbType.Bit).Value = model.IsService.value;
+					command.Parameters.Add("@DateCreated", System.Data.SqlDbType.DateTime).Value = model.DateCreated.value;
+					command.Parameters.Add("@DateUpdated", System.Data.SqlDbType.DateTime).Value = model.DateUpdated.value;
+					command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = model.Barcode.value;
+					try {
+						connection.Open();
+						command.ExecuteNonQuery();
+						Console.WriteLine("successfully inserted");
+					}
+					catch (Exception ex) { Console.WriteLine("error caught" + ex); }
+					finally { connection.Close(); }
+				}
+			}
+		}
+		public void deleteProduct(int id) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
+				string command_text = "DELETE FROM dbo.Product	WHERE ID = @ID";
+				using (SqlCommand command = new SqlCommand(command_text)) {
+					command.Connection = connection;
+					command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = id;
+					try {
+						connection.Open();
+						command.ExecuteNonQuery();
+						Console.WriteLine("successfully deleted");
+					}
+					catch (Exception ex) { Console.WriteLine("error caught" + ex); }
+					finally { connection.Close(); }
+				}
+			}
+		}
+		public void updateProduct(ProductModel model, int id) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
+				string command_text = @"UPDATE dbo.Product SET Name = @Name, Code = @Code, Description = @Description, Price = @Price, IsService = @IsService, DateCreated = @DateCreated, DateUpdated = @DateUpdated WHERE ID = @ID;
+										UPDATE dbo.Barcode SET Value = @Value WHERE Product_ID = @ID
+										IF @@ROWCOUNT = 0
+										INSERT INTO dbo.Barcode (Product_ID, Value) VALUES (@ID, @Value);";
+				using (SqlCommand command = new SqlCommand(command_text)) {
+					command.Connection = connection;
+					command.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar, 100).Value = model.Name.value;
+					command.Parameters.Add("@Code", System.Data.SqlDbType.Int).Value = model.Code.value;
+					command.Parameters.Add("@Description", System.Data.SqlDbType.Text).Value = !string.IsNullOrEmpty(model.Description.value) ? model.Description.value : (object)DBNull.Value;
+					command.Parameters.Add("@Price", System.Data.SqlDbType.Float).Value = model.Price.value;
+					command.Parameters.Add("@IsService", System.Data.SqlDbType.Bit).Value = model.IsService.value;
+					command.Parameters.Add("@DateCreated", System.Data.SqlDbType.DateTime).Value = model.DateCreated.value;
+					command.Parameters.Add("@DateUpdated", System.Data.SqlDbType.DateTime).Value = model.DateUpdated.value;
+					command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = model.Barcode.value;
+					command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = id;
+
+					try {
+						connection.Open();
+						command.ExecuteNonQuery();
+						Console.WriteLine("successfully updated");
+					}
+					catch (Exception ex) { Console.WriteLine("error caught" + ex); }
+					finally { connection.Close(); }
+				}
+			}
 		}
 
-		private DataTable select(string command_text) {
+
+		private DataTable select(SqlCommand sql_command) {
 			DataTable data_table = new DataTable();
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				using (SqlCommand command = new SqlCommand()) {
+				using (SqlCommand command = sql_command) {
 					command.Connection = connection;
-					command.CommandType = CommandType.Text;
-					command.CommandText = command_text;
 					try {
 						connection.Open();
 						SqlDataAdapter data_adapter = new SqlDataAdapter(command);
 						data_adapter.Fill(data_table);
 					}
-					catch (Exception ex) { }
+					catch (Exception ex) { Console.WriteLine(ex); }
 					finally {
 						connection.Close();
 					}
@@ -48,9 +130,9 @@ namespace Core.DB.Access
 				}
 			}
 		}
-		private IEnumerable<T> excuteObject<T>(string command_text) {
+		private IEnumerable<T> excuteObject<T>(SqlCommand sql_command) {
 			List<T> items = new List<T>();
-			var dataTable = select(command_text);
+			var dataTable = select(sql_command);
 			foreach (var row in dataTable.Rows) {
 				T item = (T)Activator.CreateInstance(typeof(T), row);
 				items.Add(item);

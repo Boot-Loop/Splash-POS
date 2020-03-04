@@ -5,7 +5,7 @@
     [ProductGroup_ID] INT NULL, 
     [Brand_ID] INT NULL, 
     [MeasurementUnit_ID] INT NULL, 
-    [Code] INT NOT NULL,
+    [Code] INT NOT NULL UNIQUE,
     [Description] TEXT NULL, 
     [PLU] INT NULL, 
     [Image] IMAGE NULL, 
