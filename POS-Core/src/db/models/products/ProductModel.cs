@@ -51,5 +51,6 @@ namespace Core.DB.Models
         public override ModelType getType() => ModelType.MODEL_PRODUCT;
         public override bool matchPK(object pk) { return false; }
         public override void validateRelation() { }
+        public override string ToString() => Name.value;
     }
 }

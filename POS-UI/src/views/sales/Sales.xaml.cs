@@ -1,5 +1,4 @@
-﻿using POS_UI.src.views.sales.new_sale_views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +23,7 @@ namespace POS_UI.src.views.sales
         public Sales()
         {
             InitializeComponent();
-            sales_content_control.Content = new NewSale();
+            //sales_content_control.Content = new NewSale();
         }
     }
 }

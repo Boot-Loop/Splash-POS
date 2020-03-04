@@ -37,5 +37,6 @@ namespace Core.DB.Models
         public override ModelType getType() => ModelType.MODEL_SUPPLIER;
         public override bool matchPK(object pk) { return false; }
         public override void validateRelation() { }
+        public override string ToString() => FirstName.value;
     }
 }
