@@ -26,7 +26,6 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="6"/>
 
@@ -38,7 +37,7 @@
 
             </Grid>
 
-            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SaleProducts}">
+            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SaleProducts}" SelectedItem="{Binding SelectedItem}">
 
                 <ListView.ItemTemplate>
 
@@ -52,15 +51,13 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="{Binding ProductName}"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding Price}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding Qunatity}"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <TextBlock Text="0"   Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Discount}"   Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding SubTotal}" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <Button Content="Del"    Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" Width="50"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -87,9 +84,9 @@
             <DockPanel Grid.Row="1" Margin="20" MaxWidth="300">
                 <!--<Grid DockPanel.Dock="Bottom" MinWidth="20" MaxHeight="40"/>-->
                 <StackPanel Height="110">
+                    <Button Command="{Binding DeleteItemCommand}" Content="Delete" Height="30" Background="Red" FontSize="20"/>
                     <Button Content="Void" Height="40" Background="Red" FontSize="20"/>
-                    <Rectangle Height="10"/>
-                    <Button Content="Payment" Height="60" Background="LightGreen" FontSize="20"/>
+                    <Button Content="Payment" Height="40" Background="LightGreen" FontSize="20"/>
                 </StackPanel>
             </DockPanel>
 

@@ -37,9 +37,11 @@ namespace UI.ViewModels
             }
             catch (WrongPasswordError) {
                 MessageBox.Show("Login failed, Check your password and try again!", "Wrong Password", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Password = null;
             }
             catch (Exception) {
                 MessageBox.Show("Something went wrong, Please try again!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Password = null;
             }
         }
 
