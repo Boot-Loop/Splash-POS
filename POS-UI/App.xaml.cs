@@ -5,6 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using UI.Views;
+
+using CoreApp = Core;
 
 namespace POS_UI
 {
@@ -13,5 +16,10 @@ namespace POS_UI
     /// </summary>
     public partial class App : Application
     {
+        private void applicationStartup(object sender, StartupEventArgs e) {
+            CoreApp.Application.singleton.initialize();
+            MainView main_view = new MainView();
+            main_view.Show();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Core.DB.Access;
 using Core.DB.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using UI.ViewModels.Commands;
 
@@ -12,6 +13,8 @@ namespace UI.ViewModels
         private int _supplier_id;
         private int _quantity;
         private DateTime _date;
+        private List<ProductModel> _products;
+        private List<SupplierModel> _suppliers;
 
         private string _update_or_create;
 
@@ -35,17 +38,36 @@ namespace UI.ViewModels
             get { return _date; }
             set { _date = value; onPropertyRaised("Date"); }
         }
+        public List<ProductModel> Products {
+            get { return _products; }
+            set { _products = value; onPropertyRaised("Products"); }
+        }
+        public List<SupplierModel> Suppliers {
+            get { return _suppliers; }
+            set { _suppliers = value; onPropertyRaised("Supppliers"); }
+        }
+        public ProductModel SelectedProduct { get; set; }
+        public SupplierModel SelectedSupplier { get; set; }
         public string UpdateOrCreate {
             get { return _update_or_create; }
             set { _update_or_create = value; onPropertyRaised("UpdateOrCreate"); }
         }
 
         public AddStockViewModel(StockModel model) {
+            this.Products = ProductAccess.singleton.getProducts();
+            
+            this.Suppliers = SupplierAccess.singleton.getSuppliers();
             if (model != null) {
                 this.UpdateOrCreate = "Update";
                 this.ID = Convert.ToInt32(model.ID.value);
                 this.ProductID = Convert.ToInt32(model.ProductID.value);
                 this.SupplierID = Convert.ToInt32(model.SupplierID.value);
+                foreach (ProductModel product in Products) {
+                    if (product.ID.value == ProductID) { this.SelectedProduct = product; break; }
+                }
+                foreach (SupplierModel supplier in Suppliers) {
+                    if (supplier.ID.value == SupplierID) { this.SelectedSupplier = supplier; break; }
+                }
                 this.Quantity = Convert.ToInt32(model.Quantity.value);
                 this.Date = model.Date.value;
 
@@ -60,8 +82,8 @@ namespace UI.ViewModels
 
         public void addStock(object parameter) {
             StockModel model = new StockModel();
-            model.ProductID.value = ProductID;
-            model.SupplierID.value = SupplierID;
+            model.ProductID.value = SelectedProduct.ID.value;
+            model.SupplierID.value = SelectedSupplier.ID.value;
             model.Quantity.value = Quantity;
             model.Date.value = Date;
 
@@ -69,8 +91,8 @@ namespace UI.ViewModels
         }
         public void updateStock(object parameter) {
             StockModel model = new StockModel();
-            model.ProductID.value = ProductID;
-            model.SupplierID.value = SupplierID;
+            model.ProductID.value = SelectedProduct.ID.value;
+            model.SupplierID.value = SelectedSupplier.ID.value;
             model.Quantity.value = Quantity;
             model.Date.value = Date;
 

@@ -19,8 +19,8 @@
             <Button Content="{Binding UpdateOrCreate}" Command="{Binding CreateOrUpdateCommand}" Margin="5 6" FontSize="18" Height="30"/>
         </StackPanel>
         <StackPanel Grid.Column="1">
-            <TextBox Text="{Binding ProductID}"  Margin="5 6" FontSize="18" Height="30"/>
-            <TextBox Text="{Binding SupplierID}"  Margin="5 6"      FontSize="18" Height="30"/>
+            <ComboBox Margin="5 6" FontSize="18" Height="30" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}"/>
+            <ComboBox Margin="5 6" FontSize="18" Height="30" ItemsSource="{Binding Suppliers}" SelectedItem="{Binding SelectedSupplier}"/>
             <TextBox Text="{Binding Quantity}"  Margin="5 6"      FontSize="18" Height="30"/>
             <TextBox Text="{Binding Date}"  Margin="5 6"      FontSize="18" Height="30"/>
         </StackPanel>
