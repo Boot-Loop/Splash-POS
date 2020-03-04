@@ -145,6 +145,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="res\fonts\Roboto-Regular.ttf" />
     <Resource Include="res\fonts\password.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +155,18 @@
     <Folder Include="src\models\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="src\styles\button\common_button_style\CommonButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\button\flat_button_style\FlatButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\styles\colors\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\views\customers_views\Customers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,6 +241,12 @@
       <Project>{05c280bf-2f70-4ee0-9104-d6fad66cb823}</Project>
       <Name>POS-Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\images\pos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\icons\eye.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
