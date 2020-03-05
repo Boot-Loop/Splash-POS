@@ -91,7 +91,7 @@
                 <!--<Grid DockPanel.Dock="Bottom" MinWidth="20" MaxHeight="40"/>-->
                 <StackPanel Height="110">
                     <Button Command="{Binding DeleteItemCommand}" Content="Delete" Height="30" Background="Red" FontSize="20"/>
-                    <Button Content="Void" Height="40" Background="Red" FontSize="20"/>
+                    <Button Command="{Binding VoidSaleCommand}" Content="Void" Height="40" Background="Red" FontSize="20"/>
                     <Button Content="Payment" Height="40" Background="LightGreen" FontSize="20"/>
                 </StackPanel>
             </DockPanel>

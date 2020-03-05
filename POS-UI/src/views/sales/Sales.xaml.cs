@@ -12,7 +12,7 @@ namespace UI.Views
         public Sales(HomeViewModel home_view_model)
         {
             InitializeComponent();
-            this._sales_view_model = new SalesViewModel(home_view_model);
+            this._sales_view_model = new SalesViewModel(home_view_model, this);
             this.DataContext = _sales_view_model;
         }
     }
