@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using UI.ViewModels.Commands;
+using UI.Views;
 
 namespace UI.ViewModels
 {
@@ -20,7 +21,10 @@ namespace UI.ViewModels
         private ObservableCollection<SaleProductModel> _sale_products;
         public RelayCommand BarcodeAddCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
+        public RelayCommand VoidSaleCommand { get; private set; }
         public SaleProductModel SelectedItem { get; set; }
+        public SalesViewModel SalesViewModel { get; set; }
+        public NewSale NewSale { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -41,9 +45,12 @@ namespace UI.ViewModels
             set { _sale_products = value; onPropertyRaised("SaleProducts"); }
         }
 
-        public NewSaleViewModel() {
+        public NewSaleViewModel(NewSale new_sale, SalesViewModel sales_view_model) {
+            this.NewSale = new_sale;
+            this.SalesViewModel = sales_view_model;
             this.BarcodeAddCommand = new RelayCommand(enterPressedOnBarcodeSearch);
             this.DeleteItemCommand = new RelayCommand(deleteItem, isSelectedItemNotNull);
+            this.VoidSaleCommand = new RelayCommand(voidButtonPressed);
             this.SaleProducts = new ObservableCollection<SaleProductModel>();
             this.SubTotal = "0.00";
             this.SaleID = 123;
@@ -84,6 +91,9 @@ namespace UI.ViewModels
                 sale_product_model.SubTotal.value = model.Price.value * 3;
                 SaleProducts.Add(sale_product_model);
             }
+        }
+        private void voidButtonPressed(object parameter) {
+            this.SalesViewModel.removeSale(NewSale);
         }
 
         private double calculateSubTotal() {
