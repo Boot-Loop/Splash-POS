@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows.Forms;
 using UI.ViewModels.Commands;
 using UI.Views;
@@ -19,6 +20,7 @@ namespace UI.ViewModels
         public RelayCommand EditCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
         public ProductModel SelectedProduct { get; set; }
+        public HomeViewModel HomeViewModel { get; set; }
 
         public ObservableCollection<ProductModel> Products
         {
@@ -26,7 +28,8 @@ namespace UI.ViewModels
             set { _products = value; onPropertyRaised("Products"); }
         }
 
-        public ProductViewModel() {
+        public ProductViewModel(HomeViewModel home_view_model) {
+            this.HomeViewModel = home_view_model;
             this.AddCommand = new RelayCommand(openAddWindow);
             this.EditCommand = new RelayCommand(openEditWindow, isSelectedProductNotNull);
             this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedProductNotNull);
@@ -38,18 +41,31 @@ namespace UI.ViewModels
         }
 
         private void openAddWindow(object parameter) {
-            AddProduct new_product = new AddProduct(null);
+            AddProduct new_product = new AddProduct(null, HomeViewModel);
             new_product.ShowDialog();
             refresh();
         }
         private void openEditWindow(object parameter) {
-            AddProduct new_product = new AddProduct(SelectedProduct);
+            AddProduct new_product = new AddProduct(SelectedProduct, HomeViewModel);
             new_product.ShowDialog();
             refresh();
         }
         private void deleteRecord(object parameter) {
             DialogResult result = MessageBox.Show("Are you sure to delete this product?", "Delete Product", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result == DialogResult.Yes) ProductAccess.singleton.deleteProduct(Convert.ToInt32(SelectedProduct.ID.value));
+            if (result == DialogResult.Yes) {
+                if (result == DialogResult.Yes) {
+                    try {
+                        ProductAccess.singleton.deleteProduct(Convert.ToInt32(SelectedProduct.ID.value));
+                        Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully deleted!"));
+                        thread.Start();
+                    }
+                    catch (Exception) {
+                        Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to delete!"));
+                        thread.Start();
+                    }
+
+                }
+            }
             refresh();
         }
         private bool isSelectedProductNotNull(object parameter) {

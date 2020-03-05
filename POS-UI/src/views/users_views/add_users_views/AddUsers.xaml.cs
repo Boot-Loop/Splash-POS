@@ -22,11 +22,11 @@ namespace UI.Views
     public partial class AddUsers : Window
     {
         private AddUserViewModel _add_user_view_model;
-        public AddUsers(StaffModel model)
-        {
+        public AddUsers(StaffModel model, HomeViewModel home_view_model) {
             InitializeComponent();
-            this._add_user_view_model = new AddUserViewModel(model);
+            this._add_user_view_model = new AddUserViewModel(model, this, home_view_model);
             this.DataContext = _add_user_view_model;
+            this.Owner = Application.Current.MainWindow;
         }
     }
 }

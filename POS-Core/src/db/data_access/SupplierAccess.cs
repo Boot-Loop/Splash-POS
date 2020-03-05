@@ -38,9 +38,8 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
-						Console.WriteLine("successfully updated");
 					}
-					catch (Exception ex) { Console.WriteLine("error caught" + ex); }
+					catch (Exception ex) { throw new Exception(ex.Message); }
 					finally { connection.Close(); }
 				}
 			}
@@ -54,9 +53,8 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
-						Console.WriteLine("successfully deleted");
 					}
-					catch (Exception ex) { Console.WriteLine("error caught" + ex); }
+					catch (Exception ex) { throw new Exception(ex.Message); }
 					finally { connection.Close(); }
 				}
 			}
@@ -78,9 +76,8 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
-						Console.WriteLine("successfully updated");
 					}
-					catch (Exception ex) { Console.WriteLine("error caught" + ex); }
+					catch (Exception ex) { throw new Exception(ex.Message); }
 					finally { connection.Close(); }
 				}
 			}
@@ -96,7 +93,7 @@ namespace Core.DB.Access
 						SqlDataAdapter data_adapter = new SqlDataAdapter(command);
 						data_adapter.Fill(data_table);
 					}
-					catch (Exception ex) { }
+					catch (Exception ex) { throw new Exception(ex.Message); }
 					finally {
 						connection.Close();
 					}

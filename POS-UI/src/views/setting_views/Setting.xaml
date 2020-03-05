@@ -17,12 +17,12 @@
             <RowDefinition Height="200"/>
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
-        <Button Content="Products"  FontSize="24" Grid.Column="0" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Content="Customer"  FontSize="24" Grid.Column="1" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Content="Supplier"  FontSize="24" Grid.Column="2" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Content="Stock"     FontSize="24" Grid.Column="3" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button Command="{Binding ProductButtonCommand}" Content="Products"  FontSize="24" Grid.Column="0" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button Command="{Binding CloseCommand}" Content="Close"  FontSize="24" Grid.Column="1" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button Command="{Binding SupplierButtonCommand}" Content="Supplier"  FontSize="24" Grid.Column="2" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button Command="{Binding StockButtonCommand}" Content="Stock"     FontSize="24" Grid.Column="3" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Button Command="{Binding UserButtonCommand}" Content="Users"     FontSize="24" Grid.Column="0" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Content="Reports"   FontSize="24" Grid.Column="1" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button Command="{Binding ReportsButtonCommand}" Content="Reports"   FontSize="24" Grid.Column="1" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
     </Grid>
 </UserControl>

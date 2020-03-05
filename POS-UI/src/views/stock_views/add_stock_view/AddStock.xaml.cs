@@ -22,11 +22,11 @@ namespace UI.Views
     public partial class AddStock : Window
     {
         private AddStockViewModel _add_stock_view_model;
-        public AddStock(StockModel model)
-        {
+        public AddStock(StockModel model, HomeViewModel home_view_model) {
             InitializeComponent();
-            this._add_stock_view_model = new AddStockViewModel(model);
+            this._add_stock_view_model = new AddStockViewModel(model, this, home_view_model);
             this.DataContext = _add_stock_view_model;
+            this.Owner = Application.Current.MainWindow;
         }
     }
 }

@@ -22,10 +22,9 @@ namespace UI.Views
     public partial class Products : UserControl
     {
         private ProductViewModel _product_view_model;
-        public Products()
-        {
+        public Products(HomeViewModel home_view_model) {
             InitializeComponent();
-            this._product_view_model = new ProductViewModel();
+            this._product_view_model = new ProductViewModel(home_view_model);
             this.DataContext = _product_view_model;
         }
     }

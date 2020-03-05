@@ -2,7 +2,9 @@
 using Core.DB.Models;
 using System;
 using System.ComponentModel;
+using System.Threading;
 using UI.ViewModels.Commands;
+using UI.Views;
 
 namespace UI.ViewModels
 {
@@ -19,6 +21,8 @@ namespace UI.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand CreateOrUpdateCommand { get; private set; }
+        public HomeViewModel HomeViewModel { get; set; }
+        public AddSupplier AddSupplier { get; set; }
 
         public int ID { get; set; }
         public string FirstName {
@@ -50,7 +54,10 @@ namespace UI.ViewModels
             set { _update_or_create = value; onPropertyRaised("UpdateOrCreate"); }
         }
 
-        public AddSupplierViewModel(SupplierModel model) {
+        public AddSupplierViewModel(SupplierModel model, AddSupplier add_supplier, HomeViewModel home_view_model) {
+            this.AddSupplier = add_supplier;
+            this.HomeViewModel = home_view_model;
+
             if (model != null) {
                 this.UpdateOrCreate = "Update";
                 this.ID = Convert.ToInt32(model.ID.value);
@@ -78,7 +85,16 @@ namespace UI.ViewModels
             model.Telephone.value = Telephone;
             model.Comments.value = Comments;
 
-            SupplierAccess.singleton.addSupplier(model);
+            try {
+                SupplierAccess.singleton.addSupplier(model);
+                this.AddSupplier.Close();
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!"));
+                thread.Start();
+            }
+            catch (Exception) {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!"));
+                thread.Start();
+            }
         }
         public void updateSupplier(object parameter) {
             SupplierModel model = new SupplierModel();
@@ -89,7 +105,17 @@ namespace UI.ViewModels
             model.Telephone.value = Telephone;
             model.Comments.value = Comments;
 
-            SupplierAccess.singleton.updateSupplier(model, this.ID);
+            try {
+                SupplierAccess.singleton.updateSupplier(model, this.ID);
+                this.AddSupplier.Close();
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!"));
+                thread.Start();
+            }
+            catch (Exception)
+            {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!"));
+                thread.Start();
+            }  
         }
 
         private void onPropertyRaised(string property_name) {
