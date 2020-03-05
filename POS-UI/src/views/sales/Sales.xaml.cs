@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-
+using UI.ViewModels;
 
 namespace UI.Views
 {
@@ -8,10 +8,12 @@ namespace UI.Views
     /// </summary>
     public partial class Sales : UserControl
     {
-        public Sales()
+        private SalesViewModel _sales_view_model;
+        public Sales(HomeViewModel home_view_model)
         {
             InitializeComponent();
-            //sales_content_control.Content = new NewSale();
+            this._sales_view_model = new SalesViewModel(home_view_model);
+            this.DataContext = _sales_view_model;
         }
     }
 }

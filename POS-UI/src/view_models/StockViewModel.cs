@@ -33,6 +33,7 @@ namespace UI.ViewModels
             this.AddCommand = new RelayCommand(openAddWindow);
             this.EditCommand = new RelayCommand(openEditWindow, isSelectedStockNotNull);
             this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedStockNotNull);
+            home_view_model.Title = "Stocks";
             refresh();
         }
 

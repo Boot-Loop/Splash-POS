@@ -15,7 +15,6 @@ namespace UI.Views
             InitializeComponent();
             this.HomeViewModel = new HomeViewModel(user, main_view, this);
             this.DataContext = HomeViewModel;
-            this.home_content_control.Content = new Sales();
         }
 
         

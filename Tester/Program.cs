@@ -85,6 +85,7 @@ namespace Tester
 			//	//Console.WriteLine("barcode: " + md.Barcode.ToString());
 			//}
 			Application.singleton.initialize();
+			Console.WriteLine("asdfg");
 			Console.ReadKey();
 
 		}

@@ -22,6 +22,7 @@ namespace UI.ViewModels
         public RelayCommand SettingsCommand { get; private set; }
         public MainView MainView { get; set; }
         public HomeView HomeView { get; set; }
+        public Sales Sales { get; set; }
         public string Title {
             get { return _title; }
             set { _title = value; onPropertyRaised("Title"); }
@@ -39,6 +40,8 @@ namespace UI.ViewModels
             this.LoggedInUser = user;
             this.MainView = main_view;
             this.HomeView = home_view;
+            this.Sales = new Sales(this);
+            this.HomeView.home_content_control.Content = Sales;
             this.LogoutCommand = new RelayCommand(logout);
             this.SettingsCommand = new RelayCommand(openSettings);
             this.Height = "0";
@@ -57,7 +60,6 @@ namespace UI.ViewModels
         }
         private void openSettings(object parameter) {
             HomeView.home_content_control.Content = new Setting(HomeView, this);
-            Title = "(Settings)";
         }
         private void onPropertyRaised(string property_name) {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));
