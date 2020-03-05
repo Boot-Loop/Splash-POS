@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Core.DB.Access;
+using Core.DB.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -49,6 +51,14 @@ namespace Core
 								new SqlCommand(commandString, connection).ExecuteNonQuery();
 							}
 						}
+						StaffModel model = new StaffModel();
+						model.FirstName.value = "admin";
+						model.LastName.value = "admin";
+						model.UserName.value = "admin";
+						model.Password.value = "admin";
+						model.EMail.value = "admin@mail.com";
+						model.AccessLevel.value = 10;
+						StaffAccess.singleton.addStaff(model);
 					}
 					catch (Exception ex) {
 						Console.WriteLine(ex);
