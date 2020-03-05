@@ -59,7 +59,7 @@ namespace UI.ViewModels
             if (result == DialogResult.Yes) { MainView.Content = new LoginView(MainView); }
         }
         private void openSettings(object parameter) {
-            HomeView.home_content_control.Content = new Setting(HomeView, this);
+            HomeView.home_content_control.Content = new Management(HomeView, this);
         }
         private void onPropertyRaised(string property_name) {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));
