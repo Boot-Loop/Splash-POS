@@ -132,6 +132,7 @@
     <Compile Include="src\view_models\commands\RelayCommand.cs" />
     <Compile Include="src\view_models\NewSaleViewModel.cs" />
     <Compile Include="src\view_models\ProductViewModel.cs" />
+    <Compile Include="src\view_models\SettingsViewModel.cs" />
     <Compile Include="src\view_models\StockViewModel.cs" />
     <Compile Include="src\view_models\SupplierViewModel.cs" />
     <Compile Include="src\view_models\UserViewModel.cs" />
