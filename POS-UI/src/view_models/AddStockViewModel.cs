@@ -9,7 +9,7 @@ using UI.Views;
 
 namespace UI.ViewModels
 {
-    class AddStockViewModel : INotifyPropertyChanged
+    public class AddStockViewModel : INotifyPropertyChanged
     {
         private int _product_id;
         private int _supplier_id;

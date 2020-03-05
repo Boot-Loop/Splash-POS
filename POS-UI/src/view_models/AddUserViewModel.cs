@@ -8,7 +8,7 @@ using UI.Views;
 
 namespace UI.ViewModels
 {
-    class AddUserViewModel : INotifyPropertyChanged
+    public class AddUserViewModel : INotifyPropertyChanged
     {
         private string _first_name;
         private string _last_name;

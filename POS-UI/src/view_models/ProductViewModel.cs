@@ -11,7 +11,7 @@ using UI.Views;
 
 namespace UI.ViewModels
 {
-    class ProductViewModel : INotifyPropertyChanged
+    public class ProductViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<ProductModel> _products;
 
@@ -33,6 +33,7 @@ namespace UI.ViewModels
             this.AddCommand = new RelayCommand(openAddWindow);
             this.EditCommand = new RelayCommand(openEditWindow, isSelectedProductNotNull);
             this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedProductNotNull);
+            home_view_model.Title = "Products";
             refresh();
         }
 

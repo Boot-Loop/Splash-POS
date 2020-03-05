@@ -11,7 +11,7 @@ using UI.Views;
 
 namespace UI.ViewModels
 {
-    class UserViewModel : INotifyPropertyChanged
+    public class UserViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<StaffModel> _staffs;
 
@@ -27,11 +27,12 @@ namespace UI.ViewModels
             set { _staffs = value; onPropertyRaised("Staffs"); }
         }
 
-        public UserViewModel(HomeViewModel home_view_modle) {
-            this.HomeViewModel = home_view_modle;
+        public UserViewModel(HomeViewModel home_view_model) {
+            this.HomeViewModel = home_view_model;
             this.AddCommand = new RelayCommand(openAddWindow);
             this.EditCommand = new RelayCommand(openEditWindow, isSelectedStaffNotNull);
             this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedStaffNotAdmin);
+            home_view_model.Title = "Users";
             refresh();
         }
 

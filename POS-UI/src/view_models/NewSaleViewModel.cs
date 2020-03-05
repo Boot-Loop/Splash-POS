@@ -16,6 +16,7 @@ namespace UI.ViewModels
     {
         private string _barcode;
         private string _subtotal;
+        private int _sale_id;
         private ObservableCollection<SaleProductModel> _sale_products;
         public RelayCommand BarcodeAddCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
@@ -31,6 +32,10 @@ namespace UI.ViewModels
             get { return _subtotal; }
             set { _subtotal = value; onPropertyRaised("SubTotal"); }
         }
+        public int SaleID {
+            get { return _sale_id; }
+            set { _sale_id = value; onPropertyRaised("SaleID"); }
+        }
         public ObservableCollection<SaleProductModel> SaleProducts {
             get { return _sale_products; }
             set { _sale_products = value; onPropertyRaised("SaleProducts"); }
@@ -41,6 +46,7 @@ namespace UI.ViewModels
             this.DeleteItemCommand = new RelayCommand(deleteItem, isSelectedItemNotNull);
             this.SaleProducts = new ObservableCollection<SaleProductModel>();
             this.SubTotal = "0.00";
+            this.SaleID = 123;
         }
 
         private void enterPressedOnBarcodeSearch(object parameter) {

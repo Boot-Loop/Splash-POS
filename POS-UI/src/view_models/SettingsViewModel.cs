@@ -21,6 +21,7 @@ namespace UI.ViewModels
             this.UserButtonCommand = new RelayCommand(userButtonPressed);
             this.ReportsButtonCommand = new RelayCommand(reportsButtonPressed);
             this.CloseCommand = new RelayCommand(closeButtonPressed);
+            home_view_model.Title = "Settings";
             this.HomeView = home_view;
             this.HomeViewModel = home_view_model;
         }
@@ -39,7 +40,8 @@ namespace UI.ViewModels
         }
         private void reportsButtonPressed(object parameter) { }
         private void closeButtonPressed(object parameter) {
-            HomeView.home_content_control.Content = new Sales();
+            HomeView.home_content_control.Content = HomeViewModel.Sales;
+            HomeViewModel.Title = "Sales";
         }
     }
 }
