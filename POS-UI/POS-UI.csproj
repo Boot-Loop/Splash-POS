@@ -102,7 +102,7 @@
     <Compile Include="src\views\sales\Sales.xaml.cs">
       <DependentUpon>Sales.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\setting_views\Setting.xaml.cs">
+    <Compile Include="src\views\management_view\Setting.xaml.cs">
       <DependentUpon>Setting.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\views\stock_views\add_stock_view\AddStock.xaml.cs">
@@ -218,7 +218,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\setting_views\Setting.xaml">
+    <Page Include="src\views\management_view\Setting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
