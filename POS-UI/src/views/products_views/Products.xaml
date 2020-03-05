@@ -11,62 +11,43 @@
             <StackPanel Orientation="Horizontal" Margin="5 0">
                 <Button Command="{Binding AddCommand}" Content="Add"       Height="40" Width="40" Margin="5" />
                 <Button Command="{Binding EditCommand}" Content="Edit"      Height="40" Width="40" Margin="5"/>
-                <Button                     Height="40" Width="40" Margin="5">
-                    <Button.Content>
-                        <TextBlock Text="Add Group" TextWrapping="Wrap"/>
-                    </Button.Content>
-                </Button>
-                <Button                      Height="40" Width="40" Margin="5">
-                    <Button.Content>
-                        <TextBlock Text="Edit Group" TextWrapping="Wrap"/>
-                    </Button.Content>
-                </Button>
-                <Button Content="Print"     Height="40" Width="40" Margin="5"/>
                 <Button Command="{Binding DeleteCommand}" Content="Delete"    Height="40" Width="40" Margin="5"/>
+                <Button                     Height="40" Width="44" Margin="20 5 5 5">
+                    <Button.Content>
+                        <TextBlock Text="Save as Pdf" TextWrapping="Wrap"/>
+                    </Button.Content>
+                </Button>
+                
+                <Button Content="Print"     Height="40" Width="44" Margin="5"/>
 
                 <TextBox FontSize="16" Text="  Scan or Search Item" Height="30" Width="200" HorizontalAlignment="Left" Margin="20 5 0 0" Foreground="Gray"/>
             </StackPanel>
         </Grid>
 
-        <Grid Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
+        
 
-            <TreeView Grid.Column="0">
-                <TreeViewItem Header="First">
-                    <TreeViewItem Header="Second"/>
-                    <TreeViewItem Header="Second"/>
-                </TreeViewItem>
-                <TreeViewItem Header="First">
-                    <TreeViewItem Header="Second"/>
-                    <TreeViewItem Header="Second"/>
-                </TreeViewItem>
-                <TreeViewItem Header="First">
-                    <TreeViewItem Header="Second"/>
-                    <TreeViewItem Header="Second"/>
-                </TreeViewItem>
-                <TreeViewItem Header="First">
-                    <TreeViewItem Header="Second"/>
-                    <TreeViewItem Header="Second"/>
-                </TreeViewItem>
-            </TreeView>
-
-            <StackPanel Grid.Column="1" Name="main_stack_panel" Margin="5">
+            <StackPanel Name="main_stack_panel" Margin="5">
 
 
                 <Grid Height="40">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" x:Name="column_1"/>
+                        <ColumnDefinition Width="*" x:Name="column_2"/>
+                        <ColumnDefinition Width="*" x:Name="column_3"/>
+                        <ColumnDefinition Width="*" x:Name="column_4"/>
+                        <ColumnDefinition Width="*" x:Name="column_5"/>
+                        <ColumnDefinition Width="*" x:Name="column_6"/>
+                        <ColumnDefinition Width="*" x:Name="column_7"/>
                     </Grid.ColumnDefinitions>
-                    <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="7"/>
+
+                <GridSplitter Grid.Column="0" Width="1" Background="Black"/>
+                <GridSplitter Grid.Column="1" Width="1" Background="Black"/>
+                <GridSplitter Grid.Column="2" Width="1" Background="Black"/>
+                <GridSplitter Grid.Column="3" Width="1" Background="Black"/>
+                <GridSplitter Grid.Column="4" Width="1" Background="Black"/>
+                <GridSplitter Grid.Column="5" Width="1" Background="Black"/>
+
+                <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="7"/>
 
                     <TextBlock Text="Code" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <TextBlock Text="Name" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -84,13 +65,13 @@
                         Width="{Binding Path=ActualWidth, ElementName=main_stack_panel}">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_1}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_2}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_3}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_4}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_5}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_6}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_7}"/>
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="{Binding Code}"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -106,6 +87,6 @@
                 </ListView>
             </StackPanel>
 
-        </Grid>
+        
     </DockPanel>
 </UserControl>
