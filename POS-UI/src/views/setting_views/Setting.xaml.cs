@@ -5,13 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UI.ViewModels;
 
 namespace UI.Views
@@ -22,9 +15,9 @@ namespace UI.Views
     public partial class Setting : UserControl
     {
         private SettingsViewModel _settings_view_model;
-        public Setting(HomeView home_view) {
+        public Setting(HomeView home_view, HomeViewModel home_view_model) {
             InitializeComponent();
-            this._settings_view_model = new SettingsViewModel(home_view);
+            this._settings_view_model = new SettingsViewModel(home_view, home_view_model);
             this.DataContext = _settings_view_model;
         }
     }

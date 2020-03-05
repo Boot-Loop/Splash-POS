@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows.Forms;
 using UI.ViewModels.Commands;
 using UI.Views;
@@ -19,16 +20,18 @@ namespace UI.ViewModels
         public RelayCommand EditCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
         public StaffModel SelectedStaff { get; set; }
+        public HomeViewModel HomeViewModel { get; set; }
 
         public ObservableCollection<StaffModel> Staffs {
             get { return _staffs; }
             set { _staffs = value; onPropertyRaised("Staffs"); }
         }
 
-        public UserViewModel() {
+        public UserViewModel(HomeViewModel home_view_modle) {
+            this.HomeViewModel = home_view_modle;
             this.AddCommand = new RelayCommand(openAddWindow);
             this.EditCommand = new RelayCommand(openEditWindow, isSelectedStaffNotNull);
-            this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedStaffNotNull);
+            this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedStaffNotAdmin);
             refresh();
         }
 
@@ -37,22 +40,36 @@ namespace UI.ViewModels
         }
 
         private void openAddWindow(object parameter) {
-            AddUsers new_user = new AddUsers(null);
+            AddUsers new_user = new AddUsers(null, HomeViewModel);
             new_user.ShowDialog();
             refresh();
         }
         private void openEditWindow(object parameter) {
-            AddUsers new_user = new AddUsers(SelectedStaff);
+            AddUsers new_user = new AddUsers(SelectedStaff, HomeViewModel);
             new_user.ShowDialog();
             refresh();
         }
         private void deleteRecord(object parameter) {
             DialogResult result = MessageBox.Show("Are you sure to delete this user?", "Delete Staff", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result == DialogResult.Yes) StaffAccess.singleton.deleteStaff(Convert.ToInt32(SelectedStaff.ID.value));
+            if (result == DialogResult.Yes) {
+                try {
+                    StaffAccess.singleton.deleteStaff(Convert.ToInt32(SelectedStaff.ID.value));
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully deleted!"));
+                    thread.Start();
+                }
+                catch (Exception) {
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to delete!"));
+                    thread.Start();
+                }
+                
+            }
             refresh();
         }
         private bool isSelectedStaffNotNull(object parameter) {
-            return SelectedStaff == null ? false : true;
+            return (SelectedStaff == null) ? false : true;
+        }
+        private bool isSelectedStaffNotAdmin(object parameter) {
+            return (SelectedStaff == null) || (SelectedStaff.AccessLevel.value == 10) ? false : true;
         }
 
         private void onPropertyRaised(string property_name) {

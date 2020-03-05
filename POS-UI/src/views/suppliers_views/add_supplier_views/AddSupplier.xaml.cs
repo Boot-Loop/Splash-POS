@@ -22,10 +22,11 @@ namespace UI.Views
     public partial class AddSupplier : Window
     {
         private AddSupplierViewModel _add_supplier_view_model;
-        public AddSupplier(SupplierModel model) {
+        public AddSupplier(SupplierModel model, HomeViewModel home_view_model) {
             InitializeComponent();
-            this._add_supplier_view_model = new AddSupplierViewModel(model);
+            this._add_supplier_view_model = new AddSupplierViewModel(model, this, home_view_model);
             this.DataContext = _add_supplier_view_model;
+            this.Owner = Application.Current.MainWindow;
         }
     }
 }

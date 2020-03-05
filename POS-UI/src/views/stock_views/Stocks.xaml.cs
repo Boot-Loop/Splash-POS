@@ -22,9 +22,9 @@ namespace UI.Views
     public partial class Stocks : UserControl
     {
         private StockViewModel _stock_view_model;
-        public Stocks() {
+        public Stocks(HomeViewModel home_view_model) {
             InitializeComponent();
-            this._stock_view_model = new StockViewModel();
+            this._stock_view_model = new StockViewModel(home_view_model);
             this.DataContext = _stock_view_model;
         }
     }

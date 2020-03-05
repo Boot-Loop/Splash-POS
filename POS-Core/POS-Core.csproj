@@ -50,7 +50,6 @@
     </Compile>
     <Compile Include="src\Application.cs" />
     <Compile Include="src\Core.cs" />
-    <Compile Include="src\db\data_access\DBAccess.cs" />
     <Compile Include="src\db\data_access\ProductAccess.cs" />
     <Compile Include="src\db\data_access\StaffAccess.cs" />
     <Compile Include="src\db\data_access\StockAccess.cs" />

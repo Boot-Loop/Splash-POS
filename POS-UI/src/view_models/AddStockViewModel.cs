@@ -3,7 +3,9 @@ using Core.DB.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading;
 using UI.ViewModels.Commands;
+using UI.Views;
 
 namespace UI.ViewModels
 {
@@ -20,6 +22,8 @@ namespace UI.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand CreateOrUpdateCommand { get; private set; }
+        public HomeViewModel HomeViewModel { get; set; }
+        public AddStock AddStock { get; set; }
 
         public int ID { get; set; }
         public int ProductID {
@@ -53,8 +57,10 @@ namespace UI.ViewModels
             set { _update_or_create = value; onPropertyRaised("UpdateOrCreate"); }
         }
 
-        public AddStockViewModel(StockModel model) {
+        public AddStockViewModel(StockModel model, AddStock add_stock, HomeViewModel home_view_model) {
             this.Products = ProductAccess.singleton.getProducts();
+            this.AddStock = add_stock;
+            this.HomeViewModel = home_view_model;
             
             this.Suppliers = SupplierAccess.singleton.getSuppliers();
             if (model != null) {
@@ -87,7 +93,16 @@ namespace UI.ViewModels
             model.Quantity.value = Quantity;
             model.Date.value = Date;
 
-            StockAccess.singleton.addStock(model);
+            try {
+                StockAccess.singleton.addStock(model);
+                this.AddStock.Close();
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!"));
+                thread.Start();
+            }
+            catch (Exception) {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!"));
+                thread.Start();
+            }
         }
         public void updateStock(object parameter) {
             StockModel model = new StockModel();
@@ -96,7 +111,16 @@ namespace UI.ViewModels
             model.Quantity.value = Quantity;
             model.Date.value = Date;
 
-            StockAccess.singleton.updateStock(model, this.ID);
+            try {
+                StockAccess.singleton.updateStock(model, this.ID);
+                this.AddStock.Close();
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!"));
+                thread.Start();
+            }
+            catch (Exception) {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!"));
+                thread.Start();
+            } 
         }
 
         private void onPropertyRaised(string property_name) {

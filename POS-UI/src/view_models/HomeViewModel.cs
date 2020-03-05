@@ -1,10 +1,10 @@
 ﻿using Core.DB.Models;
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 using UI.ViewModels.Commands;
 using UI.Views;
 
@@ -13,6 +13,8 @@ namespace UI.ViewModels
     public class HomeViewModel : INotifyPropertyChanged
     {
         private string _title;
+        private string _message;
+        private string _message_height;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public StaffModel LoggedInUser { get; private set; }
@@ -24,6 +26,14 @@ namespace UI.ViewModels
             get { return _title; }
             set { _title = value; onPropertyRaised("Title"); }
         }
+        public string Message {
+            get { return _message; }
+            set { _message = value; onPropertyRaised("Message"); }
+        }
+        public string Height {
+            get { return _message_height; }
+            set { _message_height = value; onPropertyRaised("Height"); }
+        }
 
         public HomeViewModel(StaffModel user, MainView main_view, HomeView home_view) {
             this.LoggedInUser = user;
@@ -31,12 +41,22 @@ namespace UI.ViewModels
             this.HomeView = home_view;
             this.LogoutCommand = new RelayCommand(logout);
             this.SettingsCommand = new RelayCommand(openSettings);
+            this.Height = "0";
         }
+
+        public void setMessage(string message) {
+            this.Message = message;
+            this.Height = "40";
+            Thread.Sleep(5000);
+            this.Height = "0";
+        }
+
         private void logout(object parameter) {
-            MainView.Content = new LoginView(MainView);
+            DialogResult result = MessageBox.Show("Are you sure you want to logout.The sales which are not completed will not be saved.", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes) { MainView.Content = new LoginView(MainView); }
         }
         private void openSettings(object parameter) {
-            HomeView.home_content_control.Content = new Setting(HomeView);
+            HomeView.home_content_control.Content = new Setting(HomeView, this);
             Title = "(Settings)";
         }
         private void onPropertyRaised(string property_name) {

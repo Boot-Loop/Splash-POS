@@ -3,7 +3,9 @@ using Core.DB.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading;
 using UI.ViewModels.Commands;
+using UI.Views;
 
 namespace UI.ViewModels
 {
@@ -20,6 +22,8 @@ namespace UI.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand CreateOrUpdateCommand { get; private set; }
+        public HomeViewModel HomeViewModel { get; set; }
+        public AddProduct AddProduct { get; set; }
 
         public int ID { get; set; }
         public string Name {
@@ -54,7 +58,9 @@ namespace UI.ViewModels
             set { _update_or_create = value; onPropertyRaised("UpdateOrCreate"); }
         }
 
-        public AddProductViewModel(ProductModel model) {
+        public AddProductViewModel(ProductModel model, AddProduct add_product, HomeViewModel home_view_model) {
+            this.AddProduct = add_product;
+            this.HomeViewModel = home_view_model;
             if (model != null) {
                 this.UpdateOrCreate = "Update";
                 this.ID = Convert.ToInt32(model.ID.value);
@@ -88,7 +94,18 @@ namespace UI.ViewModels
             model.DateCreated.value = DateTime.Now;
             model.DateUpdated.value = DateTime.Now;
 
-            ProductAccess.singleton.addProduct(model);
+            try {
+                ProductAccess.singleton.addProduct(model);
+                this.AddProduct.Close();
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!"));
+                thread.Start();
+            }
+            catch (Exception) {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!"));
+                thread.Start();
+            }
+
+            
         }
         public void updateProduct(object parameter) {
             ProductModel model = new ProductModel();
@@ -104,7 +121,18 @@ namespace UI.ViewModels
             model.DateCreated.value = DateCreated;
             model.DateUpdated.value = DateTime.Now;
 
-            ProductAccess.singleton.updateProduct(model, this.ID);
+            try {
+                ProductAccess.singleton.updateProduct(model, this.ID);
+                this.AddProduct.Close();
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!"));
+                thread.Start();
+            }
+            catch (Exception) {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!"));
+                thread.Start();
+            }
+
+            
         }
 
         private void onPropertyRaised(string property_name)

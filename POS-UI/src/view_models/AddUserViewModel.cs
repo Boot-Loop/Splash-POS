@@ -2,7 +2,9 @@
 using Core.DB.Models;
 using System;
 using System.ComponentModel;
+using System.Threading;
 using UI.ViewModels.Commands;
+using UI.Views;
 
 namespace UI.ViewModels
 {
@@ -18,6 +20,8 @@ namespace UI.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand CreateOrUpdateCommand { get; private set; }
+        public HomeViewModel HomeViewModel { get; set; }
+        public AddUsers AddUsers { get; set; }
 
         public int ID { get; set; }
         public string FirstName {
@@ -46,8 +50,9 @@ namespace UI.ViewModels
         }
         public int AccessLevel { get; set; }
 
-        public AddUserViewModel(StaffModel model) {
-            
+        public AddUserViewModel(StaffModel model, AddUsers add_users, HomeViewModel home_view_model) {
+            this.HomeViewModel = home_view_model;
+            this.AddUsers = add_users;
             if (model != null) {
                 this.UpdateOrCreate = "Update";
                 this.ID = Convert.ToInt32(model.ID.value);
@@ -73,7 +78,16 @@ namespace UI.ViewModels
             model.Password.value = Password;
             model.EMail.value = EMail;
 
-            StaffAccess.singleton.addStaff(model);
+            try {
+                StaffAccess.singleton.addStaff(model);
+                this.AddUsers.Close();
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!"));
+                thread.Start();
+            }
+            catch (Exception) {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!"));
+                thread.Start();
+            }
         }
         public void updateStaff(object parameter) {
             StaffModel model = new StaffModel();
@@ -83,7 +97,18 @@ namespace UI.ViewModels
             model.Password.value = Password;
             model.EMail.value = EMail;
             model.AccessLevel.value = AccessLevel;
-            StaffAccess.singleton.updateStaff(model, this.ID);
+
+            try {
+                StaffAccess.singleton.updateStaff(model, this.ID);
+                this.AddUsers.Close();
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!"));
+                thread.Start();
+            }
+            catch (Exception) {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!"));
+                thread.Start();
+            }
+            
         }
 
         private void onPropertyRaised(string property_name) {

@@ -22,10 +22,10 @@ namespace UI.Views
     public partial class Suppliers : UserControl
     {
         private SupplierViewModel _supplier_view_model;
-        public Suppliers()
+        public Suppliers(HomeViewModel home_view_model)
         {
             InitializeComponent();
-            this._supplier_view_model = new SupplierViewModel();
+            this._supplier_view_model = new SupplierViewModel(home_view_model);
             this.DataContext = _supplier_view_model;
         }
     }

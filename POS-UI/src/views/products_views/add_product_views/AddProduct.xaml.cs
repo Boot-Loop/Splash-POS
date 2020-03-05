@@ -22,11 +22,12 @@ namespace UI.Views
     public partial class AddProduct : Window
     {
         private AddProductViewModel _add_product_view_model;
-        public AddProduct(ProductModel model)
+        public AddProduct(ProductModel model, HomeViewModel home_view_model)
         {
             InitializeComponent();
-            this._add_product_view_model = new AddProductViewModel(model);
+            this._add_product_view_model = new AddProductViewModel(model, this, home_view_model);
             this.DataContext = _add_product_view_model;
+            this.Owner = Application.Current.MainWindow;
         }
     }
 }

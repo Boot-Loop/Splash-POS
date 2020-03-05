@@ -22,10 +22,10 @@ namespace UI.Views
     public partial class Users : UserControl
     {
         private UserViewModel _user_view_model;
-        public Users()
+        public Users(HomeViewModel home_view_model)
         {
             InitializeComponent();
-            this._user_view_model = new UserViewModel();
+            this._user_view_model = new UserViewModel(home_view_model);
             this.DataContext = _user_view_model;
         }
     }
