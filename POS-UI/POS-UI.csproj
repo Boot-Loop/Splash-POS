@@ -265,5 +265,26 @@
   <ItemGroup>
     <Resource Include="res\icons\logout.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\images\product.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\images\truck.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\images\stock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\images\staff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\images\reports.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\icons\return.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\icons\back.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

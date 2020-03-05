@@ -6,23 +6,65 @@
              xmlns:local="clr-namespace:UI.Views"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid  Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
-            <RowDefinition Height="200"/>
-        </Grid.RowDefinitions>
-        <Button Command="{Binding ProductButtonCommand}" Content="Products"  FontSize="24" Grid.Column="0" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Command="{Binding CloseCommand}" Content="Close"  FontSize="24" Grid.Column="1" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Command="{Binding SupplierButtonCommand}" Content="Supplier"  FontSize="24" Grid.Column="2" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Command="{Binding StockButtonCommand}" Content="Stock"     FontSize="24" Grid.Column="3" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Command="{Binding UserButtonCommand}" Content="Users"     FontSize="24" Grid.Column="0" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Command="{Binding ReportsButtonCommand}" Content="Reports"   FontSize="24" Grid.Column="1" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
+    <Grid>
+        <Button Command="{Binding CloseCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="36" Width="36" Style="{DynamicResource ButtonFlat}" Margin="10 30">
+            <Button.Content>
+                <Image Source="/res/icons/back.png"/>
+            </Button.Content>
+        </Button>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <Button Command="{Binding ProductButtonCommand}"  BorderThickness="2" BorderBrush="Black" FontSize="24" Grid.Column="0" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource ButtonFlat}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/images/product.png" Height="100" Width="100"/>
+                        <Label Content="Products" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <Button Command="{Binding SupplierButtonCommand}" BorderThickness="2" BorderBrush="Black" FontSize="24" Grid.Column="1" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource ButtonFlat}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/images/truck.png" Height="100" Width="100"/>
+                        <Label Content="Supplier" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{Binding StockButtonCommand}"   BorderThickness="2" BorderBrush="Black"    FontSize="24" Grid.Column="2" Grid.Row="0" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource ButtonFlat}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/images/stock.png" Width="100" Height="100"/>
+                        <Label Content="Stock" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{Binding UserButtonCommand}"     BorderThickness="2" BorderBrush="Black"     FontSize="24" Grid.Column="0" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource ButtonFlat}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/images/staff.png" Height="100" Width="100"/>
+                        <Label Content="Staff" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{Binding ReportsButtonCommand}" BorderThickness="2" BorderBrush="Black"  FontSize="24" Grid.Column="1" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource ButtonFlat}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/images/reports.png" Height="100" Width="100"/>
+                        <Label Content="Reports" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+        </Grid>
     </Grid>
 </UserControl>

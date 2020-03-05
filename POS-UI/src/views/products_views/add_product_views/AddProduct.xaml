@@ -4,29 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.Views"
-        mc:Ignorable="d"
-        Title="AddProduct" Height="400" Width="300">
+        mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
+        Title="AddProduct" Height="400" Width="500">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Label Content="Name" Margin="5 12 0 6"   FontSize="18" Height="30"/>
-            <Label Content="Code"  Margin="5 6"        FontSize="18" Height="30"/>
-            <Label Content="Barcode"  Margin="5 6"        FontSize="18" Height="30"/>
-            <Label Content="Description"   Margin="5 6"        FontSize="18" Height="30"/>
-            <Label Content="Price"      Margin="5 6"        FontSize="18" Height="30"/>
-            <Label Content="IsService"      Margin="5 6"        FontSize="18" Height="30"/>
-            <Button Content="{Binding UpdateOrCreate}" Command="{Binding CreateOrUpdateCommand}" Margin="5 6" FontSize="18" Height="30"/>
+            <Label Content="Name"          Margin="5 12 0 6"   FontSize="16" Height="30"/>
+            <Label Content="Code"          Margin="5 6"        FontSize="16" Height="30"/>
+            <Label Content="Barcode"       Margin="5 6"        FontSize="16" Height="30"/>
+            <Label Content="Price"         Margin="5 6"        FontSize="16" Height="30"/>
+            <Label Content="IsService"     Margin="5 6"        FontSize="16" Height="30"/>
+            <Label Content="Description"   Margin="5 6"        FontSize="16" Height="30"/>
         </StackPanel>
         <StackPanel Grid.Column="1">
-            <TextBox Text="{Binding Name}"  Margin="5 6" FontSize="18" Height="30"/>
-            <TextBox Text="{Binding Code}"  Margin="5 6"      FontSize="18" Height="30"/>
-            <TextBox Text="{Binding Barcode}"  Margin="5 6"      FontSize="18" Height="30"/>
-            <TextBox Text="{Binding Description}"  Margin="5 6"      FontSize="18" Height="30"/>
-            <TextBox Text="{Binding Price}"  Margin="5 6"      FontSize="18" Height="30"/>
-            <CheckBox IsChecked="{Binding IsService}" Margin="5 6" FontSize="18" Height="30" />
+            <TextBox Text="{Binding Name}"              Margin="5 12 5 8"       FontSize="16" Height="30" Padding="1"/>
+            <TextBox Text="{Binding Code}"              Margin="5 4 5 8"        FontSize="16" Height="30" Padding="1"/>
+            <TextBox Text="{Binding Barcode}"           Margin="5 4 5 8"        FontSize="16" Height="30" Padding="1"/>
+            <TextBox Text="{Binding Price}"             Margin="5 4 5 8"        FontSize="16" Height="30" Padding="1"/>
+            <CheckBox IsChecked="{Binding IsService}"   Margin="5 16 0 14" />
+            <TextBox Text="{Binding Description}"       Margin="5 4 5 6"        FontSize="16" Height="60" TextWrapping="Wrap" Padding="1"/>
+            <Button Content="{Binding UpdateOrCreate}" Command="{Binding CreateOrUpdateCommand}" Margin="5 6" FontSize="18" Height="30" Width="200" HorizontalAlignment="Right" Style="{DynamicResource ButtonCommon}"/>
         </StackPanel>
     </Grid>
 </Window>
