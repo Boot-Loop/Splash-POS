@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace POS_UI.src.views.sales
+namespace UI.Views
 {
     /// <summary>
     /// Interaction logic for Sales.xaml
