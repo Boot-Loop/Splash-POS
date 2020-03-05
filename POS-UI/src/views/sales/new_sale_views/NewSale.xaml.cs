@@ -22,12 +22,18 @@ namespace UI.Views
     public partial class NewSale : UserControl
     {
         private NewSaleViewModel _new_sale_view_model;
-        public NewSale() {
-            InitializeComponent();
-            this._new_sale_view_model = new NewSaleViewModel();
-            this.DataContext = _new_sale_view_model;
+        private string _name;
+
+        public string NameOfSale {
+            get { return _name; }
+            set { _name = value; }
         }
 
-        public override string ToString() => Convert.ToString(_new_sale_view_model.SaleID);
+        public NewSale(SalesViewModel sales_view_model) {
+            InitializeComponent();
+            this._new_sale_view_model = new NewSaleViewModel(this, sales_view_model);
+            this.DataContext = _new_sale_view_model;
+            this.NameOfSale = Convert.ToString(_new_sale_view_model.SaleID);
+        }
     }
 }

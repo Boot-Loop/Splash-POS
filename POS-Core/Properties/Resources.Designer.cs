@@ -63,7 +63,7 @@ namespace POS_Core.Properties {
         /// <summary>
         ///   Looks up a localized string similar to USE [master]
         ///GO
-        ////****** Object:  Database [POS-DB]    Script Date: 3/3/2020 12:50:34 PM ******/
+        ////****** Object:  Database [POS-DB]    Script Date: 3/5/2020 11:10:54 PM ******/
         ///CREATE DATABASE [POS-DB]
         /// CONTAINMENT = NONE
         /// ON  PRIMARY 
