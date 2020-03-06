@@ -64,6 +64,14 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
+            <Button Command="{Binding ReportsButtonCommand}" BorderThickness="2" BorderBrush="Black"  FontSize="24" Grid.Column="2" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource ButtonFlat}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/icons/settings.png" Height="100" Width="100"/>
+                        <Label Content="Settings" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
 
         </Grid>
     </Grid>
