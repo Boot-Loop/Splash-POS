@@ -6,39 +6,71 @@
              xmlns:local="clr-namespace:UI.Views"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
+  
     <DockPanel Margin="10">
         <Grid Height="50" DockPanel.Dock="Top">
             <StackPanel Orientation="Horizontal" Margin="5 0">
-                <Button Command="{Binding AddCommand}" Content="Add"       Height="40" Width="40" Margin="5" />
-                <Button Command="{Binding EditCommand}" Content="Edit"      Height="40" Width="40" Margin="5"/>
-                <Button Command="{Binding DeleteCommand}" Content="Delete"    Height="40" Width="40" Margin="5"/>
-                <Button                     Height="40" Width="44" Margin="20 5 5 5">
+                <Button Command="{Binding AddCommand}"        Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon}">
                     <Button.Content>
-                        <TextBlock Text="Save as Pdf" TextWrapping="Wrap"/>
+                        <StackPanel>
+                            <Image Source="/res/icons/plus.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                            <Label Content="Add"/>
+                        </StackPanel>
                     </Button.Content>
                 </Button>
-                
-                <Button Content="Print"     Height="40" Width="44" Margin="5"/>
+                <Button Command="{Binding EditCommand}"      Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}" >
+                    <Button.Content>
+                        <StackPanel>
+                            <Image Source="/res/icons/edit.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                            <Label Content="Edit"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button Command="{Binding DeleteCommand}"     Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Image Source="/res/icons/bin.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                            <Label Content="Delete"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button                     Height="48" Width="48" Margin="40 1 5 1" Style="{DynamicResource ButtonCommon}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Image Source="/res/icons/pdf.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                            <Label Content="PDF"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
 
-                <TextBox FontSize="16" Text="  Scan or Search Item" Height="30" Width="200" HorizontalAlignment="Left" Margin="20 5 0 0" Foreground="Gray"/>
+                <Button Command="{Binding PrintCommand}"     Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Image Source="/res/icons/print.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                            <Label Content="Print"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+
+                <TextBox FontSize="16" Text="  Scan or Search Item" Padding="3" Height="30" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40 5 0 0"/>
             </StackPanel>
         </Grid>
 
-        
-
-            <StackPanel Name="main_stack_panel" Margin="5">
 
 
-                <Grid Height="40">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" x:Name="column_1"/>
-                        <ColumnDefinition Width="*" x:Name="column_2"/>
-                        <ColumnDefinition Width="*" x:Name="column_3"/>
-                        <ColumnDefinition Width="*" x:Name="column_4"/>
-                        <ColumnDefinition Width="*" x:Name="column_5"/>
-                        <ColumnDefinition Width="*" x:Name="column_6"/>
-                        <ColumnDefinition Width="*" x:Name="column_7"/>
-                    </Grid.ColumnDefinitions>
+        <StackPanel Name="main_stack_panel" Margin="5">
+
+
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" x:Name="column_1" MinWidth="100"/>
+                    <ColumnDefinition Width="*" x:Name="column_2" MinWidth="100"/>
+                    <ColumnDefinition Width="*" x:Name="column_3" MinWidth="100"/>
+                    <ColumnDefinition Width="*" x:Name="column_4" MinWidth="100"/>
+                    <ColumnDefinition Width="*" x:Name="column_5" MinWidth="100"/>
+                    <ColumnDefinition Width="*" x:Name="column_6" MinWidth="100"/>
+                    <ColumnDefinition Width="*" x:Name="column_7" MinWidth="100"/>
+                </Grid.ColumnDefinitions>
 
                 <GridSplitter Grid.Column="0" Width="1" Background="Black"/>
                 <GridSplitter Grid.Column="1" Width="1" Background="Black"/>
@@ -49,44 +81,44 @@
 
                 <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="7"/>
 
-                    <TextBlock Text="Code" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Name" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Barcode" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Description" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Price" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Date Created" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Date Updated" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Grid>
+                <TextBlock Text="Code" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="Name" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="Barcode" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="Description" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="Price" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="Date Created" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="Date Updated" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
 
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Height="30" Margin="0 2"
+            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="30" Margin="0 2"
                         Width="{Binding Path=ActualWidth, ElementName=main_stack_panel}">
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding Width, ElementName=column_1}"/>
-                                    <ColumnDefinition Width="{Binding Width, ElementName=column_2}"/>
-                                    <ColumnDefinition Width="{Binding Width, ElementName=column_3}"/>
-                                    <ColumnDefinition Width="{Binding Width, ElementName=column_4}"/>
-                                    <ColumnDefinition Width="{Binding Width, ElementName=column_5}"/>
-                                    <ColumnDefinition Width="{Binding Width, ElementName=column_6}"/>
-                                    <ColumnDefinition Width="{Binding Width, ElementName=column_7}"/>
-                                </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding Width, ElementName=column_1}"/>
+                                <ColumnDefinition Width="{Binding Width, ElementName=column_2}"/>
+                                <ColumnDefinition Width="{Binding Width, ElementName=column_3}"/>
+                                <ColumnDefinition Width="{Binding Width, ElementName=column_4}"/>
+                                <ColumnDefinition Width="{Binding Width, ElementName=column_5}"/>
+                                <ColumnDefinition Width="{Binding Width, ElementName=column_6}"/>
+                                <ColumnDefinition Width="{Binding Width, ElementName=column_7}"/>
+                            </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="{Binding Code}"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding Name}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding Barcode}"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding Description}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding Price}" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding DateCreated}"      Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding DateUpdated}" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
+                            <TextBlock Text="{Binding Code}"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Barcode}"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Description}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Price}" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding DateCreated}"      Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding DateUpdated}" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
 
-        
+
     </DockPanel>
 </UserControl>

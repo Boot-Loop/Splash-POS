@@ -24,7 +24,7 @@
             <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                 <Button Width="24" Height="24" Margin="13" Style="{DynamicResource ButtonFlat}" Command="{Binding SettingsCommand}">
                     <Button.Content>
-                        <Image Source="/res/icons/settings.png"/>
+                        <Image Source="/res/icons/management.png"/>
                     </Button.Content>
                 </Button>
                 <Button Width="24" Height="24" Margin="13" Style="{DynamicResource ButtonFlat}" Command="{Binding LogoutCommand}">
