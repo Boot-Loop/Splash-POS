@@ -10,8 +10,9 @@
         <StackPanel Orientation="Horizontal" Margin="5 0">
             <Button Command="{Binding AddCommand}" Content="Add"       Height="40" Width="40" Margin="5" />
             <Button Command="{Binding EditCommand}" Content="Edit"       Height="40" Width="40" Margin="5" />
-            <Button Content="Print"       Height="40" Width="40" Margin="5" />
             <Button Command="{Binding DeleteCommand}" Content="Delete"       Height="40" Width="40" Margin="5" />
+            <Button Command="{Binding ExportPDFCommand}" Content="Export PDF"       Height="40" Width="40" Margin="5" />
+            <Button Content="Print"       Height="40" Width="40" Margin="5" />
             <TextBox FontSize="18" Text="  Scan or Search Item" Height="30" Width="200" HorizontalAlignment="Left" Margin="20" Foreground="Gray"/>
         </StackPanel>
 
@@ -21,18 +22,20 @@
                 <ColumnDefinition x:Name="column_2"  Width="*"/>
                 <ColumnDefinition x:Name="column_3"  Width="*"/>
                 <ColumnDefinition x:Name="column_4"  Width="*"/>
+                <ColumnDefinition x:Name="column_5"  Width="*"/>
             </Grid.ColumnDefinitions>
             <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="6"/>
 
             <GridSplitter Grid.Column="0" Width="1" Background="Black"/>
             <GridSplitter Grid.Column="1" Width="1" Background="Black"/>
             <GridSplitter Grid.Column="2" Width="1" Background="Black"/>
-
+            <GridSplitter Grid.Column="3" Width="1" Background="Black"/>
 
             <TextBlock Text="Product Name"       Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <TextBlock Text="Supplier Name"    Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <TextBlock Text="Quantity"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <TextBlock Text="Date"  Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="Unit Price"      Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="Date"  Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
         </Grid>
 
@@ -49,12 +52,14 @@
                             <ColumnDefinition Width="{Binding Width,ElementName=column_2}"/>
                             <ColumnDefinition Width="{Binding Width,ElementName=column_3}"/>
                             <ColumnDefinition Width="{Binding Width,ElementName=column_4}"/>
+                            <ColumnDefinition Width="{Binding Width,ElementName=column_5}"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{Binding ProductName}"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Text="{Binding SupplierName}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Text="{Binding Quantity}"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding Date}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding UnitPrice}"      Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Date}" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

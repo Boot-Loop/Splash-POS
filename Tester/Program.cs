@@ -12,6 +12,7 @@ using System.Reflection;
 using System.IO;
 using System.Text.RegularExpressions;
 using Core;
+using Core.Documents;
 
 namespace Tester
 {
@@ -48,12 +49,13 @@ namespace Tester
 			//List<BarcodeModel> bl = new List<BarcodeModel>();
 			//bl.Add(bm);
 
-			//StockModel stock = new StockModel();
-			//stock.ProductID.value = 5;
-			//stock.SupplierID.value = 2;
-			//stock.Quantity.value = 120;
-			//stock.Date.value = DateTime.Now;
-			//StockAccess.singleton.updateStock(stock, 1);
+			//SaleModel model = new SaleModel();
+			//model.UserID.value = 1;
+			//model.PaymentID.value = 17;
+			//int a = SaleAccess.singleton.addSale(model);
+			List < ProductModel > pms = new List<ProductModel>();
+			pms = ProductAccess.singleton.searchProducts("c");
+			Console.WriteLine("sfdsadf: " + pms.Count);
 
 			////var prod = DBAccess.singleton.getProducts();
 			////Console.WriteLine(supplier.LastName.value);
@@ -84,8 +86,6 @@ namespace Tester
 			//	Console.WriteLine(md.DateUpdated.getName() + " " + md.DateUpdated.value);
 			//	//Console.WriteLine("barcode: " + md.Barcode.ToString());
 			//}
-			Application.singleton.initialize();
-			Console.WriteLine("asdfg");
 			Console.ReadKey();
 
 		}

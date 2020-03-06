@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=4.1.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>vender\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -51,6 +55,7 @@
     <Compile Include="src\Application.cs" />
     <Compile Include="src\Core.cs" />
     <Compile Include="src\db\data_access\ProductAccess.cs" />
+    <Compile Include="src\db\data_access\SaleAccess.cs" />
     <Compile Include="src\db\data_access\StaffAccess.cs" />
     <Compile Include="src\db\data_access\StockAccess.cs" />
     <Compile Include="src\db\data_access\SupplierAccess.cs" />
@@ -66,6 +71,11 @@
     <Compile Include="src\db\models\stocks\StockModel.cs" />
     <Compile Include="src\db\models\users\StaffModel.cs" />
     <Compile Include="src\db\models\users\SupplierModel.cs" />
+    <Compile Include="src\documents\Document.cs" />
+    <Compile Include="src\documents\ProductsDocument.cs" />
+    <Compile Include="src\documents\StaffsDocument.cs" />
+    <Compile Include="src\documents\StocksDocument.cs" />
+    <Compile Include="src\documents\SuppliersDocument.cs" />
     <Compile Include="src\utils\Logger.cs" />
     <Compile Include="src\utils\Validator.cs" />
   </ItemGroup>
@@ -79,6 +89,9 @@
     <None Include="Resources\script.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="vender\itextsharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

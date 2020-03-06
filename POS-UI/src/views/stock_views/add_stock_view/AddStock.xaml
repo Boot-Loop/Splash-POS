@@ -15,6 +15,7 @@
             <Label Content="Product" Margin="5 12 0 6"   FontSize="18" Height="30"/>
             <Label Content="Supplier"  Margin="5 6"        FontSize="18" Height="30"/>
             <Label Content="Quantity"  Margin="5 6"        FontSize="18" Height="30"/>
+            <Label Content="Unit Price"  Margin="5 6"        FontSize="18" Height="30"/>
             <Label Content="Date"   Margin="5 6"        FontSize="18" Height="30"/>
             <Button Content="{Binding UpdateOrCreate}" Command="{Binding CreateOrUpdateCommand}" Margin="5 6" FontSize="18" Height="30"/>
         </StackPanel>
@@ -22,6 +23,7 @@
             <ComboBox Margin="5 6" FontSize="18" Height="30" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}"/>
             <ComboBox Margin="5 6" FontSize="18" Height="30" ItemsSource="{Binding Suppliers}" SelectedItem="{Binding SelectedSupplier}"/>
             <TextBox Text="{Binding Quantity}"  Margin="5 6"      FontSize="18" Height="30"/>
+            <TextBox Text="{Binding UnitPrice}"  Margin="5 6"      FontSize="18" Height="30"/>
             <TextBox Text="{Binding Date}"  Margin="5 6"      FontSize="18" Height="30"/>
         </StackPanel>
     </Grid>

@@ -1,6 +1,6 @@
 ﻿CREATE VIEW [dbo].[StockView] AS
 	SELECT st.ID AS ID, st.Product_ID AS Product_ID, st.Warehouse_ID AS Warehouse_ID,
-	st.Supplier_ID AS Supplier_ID, st.Quantity AS Quantity, st.Date AS Date,
+	st.Supplier_ID AS Supplier_ID, st.Quantity AS Quantity, st.UnitPrice AS UnitPrice, st.Date AS Date,
 	pr.Name AS ProductName,
 	wh.Name AS WarehouseName,
 	sp.FirstName AS SupplierFirstName

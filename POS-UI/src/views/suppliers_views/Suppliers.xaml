@@ -10,8 +10,9 @@
         <StackPanel Orientation="Horizontal" Margin="5 0">
             <Button Command="{Binding AddCommand}" Content="Add"       Height="40" Width="40" Margin="5" />
             <Button Command="{Binding EditCommand}" Content="Edit"       Height="40" Width="40" Margin="5" />
-            <Button Content="Print"       Height="40" Width="40" Margin="5" />
             <Button Command="{Binding DeleteCommand}" Content="Delete"       Height="40" Width="40" Margin="5" />
+            <Button Command="{Binding ExportPDFCommand}" Content="Export"       Height="40" Width="40" Margin="5" />
+            <Button Content="Print"       Height="40" Width="40" Margin="5" />
             <TextBox FontSize="18" Text="  Scan or Search Item" Height="30" Width="200" HorizontalAlignment="Left" Margin="20" Foreground="Gray"/>
         </StackPanel>
 

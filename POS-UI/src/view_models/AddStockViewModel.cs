@@ -14,6 +14,7 @@ namespace UI.ViewModels
         private int _product_id;
         private int _supplier_id;
         private int _quantity;
+        private double _unit_price;
         private DateTime _date;
         private List<ProductModel> _products;
         private List<SupplierModel> _suppliers;
@@ -37,6 +38,10 @@ namespace UI.ViewModels
         public int Quantity {
             get { return _quantity; }
             set { _quantity = value; onPropertyRaised("Quantity"); }
+        }
+        public double UnitPrice {
+            get { return _unit_price; }
+            set { _unit_price = value; onPropertyRaised("UnitPrice"); }
         }
         public DateTime Date {
             get { return _date; }
@@ -75,6 +80,7 @@ namespace UI.ViewModels
                     if (supplier.ID.value == SupplierID) { this.SelectedSupplier = supplier; break; }
                 }
                 this.Quantity = Convert.ToInt32(model.Quantity.value);
+                this.UnitPrice = model.UnitPrice.value;
                 this.Date = model.Date.value;
 
                 this.CreateOrUpdateCommand = new RelayCommand(updateStock);
@@ -89,8 +95,10 @@ namespace UI.ViewModels
         public void addStock(object parameter) {
             StockModel model = new StockModel();
             model.ProductID.value = SelectedProduct.ID.value;
-            model.SupplierID.value = SelectedSupplier.ID.value;
+            if (SelectedSupplier == null) model.SupplierID.setToNull();
+            else model.SupplierID.value = SelectedSupplier.ID.value;
             model.Quantity.value = Quantity;
+            model.UnitPrice.value = UnitPrice;
             model.Date.value = Date;
 
             try {
@@ -107,8 +115,10 @@ namespace UI.ViewModels
         public void updateStock(object parameter) {
             StockModel model = new StockModel();
             model.ProductID.value = SelectedProduct.ID.value;
-            model.SupplierID.value = SelectedSupplier.ID.value;
+            if (SelectedSupplier == null) model.SupplierID.setToNull();
+            else model.SupplierID.value = SelectedSupplier.ID.value;
             model.Quantity.value = Quantity;
+            model.UnitPrice.value = UnitPrice;
             model.Date.value = Date;
 
             try {

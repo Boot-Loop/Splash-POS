@@ -35,7 +35,7 @@ namespace UI.ViewModels
             this.AddNewSaleCommand = new RelayCommand(addNewSale);
             this.Sales = sales;
             home_view_model.Title = "Sales";
-            NewSales.Add(new NewSale(this));
+            NewSales.Add(new NewSale(this, HomeViewModel));
             this.SelectedSale = NewSales[0];
         }
 
@@ -44,7 +44,7 @@ namespace UI.ViewModels
             if (result == DialogResult.Yes) {
                 if (NewSales.Count == 1) {
                     NewSales.Remove(selected_sale);
-                    NewSales.Add(new NewSale(this));
+                    NewSales.Add(new NewSale(this, HomeViewModel));
                     this.SelectedSale = NewSales[0];
                 }
                 else {
@@ -64,7 +64,7 @@ namespace UI.ViewModels
         }
 
         private void addNewSale(object parameter) {
-            NewSales.Add(new NewSale(this));
+            NewSales.Add(new NewSale(this, HomeViewModel));
             this.SelectedSale = NewSales[NewSales.Count - 1];
         }
         private void bringSaleToFront(NewSale selected_sale) {

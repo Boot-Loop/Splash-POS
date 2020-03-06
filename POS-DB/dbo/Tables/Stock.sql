@@ -5,6 +5,7 @@
     [Warehouse_ID] INT NULL , 
     [Supplier_ID] INT NULL,
     [Quantity] INT NOT NULL DEFAULT 0, 
+    [UnitPrice] DECIMAL(24, 2) NOT NULL DEFAULT 0.00, 
     [Date] DATETIME NULL, 
     CONSTRAINT [FK_Stock_Product] FOREIGN KEY ([Product_ID]) REFERENCES [dbo].[Product]([ID]) ON DELETE CASCADE, 
     CONSTRAINT [FK_Stock_Warehouse] FOREIGN KEY ([Warehouse_ID]) REFERENCES [dbo].[Warehouse]([ID]) ON DELETE SET DEFAULT, 

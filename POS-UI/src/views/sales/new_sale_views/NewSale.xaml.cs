@@ -29,9 +29,9 @@ namespace UI.Views
             set { _name = value; }
         }
 
-        public NewSale(SalesViewModel sales_view_model) {
+        public NewSale(SalesViewModel sales_view_model, HomeViewModel home_view_model) {
             InitializeComponent();
-            this._new_sale_view_model = new NewSaleViewModel(this, sales_view_model);
+            this._new_sale_view_model = new NewSaleViewModel(this, sales_view_model, home_view_model);
             this.DataContext = _new_sale_view_model;
             this.NameOfSale = Convert.ToString(_new_sale_view_model.SaleID);
         }
