@@ -31,6 +31,11 @@ namespace Core.DB.Access
 			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product");
 			return excuteObject<ProductModel>(command).ToList();
 		}
+		public List<ProductModel> searchProducts(string search_string) {
+			SqlCommand command = new SqlCommand("SELECT TOP 20 * FROM dbo.Product WHERE Name LIKE '%' + @Name + '%'");
+			command.Parameters.Add("@Name", System.Data.SqlDbType.VarChar, 100).Value = search_string;
+			return excuteObject<ProductModel>(command).ToList();
+		}
 		public List<ProductModel> getProductsWithBarcodes() {
 			List<ProductModel> products = getProducts();
 			List<ProductModel> return_products = new List<ProductModel>();

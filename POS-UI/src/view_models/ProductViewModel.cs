@@ -1,5 +1,7 @@
 ﻿using Core.DB.Access;
 using Core.DB.Models;
+using Core.Documents;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +21,7 @@ namespace UI.ViewModels
         public RelayCommand AddCommand { get; private set; }
         public RelayCommand EditCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
+        public RelayCommand ExportPDFCommand { get; private set; }
         public ProductModel SelectedProduct { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
 
@@ -33,6 +36,7 @@ namespace UI.ViewModels
             this.AddCommand = new RelayCommand(openAddWindow);
             this.EditCommand = new RelayCommand(openEditWindow, isSelectedProductNotNull);
             this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedProductNotNull);
+            this.ExportPDFCommand = new RelayCommand(exportPDF);
             home_view_model.Title = "Products";
             refresh();
         }
@@ -68,6 +72,17 @@ namespace UI.ViewModels
                 }
             }
             refresh();
+        }
+        private void exportPDF(object parameter) {
+            try {
+                ProductsDocument.singleton.export(new List<ProductModel>(Products));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully Exported!"));
+                thread.Start();
+            }
+            catch (Exception) {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Export delete!"));
+                thread.Start();
+            }
         }
         private bool isSelectedProductNotNull(object parameter) {
             return SelectedProduct == null ? false : true;

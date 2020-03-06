@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using UI.ViewModels.Commands;
 using UI.Views;
 using System.Threading;
+using Core.Documents;
 
 namespace UI.ViewModels
 {
@@ -20,6 +21,7 @@ namespace UI.ViewModels
         public RelayCommand AddCommand { get; private set; }
         public RelayCommand EditCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
+        public RelayCommand ExportPDFCommand { get; private set; }
         public SupplierModel SelectedSupplier { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
 
@@ -33,6 +35,7 @@ namespace UI.ViewModels
             this.AddCommand = new RelayCommand(openAddWindow);
             this.EditCommand = new RelayCommand(openEditWindow, isSelectedSupplierNotNull);
             this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedSupplierNotNull);
+            this.ExportPDFCommand = new RelayCommand(exportPDF);
             home_view_model.Title = "Suppliers";
             refresh();
         }
@@ -65,6 +68,17 @@ namespace UI.ViewModels
                 }
             }
             refresh();
+        }
+        private void exportPDF(object parameter) {
+            try {
+                SuppliersDocument.singleton.export(new List<SupplierModel>(Suppliers));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully Exported!"));
+                thread.Start();
+            }
+            catch (Exception) {
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Export delete!"));
+                thread.Start();
+            }
         }
         private bool isSelectedSupplierNotNull(object parameter) {
             return SelectedSupplier == null ? false : true;
