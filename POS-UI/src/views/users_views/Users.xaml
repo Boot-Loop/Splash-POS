@@ -8,20 +8,57 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Name="main_stack_panel" Margin="5">
         <StackPanel Orientation="Horizontal" Margin="5 0">
-            <Button Command="{Binding AddCommand}" Content="Add"       Height="40" Width="40" Margin="5" />
-            <Button Command="{Binding EditCommand}" Content="Edit"       Height="40" Width="40" Margin="5" />
-            <Button Content="Print"       Height="40" Width="40" Margin="5" />
-            <Button Command="{Binding DeleteCommand}" Content="Delete"       Height="40" Width="40" Margin="5" />
+            <Button Command="{Binding AddCommand}"       Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon}" >
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/icons/plus.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                        <Label Content="Add"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{Binding EditCommand}" Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/icons/edit.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                        <Label Content="Edit"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Command="{Binding DeleteCommand}" Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/icons/bin.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                        <Label Content="Delete"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button                     Height="48" Width="48" Margin="40 1 5 1" Style="{DynamicResource ButtonCommon}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/icons/pdf.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                        <Label Content="PDF"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <Button Command="{Binding PrintCommand}"     Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}">
+                <Button.Content>
+                    <StackPanel>
+                        <Image Source="/res/icons/print.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                        <Label Content="Print"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
             <TextBox FontSize="18" Text="  Scan or Search Item" Height="30" Width="200" HorizontalAlignment="Left" Margin="20" Foreground="Gray"/>
         </StackPanel>
 
         <Grid Height="40">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="column_1"  Width="*"/>
-                <ColumnDefinition x:Name="column_2"  Width="*"/>
-                <ColumnDefinition x:Name="column_3"  Width="*"/>
-                <ColumnDefinition x:Name="column_4"  Width="*"/>
-                <ColumnDefinition x:Name="column_5"  Width="*"/>
+                <ColumnDefinition x:Name="column_1"  Width="*" MinWidth="100"/>
+                <ColumnDefinition x:Name="column_2"  Width="*" MinWidth="100"/>
+                <ColumnDefinition x:Name="column_3"  Width="*" MinWidth="100"/>
+                <ColumnDefinition x:Name="column_4"  Width="*" MinWidth="100"/>
+                <ColumnDefinition x:Name="column_5"  Width="*" MinWidth="100"/>
             </Grid.ColumnDefinitions>
             <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="5"/>
 
@@ -47,11 +84,11 @@
                         Width="{Binding Path=ActualWidth, ElementName=main_stack_panel}">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="{Binding Width, ElementName=column_1}"/>
+                            <ColumnDefinition Width="{Binding Width, ElementName=column_2}"/>
+                            <ColumnDefinition Width="{Binding Width, ElementName=column_3}"/>
+                            <ColumnDefinition Width="{Binding Width, ElementName=column_4}"/>
+                            <ColumnDefinition Width="{Binding Width, ElementName=column_5}"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{Binding FirstName}"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>

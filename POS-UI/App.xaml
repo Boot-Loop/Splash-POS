@@ -6,6 +6,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/src/styles/button/common_button_style/CommonButtonStyle.xaml"/>
+                <ResourceDictionary Source="/src/styles/button/common_button_style_2/CommonButtonStyle2.xaml"/>
                 <ResourceDictionary Source="/src/styles/button/flat_button_style/FlatButtonStyle.xaml"/>
                 <ResourceDictionary Source="/src/styles/colors/Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
