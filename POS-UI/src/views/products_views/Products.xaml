@@ -58,10 +58,10 @@
 
 
 
-        <StackPanel Name="main_stack_panel" Margin="5">
+        <Grid Name="main_stack_panel">
 
 
-            <Grid Height="40">
+            <Grid Height="40" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" x:Name="column_1" MinWidth="100"/>
                     <ColumnDefinition Width="*" x:Name="column_2" MinWidth="100"/>
@@ -90,7 +90,7 @@
                 <TextBlock Text="Date Updated" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
 
-            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}">
+            <ListView ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Margin="0 40 0 0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Height="30" Margin="0 2"
@@ -117,7 +117,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackPanel>
+        </Grid>
 
 
     </DockPanel>

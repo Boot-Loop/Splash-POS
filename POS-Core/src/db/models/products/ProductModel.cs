@@ -24,7 +24,7 @@ namespace Core.DB.Models
         public DateTimeField        DateCreated         { get; set; } = new DateTimeField(name: "DateCreated", is_required: true);
         public DateTimeField        DateUpdated         { get; set; } = new DateTimeField(name: "DateUpdated", is_required: true);
         public List<BarcodeModel>   Barcodes            { get; set; } = new List<BarcodeModel>();
-        public TextField            Barcode             { get; set; } = new TextField();
+        public TextField            Barcode             { get; set; } = new TextField(name: "Barcode");
 
 
 

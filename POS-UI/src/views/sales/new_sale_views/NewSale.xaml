@@ -95,7 +95,7 @@
                 <StackPanel Height="110">
                     <Button Command="{Binding DeleteItemCommand}" Content="Delete" Height="30" Background="Red" FontSize="20"/>
                     <Button Command="{Binding VoidSaleCommand}" Content="Void" Height="40" Background="Red" FontSize="20"/>
-                    <Button Command="{Binding DoPaymentCommand}" Content="Payment" Height="40" Background="LightGreen" FontSize="20"/>
+                    <Button Command="{Binding ReciptPrintCommand}" Content="Payment" Height="40" Background="LightGreen" FontSize="20"/>
 
                 </StackPanel>
             </DockPanel>
