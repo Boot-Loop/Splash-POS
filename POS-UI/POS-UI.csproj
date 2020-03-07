@@ -52,6 +52,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -128,6 +129,7 @@
     <Compile Include="src\view_models\AddStockViewModel.cs" />
     <Compile Include="src\view_models\AddSupplierViewModel.cs" />
     <Compile Include="src\view_models\AddUserViewModel.cs" />
+    <Compile Include="src\view_models\commands\ReciptPrintCommand.cs" />
     <Compile Include="src\view_models\HomeViewModel.cs" />
     <Compile Include="src\view_models\LoginViewModel.cs" />
     <Compile Include="src\view_models\commands\RelayCommand.cs" />

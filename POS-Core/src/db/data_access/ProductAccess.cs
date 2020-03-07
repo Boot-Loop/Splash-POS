@@ -28,7 +28,7 @@ namespace Core.DB.Access
 			return excuteObject<MeasurementUnitModel>(command).ToList();
 		}
 		public List<ProductModel> getProducts() {
-			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product");
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product ORDER BY Code");
 			return excuteObject<ProductModel>(command).ToList();
 		}
 		public List<ProductModel> searchProducts(string search_string) {
@@ -39,15 +39,21 @@ namespace Core.DB.Access
 		public List<ProductModel> getProductsWithBarcodes() {
 			List<ProductModel> products = getProducts();
 			List<ProductModel> return_products = new List<ProductModel>();
-			foreach(ProductModel product in products) {
+			foreach (ProductModel product in products) {
 				SqlCommand command = new SqlCommand("SELECT * FROM dbo.Barcode WHERE Product_ID = @ID");
 				command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = product.ID.value;
 				List<BarcodeModel> barcodes = excuteObject<BarcodeModel>(command).ToList();
-				product.Barcode = barcodes.Count == 0 ? null : barcodes[0].Value;
+				product.Barcode.value = barcodes.Count == 0 ? null : barcodes[0].Value.value;
 				return_products.Add(product);
 			}
 			return return_products;
 		}
+
+		//public List<ProductModel> getProductsWithBarcodes() {
+		//	SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product AS pr FULL OUTER JOIN dbo.Barcode AS bc ON pr.ID = bc.Product_ID  ORDER BY pr.Code");
+		//	return excuteObject<ProductModel>(command).ToList();
+		//}
+
 		public ProductModel getProductUsingBarcode(string barcode) {
 			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product AS pr LEFT JOIN dbo.Barcode AS bc ON pr.ID = bc.Product_ID  WHERE Value = @Value");
 			command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = barcode;
@@ -56,7 +62,8 @@ namespace Core.DB.Access
 		}
 		public void addProduct(ProductModel model) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				string command_text = "INSERT INTO dbo.Product (Name, Code, Description, Price, IsService, DateCreated, DateUpdated) VALUES (@Name, @Code, @Description, @Price, @IsService, @DateCreated, @DateUpdated); INSERT INTO dbo.Barcode (Product_ID, Value) VALUES (SCOPE_IDENTITY(), @Value);";
+				string command_text = "INSERT INTO dbo.Product (Name, Code, Description, Price, IsService, DateCreated, DateUpdated) VALUES (@Name, @Code, @Description, @Price, @IsService, @DateCreated, @DateUpdated);";
+				if (!string.IsNullOrEmpty(model.Barcode.value)) { command_text += "INSERT INTO dbo.Barcode(Product_ID, Value) VALUES(SCOPE_IDENTITY(), @Value);"; }
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
 					command.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar, 100).Value = model.Name.value;
@@ -66,7 +73,7 @@ namespace Core.DB.Access
 					command.Parameters.Add("@IsService", System.Data.SqlDbType.Bit).Value = model.IsService.value;
 					command.Parameters.Add("@DateCreated", System.Data.SqlDbType.DateTime).Value = model.DateCreated.value;
 					command.Parameters.Add("@DateUpdated", System.Data.SqlDbType.DateTime).Value = model.DateUpdated.value;
-					command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = model.Barcode.value;
+					if (!string.IsNullOrEmpty(model.Barcode.value)) { command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = model.Barcode.value; }
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
@@ -93,10 +100,10 @@ namespace Core.DB.Access
 		}
 		public void updateProduct(ProductModel model, int id) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				string command_text = @"UPDATE dbo.Product SET Name = @Name, Code = @Code, Description = @Description, Price = @Price, IsService = @IsService, DateCreated = @DateCreated, DateUpdated = @DateUpdated WHERE ID = @ID;
-										UPDATE dbo.Barcode SET Value = @Value WHERE Product_ID = @ID
-										IF @@ROWCOUNT = 0
-										INSERT INTO dbo.Barcode (Product_ID, Value) VALUES (@ID, @Value);";
+				string command_text = "UPDATE dbo.Product SET Name = @Name, Code = @Code, Description = @Description, Price = @Price, IsService = @IsService, DateCreated = @DateCreated, DateUpdated = @DateUpdated WHERE ID = @ID;";
+				if (!string.IsNullOrEmpty(model.Barcode.value)) { command_text += @"UPDATE dbo.Barcode SET Value = @Value WHERE Product_ID = @ID
+																					IF @@ROWCOUNT = 0
+																					INSERT INTO dbo.Barcode(Product_ID, Value) VALUES(@ID, @Value);"; }
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
 					command.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar, 100).Value = model.Name.value;
@@ -106,7 +113,7 @@ namespace Core.DB.Access
 					command.Parameters.Add("@IsService", System.Data.SqlDbType.Bit).Value = model.IsService.value;
 					command.Parameters.Add("@DateCreated", System.Data.SqlDbType.DateTime).Value = model.DateCreated.value;
 					command.Parameters.Add("@DateUpdated", System.Data.SqlDbType.DateTime).Value = model.DateUpdated.value;
-					command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = model.Barcode.value;
+					if (!string.IsNullOrEmpty(model.Barcode.value)) { command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = model.Barcode.value; }
 					command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = id;
 
 					try {

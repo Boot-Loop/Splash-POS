@@ -1,7 +1,6 @@
 ﻿using Core.DB.Access;
 using Core.DB.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using UI.ViewModels.Commands;
@@ -66,8 +65,8 @@ namespace UI.ViewModels
                 this.ID = Convert.ToInt32(model.ID.value);
                 this.Name = model.Name.value;
                 this.Code = Convert.ToInt32(model.Code.value);
-                this.Barcode = model.Barcode.value;
                 this.Description = model.Description.value;
+                this.Barcode = model.Barcode.value;
                 this.Price = model.Price.value;
                 this.IsService = model.IsService.value;
                 this.DateCreated = model.DateCreated.value;
