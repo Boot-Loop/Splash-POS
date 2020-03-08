@@ -75,6 +75,7 @@ namespace UI.ViewModels
             }
             else {
                 this.UpdateOrCreate = "Create";
+                this.Code = ProductAccess.singleton.getLastProductCode() + 1;
                 this.CreateOrUpdateCommand = new RelayCommand(addProduct);
             }
         }

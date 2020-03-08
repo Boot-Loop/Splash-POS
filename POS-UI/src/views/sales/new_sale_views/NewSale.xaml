@@ -4,112 +4,171 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+             xmlns:ac="clr-namespace:WpfAutoComplete.Controls;assembly=WpfAutoComplete"
              xmlns:local="clr-namespace:UI.Views"
              mc:Ignorable="d" Background="White"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="360"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Name="main_stack_panel">
-            <StackPanel Height="30" Orientation="Horizontal">
-                <Button Height="30" Width="30"/>
-                <Button Height="30" Width="30"/>
-                <Button Height="30" Width="30"/>
-                <TextBox Text="{Binding Barcode, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="30" FontSize="16">
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding BarcodeAddCommand}" CommandParameter="{Binding Barcode}"/>
-                    </TextBox.InputBindings>
-                </TextBox>
-            </StackPanel>
-            <Grid Height="40">
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" x:Name="column_1"/>
-                    <ColumnDefinition Width="*" x:Name="column_2"/>
-                    <ColumnDefinition Width="*" x:Name="column_3"/>
-                    <ColumnDefinition Width="*" x:Name="column_4"/>
-                    <ColumnDefinition Width="*" x:Name="column_5"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="6"/>
+                <Button Grid.Column="0" Command="{Binding SearchSelectionCommand}" CommandParameter="Barcode" Content="B" ToolTip="Search product by Barcode" Margin="2 2 1 2"/>
+                <Button Grid.Column="1" Command="{Binding SearchSelectionCommand}" CommandParameter="Code" Content="C" ToolTip="Search product by Code" Margin="1 2 1 2"/>
+                <Button Grid.Column="2" Command="{Binding SearchSelectionCommand}" CommandParameter="Name" Content="N" ToolTip="Search product by Name" Margin="1 2 1 2"/>
+                <ac:TextBoxAutoComplete Grid.Column="3" Margin="1 2 2 2" Name="autoTxtBoxEng"
+                SearchDataProvider="{Binding Path=MySearchProviderEng}"                 
 
-                <GridSplitter Width="1" Background="Black" Grid.Column="0"/>
-                <GridSplitter Width="1" Background="Black" Grid.Column="1"/>
-                <GridSplitter Width="1" Background="Black" Grid.Column="2"/>
-                <GridSplitter Width="1" Background="Black" Grid.Column="3"/>
-
-
-                <TextBlock Text="   Item" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <TextBlock Text="   Price" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <TextBlock Text="   Qty" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <TextBlock Text="   Discount" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <TextBlock Text="   Sub Total" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
+                    WatermarkText="Ingrese texto busqueda en Inglés" MovesFocus="False"/>
+                <!--<TextBox Grid.Column="3" Text="{Binding BarcodeOrCode, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Margin="1 2 2 2">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding BarcodeAddCommand}" CommandParameter="{Binding BarcodeOrCode}"/>
+                    </TextBox.InputBindings>
+                </TextBox>-->
             </Grid>
+            <StackPanel Grid.Row="1" Name="main_stack_panel">
+                <Grid Height="40">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" x:Name="column_1"/>
+                        <ColumnDefinition Width="*" x:Name="column_2"/>
+                        <ColumnDefinition Width="*" x:Name="column_3"/>
+                        <ColumnDefinition Width="*" x:Name="column_4"/>
+                        <ColumnDefinition Width="*" x:Name="column_5"/>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="6"/>
 
-            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SaleProducts}" SelectedItem="{Binding SelectedItem}">
+                    <GridSplitter Width="1" Background="Black" Grid.Column="0"/>
+                    <GridSplitter Width="1" Background="Black" Grid.Column="1"/>
+                    <GridSplitter Width="1" Background="Black" Grid.Column="2"/>
+                    <GridSplitter Width="1" Background="Black" Grid.Column="3"/>
 
-                <ListView.ItemTemplate>
 
-                    <DataTemplate>
-                        <Grid Height="30" Margin="0 2"
+                    <TextBlock Text="   Item" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="   Price" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="   Qty" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="   Discount" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Text="   Sub Total" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                </Grid>
+
+                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SaleProducts}" SelectedItem="{Binding SelectedItem}">
+
+                    <ListView.ItemTemplate>
+
+                        <DataTemplate>
+                            <Grid Height="30" Margin="0 2"
                         Width="{Binding Path=ActualWidth, ElementName=main_stack_panel}">
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{Binding Width, ElementName=column_1}"/>
-                                <ColumnDefinition Width="{Binding Width, ElementName=column_2}"/>
-                                <ColumnDefinition Width="{Binding Width, ElementName=column_3}"/>
-                                <ColumnDefinition Width="{Binding Width, ElementName=column_4}"/>
-                                <ColumnDefinition Width="{Binding Width, ElementName=column_5}"/>
-                            </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_1}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_2}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_3}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_4}"/>
+                                    <ColumnDefinition Width="{Binding Width, ElementName=column_5}"/>
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="{Binding ProductName}"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <TextBlock Text="{Binding Price}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <TextBlock Text="{Binding Qunatity}"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <TextBlock Text="{Binding Discount}"   Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <TextBlock Text="{Binding SubTotal}" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
+                                <TextBlock Text="{Binding ProductName}"    Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Price}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Qunatity}"      Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Discount}"   Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding SubTotal}" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Grid>
 
         <GridSplitter Grid.Column="0" Width="2"/>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="110"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="160"/>
+                <RowDefinition Height="120"/>
             </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="0 30 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Command="{Binding DeleteItemCommand}" Content="Delete" Margin="4 4 2 2"/>
+                <Button Grid.Column="1" Margin="2 4 2 2" Content="Quantity" FontSize="16"/>
+                <Button Grid.Column="2" Margin="2 4 4 2" Content="Search" FontSize="16"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Margin="4 2 2 4" Content="Discount" FontSize="16"/>
+                <Button Grid.Column="1" Margin="2 2 2 4" Content="Lock" FontSize="16"/>
+                <Button Grid.Column="2" Command="{Binding VoidSaleCommand}" Margin="2 2 4 4" Content="Void" FontSize="16"/>
+            </Grid>
+            <Grid Grid.Row="3" Margin="8 0 8 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="Sub Total:" FontSize="22"/>
+                    <TextBlock VerticalAlignment="Center" Grid.Column="2" Text="{Binding SubTotal}" FontSize="22"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="Discount:" FontSize="18"/>
+                    <TextBlock VerticalAlignment="Center" Grid.Column="2" DockPanel.Dock="Right" Text="{Binding Discount}" FontSize="18"/>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <TextBlock VerticalAlignment="Center" Text="-------------------------------------------------------------------------------------------------------"/>
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Text="Total:" FontSize="26" FontWeight="SemiBold"/>
+                    <TextBlock VerticalAlignment="Center" Grid.Column="2" Text="{Binding Total}" FontSize="26" FontWeight="SemiBold"/>
+                </Grid>
+            </Grid>
 
-            <StackPanel Grid.Row="0" Margin="40 40 0 0">
-                <TextBlock Text="Sub Total:" Margin="0 10 0 0" FontSize="16"/>
-                <TextBlock Text="{Binding SubTotal}" Margin="20 0 0 0" FontSize="24"/>
-                <TextBlock Text="Discount:" Margin="0 10 0 0" FontSize="16"/>
-                <TextBlock Text="{Binding Discount}" Margin="20 0 0 0" FontSize="24"/>
-                <TextBlock Text="Sub Total:" Margin="0 10 0 0" FontSize="16"/>
-                <TextBlock Text="{Binding Total}" Margin="20 0 0 0" FontSize="24"/>
-            </StackPanel>
-
-            <DockPanel Grid.Row="1" Margin="20" MaxWidth="300">
-                <StackPanel Height="110">
-                    <Button Command="{Binding DeleteItemCommand}" Content="Delete" Height="30" Background="Red" FontSize="20"/>
-                    <Button Command="{Binding VoidSaleCommand}" Content="Void" Height="40" Background="Red" FontSize="20"/>
-                    <Button Command="{Binding ReciptPrintCommand}" Content="Payment" Height="40" Background="LightGreen" FontSize="20"/>
-
-                </StackPanel>
-            </DockPanel>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Margin="4 4 2 4" Content="Return" FontSize="20"/>
+                <Button Grid.Column="1" Margin="2 4 4 4" Command="{Binding ReciptPrintCommand}" Content="Payment" Background="LightGreen" FontSize="20"/>
+            </Grid>
 
         </Grid>
-        <StackPanel>
-            <ListView ItemsSource="{Binding SearchProducts}" Margin="90 30 0 0" Width="300" HorizontalAlignment="Left">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
-
     </Grid>
 </UserControl>

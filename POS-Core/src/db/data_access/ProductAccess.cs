@@ -60,6 +60,28 @@ namespace Core.DB.Access
 			List<ProductModel> models = excuteObject<ProductModel>(command).ToList();
 			return models.Count == 0 ? null : models[0];
 		}
+		public ProductModel getProductUsingCode(int code) {
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product WHERE Code = @Code");
+			command.Parameters.Add("@Code", System.Data.SqlDbType.Int).Value = code;
+			List<ProductModel> models = excuteObject<ProductModel>(command).ToList();
+			return models.Count == 0 ? null : models[0];
+		}
+		public int getLastProductCode() {
+			int Code;
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
+				string command_text = "SELECT TOP 1 Code FROM dbo.Product ORDER BY Code DESC";
+				using (SqlCommand command = new SqlCommand(command_text)) {
+					command.Connection = connection;
+					try {
+						connection.Open();
+						Code = Convert.ToInt32(command.ExecuteScalar());
+						return Code;
+					}
+					catch (Exception ex) { throw new Exception(ex.Message); }
+					finally { connection.Close(); }
+				}
+			}
+		}
 		public void addProduct(ProductModel model) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
 				string command_text = "INSERT INTO dbo.Product (Name, Code, Description, Price, IsService, DateCreated, DateUpdated) VALUES (@Name, @Code, @Description, @Price, @IsService, @DateCreated, @DateUpdated);";

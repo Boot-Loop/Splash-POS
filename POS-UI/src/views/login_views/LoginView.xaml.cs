@@ -29,7 +29,7 @@ namespace UI.Views
         {
             InitializeComponent();
             this.MainView = main_view;
-            this._login_view_model = new LoginViewModel(main_view);
+            this._login_view_model = new LoginViewModel(main_view, this);
             this.DataContext = _login_view_model;
             Console.WriteLine("Loaded");
             password_txt_box.Focus();
