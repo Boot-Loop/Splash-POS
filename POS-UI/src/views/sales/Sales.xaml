@@ -7,14 +7,24 @@
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ContentControl x:Name="sales_content_control" Margin="0 30 0 0"/>
-        <ComboBox IsEditable="False" ItemsSource="{Binding NewSales}" SelectedItem="{Binding SelectedSale}" Width="200" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding NameOfSale}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Button Command="{Binding AddNewSaleCommand}" Width="100" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <ComboBox IsEditable="False" ItemsSource="{Binding SaleDescriptions}" SelectedIndex="{Binding SelectedIndex}" Width="200" Margin="8 4 8 4">
+                    <!--<ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NameOfSale}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>-->
+                </ComboBox>
+                <Button Command="{Binding AddNewSaleCommand}" Width="32" Margin="8 4 8 4"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <ContentControl x:Name="sales_content_control"/>
+        </Grid>
     </Grid>
 </UserControl>

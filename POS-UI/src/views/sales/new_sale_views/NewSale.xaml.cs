@@ -24,6 +24,10 @@ namespace UI.Views
     public partial class NewSale : UserControl
     {
         private NewSaleViewModel _new_sale_view_model;
+        public NewSaleViewModel NewSaleViewModel {
+            get { return _new_sale_view_model; }
+            set { _new_sale_view_model = value; }
+        }
         private string _name;
 
         public string NameOfSale {
@@ -33,26 +37,26 @@ namespace UI.Views
 
         public NewSale(SalesViewModel sales_view_model, HomeViewModel home_view_model) {
             InitializeComponent();
-            this._new_sale_view_model = new NewSaleViewModel(this, sales_view_model, home_view_model);
+            this.NewSaleViewModel = new NewSaleViewModel(this, sales_view_model, home_view_model);
             this.DataContext = _new_sale_view_model;
             this.search_by_name_txt_box.Action = enterPressedOnBarcodeSearch;
-            this.NameOfSale = Convert.ToString(_new_sale_view_model.SaleID);
+            this.NameOfSale = Convert.ToString(NewSaleViewModel.SaleID);
             this.search_by_barcode_txt_box.Focus();
             
         }
 
         private void enterPressedOnBarcodeSearch() {
             ProductModel model;
-            try { model = ProductAccess.singleton.getProductUsingCode(_new_sale_view_model.PhraseNumber); }
+            try { model = ProductAccess.singleton.getProductUsingCode(NewSaleViewModel.PhraseNumber); }
             catch (Exception) { model = null; }
             if (model != null) {
-                _new_sale_view_model.addProductToList(model);
+                NewSaleViewModel.addProductToList(model);
             }
             else {
                 MessageBox.Show("Error adding this product. Please try again.", "Cannot add product", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            _new_sale_view_model.SubTotal = _new_sale_view_model.calculateTotal()[0].ToString("0.00");
-            _new_sale_view_model.Total = _new_sale_view_model.calculateTotal()[2].ToString("0.00");
+            NewSaleViewModel.SubTotal = NewSaleViewModel.calculateTotal()[0].ToString("0.00");
+            NewSaleViewModel.Total = NewSaleViewModel.calculateTotal()[2].ToString("0.00");
         }
     }
 }
