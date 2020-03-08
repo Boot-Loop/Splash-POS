@@ -8,6 +8,9 @@
              xmlns:local="clr-namespace:UI.Views"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="bool_to_vis_converter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -28,15 +31,14 @@
                 <Button Grid.Column="0" Command="{Binding SearchSelectionCommand}" CommandParameter="Barcode" Content="B" ToolTip="Search product by Barcode" Margin="2 2 1 2"/>
                 <Button Grid.Column="1" Command="{Binding SearchSelectionCommand}" CommandParameter="Code" Content="C" ToolTip="Search product by Code" Margin="1 2 1 2"/>
                 <Button Grid.Column="2" Command="{Binding SearchSelectionCommand}" CommandParameter="Name" Content="N" ToolTip="Search product by Name" Margin="1 2 1 2"/>
-                <ac:TextBoxAutoComplete Grid.Column="3" Margin="1 2 2 2" Name="autoTxtBoxEng"
-                SearchDataProvider="{Binding Path=MySearchProviderEng}"                 
-
-                    WatermarkText="Ingrese texto busqueda en Inglés" MovesFocus="False"/>
-                <!--<TextBox Grid.Column="3" Text="{Binding BarcodeOrCode, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Margin="1 2 2 2">
+                <ac:TextBoxAutoComplete Grid.Column="3" Margin="1 2 2 2" Name="search_by_name_txt_box" Visibility="{Binding Path=IsSearchByNameVisible, Converter={StaticResource bool_to_vis_converter}}" FontSize="16"
+                SearchDataProvider="{Binding Path=SearchDataProvider}" MovesFocus="False"
+            SelectedListBoxValue="{Binding Path=PhraseNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <TextBox x:Name="search_by_barcode_txt_box" Grid.Column="3" Text="{Binding BarcodeOrCode, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Margin="1 2 2 2" Visibility="{Binding Path=IsSearchByBarcodeVisible, Converter={StaticResource bool_to_vis_converter}}" VerticalAlignment="Stretch" VerticalContentAlignment="Center">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding BarcodeAddCommand}" CommandParameter="{Binding BarcodeOrCode}"/>
                     </TextBox.InputBindings>
-                </TextBox>-->
+                </TextBox>
             </Grid>
             <StackPanel Grid.Row="1" Name="main_stack_panel">
                 <Grid Height="40">

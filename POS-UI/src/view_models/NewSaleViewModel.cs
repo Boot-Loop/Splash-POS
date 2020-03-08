@@ -25,6 +25,8 @@ namespace UI.ViewModels
         private bool _search_by_barcode;
         private bool _search_by_code;
         private bool _search_by_name;
+        private bool _is_search_by_name_visible;
+        private bool _is_search_by_barcode_visible;
         private ObservableCollection<SaleProductModel> _sale_products;
         private ObservableCollection<ProductModel> _search_products;
         public RelayCommand BarcodeAddCommand { get; private set; }
@@ -72,6 +74,14 @@ namespace UI.ViewModels
             get { return _search_by_name; }
             set { _search_by_name = value; onPropertyRaised("SearchByName"); }
         }
+        public bool IsSearchByNameVisible {
+            get { return _is_search_by_name_visible; }
+            set { _is_search_by_name_visible = value; onPropertyRaised("IsSearchByNameVisible"); }
+        }
+        public bool IsSearchByBarcodeVisible {
+            get { return _is_search_by_barcode_visible; }
+            set { _is_search_by_barcode_visible = value; onPropertyRaised("IsSearchByBarcodeVisible"); }
+        }
         public ObservableCollection<SaleProductModel> SaleProducts {
             get { return _sale_products; }
             set { _sale_products = value; onPropertyRaised("SaleProducts"); }
@@ -100,6 +110,8 @@ namespace UI.ViewModels
             this.SearchByBarcode = true;
             this.SearchByCode = false;
             this.SearchByName = false;
+            this.IsSearchByBarcodeVisible = true;
+            this.IsSearchByNameVisible = false;
         }
 
         private void enterPressedOnBarcodeSearch(object parameter) {
@@ -126,7 +138,7 @@ namespace UI.ViewModels
             this.Total = calculateTotal()[2].ToString("0.00");
             this.BarcodeOrCode = null;
         }
-        private void addProductToList(ProductModel model) {
+        public void addProductToList(ProductModel model) {
             bool found = false;
             ObservableCollection<SaleProductModel> temp_list = new ObservableCollection<SaleProductModel>();
             foreach (SaleProductModel sp_model in SaleProducts) {
@@ -157,7 +169,7 @@ namespace UI.ViewModels
             this.SalesViewModel.removeSale(NewSale);
         }
 
-        private List<double> calculateTotal() {
+        public List<double> calculateTotal() {
             double sub_total = 0;
             double discount = 0;
             foreach (SaleProductModel sale_product in SaleProducts) {
@@ -199,14 +211,23 @@ namespace UI.ViewModels
                 this.SearchByBarcode = true;
                 this.SearchByCode = false;
                 this.SearchByName = false;
+                this.IsSearchByBarcodeVisible = true;
+                this.IsSearchByNameVisible = false;
+                NewSale.search_by_barcode_txt_box.Focus();
             } else if (para == "Code") {
                 this.SearchByBarcode = false;
                 this.SearchByCode = true;
                 this.SearchByName = false;
+                this.IsSearchByBarcodeVisible = true;
+                this.IsSearchByNameVisible = false;
+                NewSale.search_by_barcode_txt_box.Focus();
             } else {
                 this.SearchByBarcode = false;
                 this.SearchByCode = false;
                 this.SearchByName = true;
+                this.IsSearchByBarcodeVisible = false;
+                this.IsSearchByNameVisible = true;
+                NewSale.search_by_name_txt_box.Focus();
             }
         }
         //private void searchUsingName(object parameter) {
@@ -335,7 +356,7 @@ namespace UI.ViewModels
 
 
 
-        private Int32 _phraseNumber = 1;
+        private Int32 _phraseNumber = 0;
 
         public Int32 PhraseNumber
         {
@@ -350,12 +371,12 @@ namespace UI.ViewModels
             }
         }
 
-        public MyDataProviderEng MySearchProviderEng { get { return new MyDataProviderEng(); } }
+        public SearchDataProvider SearchDataProvider { get { return new SearchDataProvider(); } }
 
     }
 
 
-    public class MyDataProviderEng : WpfAutoComplete.ISearchDataProvider
+    public class SearchDataProvider : WpfAutoComplete.ISearchDataProvider
     {
         public WpfAutoComplete.SearchResult DoSearch(string searchTerm)
         {
@@ -366,6 +387,14 @@ namespace UI.ViewModels
             };
         }
 
+        public SearchDataProvider() {
+            List<ProductModel> products = ProductAccess.singleton.getProducts();
+            foreach(ProductModel product in products)
+            {
+                dict.Add(Convert.ToInt32(product.Code.value), product.Name.value);
+            }
+        } 
+
         public WpfAutoComplete.SearchResult SearchByKey(object Key)
         {
             return new WpfAutoComplete.SearchResult
@@ -375,20 +404,8 @@ namespace UI.ViewModels
             };
         }
 
-        private readonly Dictionary<object, string> dict = new Dictionary<object, string> {
-            { 1, "The badger knows somethingsdf"},
-            { 2, "Your head looks something like a pineapple"},
-            { 3, "Crazy like a box of green frogs"},
-            { 4, "The billiard table has green clothsdf"},
-            { 5, "The sky is blue"},
-            { 6, "We're going to need some golf shoes"},
-            { 7, "This is going straight to the pool room"},
-            { 8, "We're going to  Bonnie Doon"},
-            { 9, "Spring forward - Fall back"},
-            { 10, "Gerry had a plan which involved telling all"},
-            { 11, "When is the summer coming"},
-            { 12, "Take you time and tell me what you saw"},
-            { 13, "All hands on deck"}
+        private Dictionary<object, string> dict = new Dictionary<object, string> {
+            { 0, ""},
         };
     }
 }
