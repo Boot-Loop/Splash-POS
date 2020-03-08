@@ -87,7 +87,7 @@ namespace Core.DB
         }
         override public FieldType getType() => FieldType.TEXT;
         override public object getDefault() => default_value;
-        override public string ToString() => this.value.ToString();
+        override public string ToString() => !(this.value == null) ? this.value.ToString() : "";
         override public object getValue() => this.value;
         override public void setValue(object value) { this.value = (string)value; }
         virtual public void _validate(string value) { }
