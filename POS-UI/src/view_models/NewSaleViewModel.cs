@@ -17,11 +17,13 @@ namespace UI.ViewModels
 {
     public class NewSaleViewModel : INotifyPropertyChanged
     {
-        private string _barcode;
+        private string _barcode_or_code;
         private string _subtotal;
         private string _discount;
         private string _total;
         private int _sale_id;
+        private bool _search_by_barcode;
+        private bool _search_by_code;
         private bool _search_by_name;
         private ObservableCollection<SaleProductModel> _sale_products;
         private ObservableCollection<ProductModel> _search_products;
@@ -30,6 +32,7 @@ namespace UI.ViewModels
         public RelayCommand VoidSaleCommand { get; private set; }
         public RelayCommand DoPaymentCommand { get; private set; }
         public RelayCommand ReciptPrintCommand { get; private set; }
+        public RelayCommand SearchSelectionCommand { get; private set; }
         public SaleProductModel SelectedItem { get; set; }
         public SalesViewModel SalesViewModel { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
@@ -37,9 +40,9 @@ namespace UI.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Barcode {
-            get { return _barcode; }
-            set { _barcode = value; onPropertyRaised("Barcode"); searchByName(Barcode); }
+        public string BarcodeOrCode {
+            get { return _barcode_or_code; }
+            set { _barcode_or_code = value; onPropertyRaised("BarcodeOrCode"); }
         }
         public string SubTotal {
             get { return _subtotal; }
@@ -56,6 +59,14 @@ namespace UI.ViewModels
         public int SaleID {
             get { return _sale_id; }
             set { _sale_id = value; onPropertyRaised("SaleID"); }
+        }
+        public bool SearchByBarcode {
+            get { return _search_by_barcode; }
+            set { _search_by_barcode = value; onPropertyRaised("SearchByBarcode"); }
+        }
+        public bool SearchByCode {
+            get { return _search_by_code; }
+            set { _search_by_code = value; onPropertyRaised("SearchByCode"); }
         }
         public bool SearchByName {
             get { return _search_by_name; }
@@ -78,6 +89,7 @@ namespace UI.ViewModels
             this.DeleteItemCommand = new RelayCommand(deleteItem, isSelectedItemNotNull);
             this.VoidSaleCommand = new RelayCommand(voidButtonPressed);
             this.DoPaymentCommand = new RelayCommand(doPayment);
+            this.SearchSelectionCommand = new RelayCommand(selectSearchType);
             this.SaleProducts = new ObservableCollection<SaleProductModel>();
             this.SearchProducts = new ObservableCollection<ProductModel>();
             this.ReciptPrintCommand = new RelayCommand(print);
@@ -85,18 +97,34 @@ namespace UI.ViewModels
             this.Discount = "0.00";
             this.Total = "0.00";
             this.SaleID = 123;
+            this.SearchByBarcode = true;
+            this.SearchByCode = false;
+            this.SearchByName = false;
         }
 
         private void enterPressedOnBarcodeSearch(object parameter) {
-            ProductModel model = ProductAccess.singleton.getProductUsingBarcode(Barcode);
-            if (model != null) {
-                addProductToList(model);
-            } else {
-                MessageBox.Show("No product found please check the Barcode!", "No product found", MessageBoxButton.OK, MessageBoxImage.Warning);
+            ProductModel model;
+            if (SearchByBarcode) {
+                model = ProductAccess.singleton.getProductUsingBarcode(BarcodeOrCode);
+                if (model != null) {
+                    addProductToList(model);
+                }
+                else {
+                    MessageBox.Show("No product found please check the Barcode!", "No product found", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            } else if (SearchByCode) {
+                try { model = ProductAccess.singleton.getProductUsingCode(Convert.ToInt32(BarcodeOrCode)); }
+                catch (Exception) { model = null; }
+                if (model != null) {
+                    addProductToList(model);
+                }
+                else {
+                    MessageBox.Show("No product found please check the Code!", "No product found", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
             this.SubTotal = calculateTotal()[0].ToString("0.00");
             this.Total = calculateTotal()[2].ToString("0.00");
-            this.Barcode = null;
+            this.BarcodeOrCode = null;
         }
         private void addProductToList(ProductModel model) {
             bool found = false;
@@ -108,7 +136,7 @@ namespace UI.ViewModels
                 if (sp_modle.ProductID.value == model.ID.value) {
                     SaleProductModel temp_model = sp_modle;
                     SaleProducts.Remove(sp_modle);
-                    temp_model.Qunatity.value += 3;
+                    temp_model.Qunatity.value += 1;
                     temp_model.SubTotal.value = temp_model.Price.value * temp_model.Qunatity.value;
                     SaleProducts.Add(temp_model);
                     found = true;
@@ -119,9 +147,9 @@ namespace UI.ViewModels
                 SaleProductModel sale_product_model = new SaleProductModel();
                 sale_product_model.ProductName.value = model.Name.value;
                 sale_product_model.ProductID.value = model.ID.value;
-                sale_product_model.Qunatity.value = 3;
+                sale_product_model.Qunatity.value = 1;
                 sale_product_model.Price.value = model.Price.value;
-                sale_product_model.SubTotal.value = model.Price.value * 3;
+                sale_product_model.SubTotal.value = model.Price.value * sale_product_model.Qunatity.value;
                 SaleProducts.Add(sale_product_model);
             }
         }
@@ -165,11 +193,27 @@ namespace UI.ViewModels
                 }
             }
         }
-        private void searchByName(object parameter) {
-            if (string.IsNullOrEmpty(Barcode)) { SearchProducts = new ObservableCollection<ProductModel>(); }
-            else { SearchProducts = new ObservableCollection<ProductModel>(ProductAccess.singleton.searchProducts(Barcode)); }
-            Console.WriteLine(SearchProducts.Count);
+        private void selectSearchType(object parameter) {
+            string para = parameter as string;
+            if (para == "Barcode") {
+                this.SearchByBarcode = true;
+                this.SearchByCode = false;
+                this.SearchByName = false;
+            } else if (para == "Code") {
+                this.SearchByBarcode = false;
+                this.SearchByCode = true;
+                this.SearchByName = false;
+            } else {
+                this.SearchByBarcode = false;
+                this.SearchByCode = false;
+                this.SearchByName = true;
+            }
         }
+        //private void searchUsingName(object parameter) {
+        //    if (string.IsNullOrEmpty(Barcode)) { SearchProducts = new ObservableCollection<ProductModel>(); }
+        //    else { SearchProducts = new ObservableCollection<ProductModel>(ProductAccess.singleton.searchProducts(Barcode)); }
+        //    Console.WriteLine(SearchProducts.Count);
+        //}
         private bool isSelectedItemNotNull(object parameter) {
             return SelectedItem == null ? false : true;
         }
@@ -186,12 +230,12 @@ namespace UI.ViewModels
             //PrintDocument document = new PrintDocument();
             //PaperSize paperSize = new PaperSize("Custom", 520, 820);
             //document.DefaultPageSettings.PaperSize = paperSize;
-            //document.PrintPage += new PrintPageEventHandler(ProvideContent);
+            //document.PrintPage += new PrintPageEventHandler(provideContent);
             //document.PrinterSettings.PrinterName = "";
             //document.Print();
         }
 
-        private void ProvideContent(object sender, PrintPageEventArgs e) {
+        private void provideContent(object sender, PrintPageEventArgs e) {
             const float WIDTH = 260;
             const float START_Y = 20;
             const float START_X = 4;
@@ -289,5 +333,62 @@ namespace UI.ViewModels
             return measurements;
         }
 
+
+
+        private Int32 _phraseNumber = 1;
+
+        public Int32 PhraseNumber
+        {
+            get { return this._phraseNumber; }
+            set
+            {
+                if (this._phraseNumber != value)
+                {
+                    this._phraseNumber = value;
+                    onPropertyRaised("PhraseNumber");
+                }
+            }
+        }
+
+        public MyDataProviderEng MySearchProviderEng { get { return new MyDataProviderEng(); } }
+
+    }
+
+
+    public class MyDataProviderEng : WpfAutoComplete.ISearchDataProvider
+    {
+        public WpfAutoComplete.SearchResult DoSearch(string searchTerm)
+        {
+            return new WpfAutoComplete.SearchResult
+            {
+                SearchTerm = searchTerm,
+                Results = dict.Where(item => item.Value.ToUpperInvariant().Contains(searchTerm.ToUpperInvariant())).ToDictionary(v => v.Key, v => v.Value)
+            };
+        }
+
+        public WpfAutoComplete.SearchResult SearchByKey(object Key)
+        {
+            return new WpfAutoComplete.SearchResult
+            {
+                SearchTerm = null,
+                Results = dict.Where(item => item.Key.ToString() == Key.ToString()).ToDictionary(v => v.Key, v => v.Value)
+            };
+        }
+
+        private readonly Dictionary<object, string> dict = new Dictionary<object, string> {
+            { 1, "The badger knows somethingsdf"},
+            { 2, "Your head looks something like a pineapple"},
+            { 3, "Crazy like a box of green frogs"},
+            { 4, "The billiard table has green clothsdf"},
+            { 5, "The sky is blue"},
+            { 6, "We're going to need some golf shoes"},
+            { 7, "This is going straight to the pool room"},
+            { 8, "We're going to  Bonnie Doon"},
+            { 9, "Spring forward - Fall back"},
+            { 10, "Gerry had a plan which involved telling all"},
+            { 11, "When is the summer coming"},
+            { 12, "Take you time and tell me what you saw"},
+            { 13, "All hands on deck"}
+        };
     }
 }

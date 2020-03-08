@@ -13,6 +13,7 @@
                 <Button Command="{Binding AddCommand}"        Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon}">
                     <Button.Content>
                         <StackPanel>
+                            
                             <Image Source="/res/icons/plus.png" Width="20" Height="20" Margin="0 2 0 0"/>
                             <Label Content="Add"/>
                         </StackPanel>

@@ -17,13 +17,16 @@ namespace UI.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         public StaffModel LoggedInUser { get; private set; }
         public MainView MainView { get; set; }
+        public LoginView LoginView { get; set; }
         public string Password {
             get { return _password; }
             set { _password = value; onPropertyRaised("Password"); }
         }
         
-        public LoginViewModel(MainView main_view) {
+        public LoginViewModel(MainView main_view, LoginView login_view) {
             this.MainView = main_view;
+            this.LoginView = login_view;
+            this.Password = "";
             this.LoginCommand = new RelayCommand(login);
         }
 
@@ -41,6 +44,7 @@ namespace UI.ViewModels
             catch (Exception) {
                 MessageBox.Show("Something went wrong, Please try again!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            LoginView.password_txt_box.Focus();
         }
 
         private void onPropertyRaised(string property_name) {

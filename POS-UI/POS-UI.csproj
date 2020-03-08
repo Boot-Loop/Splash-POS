@@ -67,6 +67,9 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WpfAutoComplete">
+      <HintPath>..\..\..\..\Downloads\WpfAutoComplete1\WpfAutoComplete1\bin\Debug\WpfAutoComplete.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -302,6 +305,9 @@
     <Resource Include="res\icons\pdf.png" />
     <Resource Include="res\icons\plus.png" />
     <Resource Include="res\icons\print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="res\icons\add.svg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
