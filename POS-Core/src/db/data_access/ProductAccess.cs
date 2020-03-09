@@ -66,6 +66,12 @@ namespace Core.DB.Access
 			List<ProductModel> models = excuteObject<ProductModel>(command).ToList();
 			return models.Count == 0 ? null : models[0];
 		}
+		public ProductModel getProductUsingProductID(int id) {
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product WHERE ID = @ID");
+			command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = id;
+			List<ProductModel> models = excuteObject<ProductModel>(command).ToList();
+			return models.Count == 0 ? null : models[0];
+		}
 		public int getLastProductCode() {
 			int Code;
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
