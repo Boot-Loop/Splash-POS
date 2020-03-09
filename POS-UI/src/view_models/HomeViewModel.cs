@@ -55,8 +55,16 @@ namespace UI.ViewModels
         }
 
         private void logout(object parameter) {
-            DialogResult result = MessageBox.Show("Are you sure you want to logout.The sales which are not completed will not be saved.", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (result == DialogResult.Yes) { MainView.Content = new LoginView(MainView); }
+            bool found = false;
+            for (int i = 0; i < this.Sales.SalesViewModel.NewSales.Count; i++) {
+                if (this.Sales.SalesViewModel.NewSales[i].NewSaleViewModel.SaleProducts.Count != 0) { found = true; this.Sales.SalesViewModel.SelectedIndex = i; break; }
+            }
+            if (found) {
+                DialogResult result = MessageBox.Show("Are you sure you want to logout.The sales which are not completed will not be saved.", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes) { MainView.Content = new LoginView(MainView); }
+            } else {
+                MainView.Content = new LoginView(MainView);
+            }
         }
         private void openSettings(object parameter) {
             HomeView.home_content_control.Content = new Management(HomeView, this);
