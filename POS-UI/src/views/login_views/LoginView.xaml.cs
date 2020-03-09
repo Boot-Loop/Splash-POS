@@ -31,20 +31,17 @@ namespace UI.Views
             this.MainView = main_view;
             this._login_view_model = new LoginViewModel(main_view, this);
             this.DataContext = _login_view_model;
-            Console.WriteLine("Loaded");
             password_txt_box.Focus();
         }
 
-        private void eyeButtonClick(object sender, RoutedEventArgs e)
-        {
-            var fontstyle1 = FindResource("PASSWORD_FONT") as FontFamily;
-            var fontstyle2 = FindResource("FONT_ROBOTO_REGULAR") as FontFamily;
+        private void eyeButtonMouseDown(object sender, MouseButtonEventArgs e) {
+            FontFamily regular_font = FindResource("FONT_ROBOTO_REGULAR") as FontFamily;
+            password_txt_box.FontFamily = regular_font; password_txt_box.FontSize = 16;
+        }
 
-            if (password_txt_box.FontFamily == fontstyle1)
-            { password_txt_box.FontFamily = fontstyle2; password_txt_box.FontSize = 16; }
-
-            else { password_txt_box.FontFamily = fontstyle1; password_txt_box.FontSize = 18; }
-
+        private void eyeButtonMouseUp(object sender, MouseButtonEventArgs e) {
+            FontFamily password_font = FindResource("PASSWORD_FONT") as FontFamily;
+            password_txt_box.FontFamily = password_font; password_txt_box.FontSize = 18;
             password_txt_box.Focus();
         }
     }

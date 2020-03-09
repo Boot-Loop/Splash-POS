@@ -328,7 +328,7 @@
     <Resource Include="res\icons\print.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="res\icons\add.svg" />
+    <Resource Include="res\icons\eye_primary.png" />
     <Content Include="vender\System.Reactive.Core.dll" />
     <Content Include="vender\System.Reactive.Interfaces.dll" />
     <Content Include="vender\System.Reactive.Linq.dll" />

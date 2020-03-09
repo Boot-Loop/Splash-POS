@@ -6,26 +6,118 @@
              xmlns:local="clr-namespace:UI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
-    <Grid Height="280" Width="300">
-        <StackPanel>
-            <Image Source="/res/images/pos.png" Width="80" Height="80"/>
-            <Label Content="Login to your POS" HorizontalAlignment="Center" FontWeight="SemiBold" Margin="10" FontSize="22"/>
-            
-                
-                <Grid Height="40" Width="300" Margin="0 20 0 0">
-                    <TextBox x:Name="password_txt_box" MaxLength="32" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Width="300" Height="40" Padding="10 10 40 10" FontSize="18" FontFamily="{StaticResource PASSWORD_FONT}" BorderThickness="1" BorderBrush="Black">
-                        <TextBox.InputBindings>
-                            <KeyBinding Key="Enter" Command="{Binding LoginCommand}" CommandParameter="{Binding Password}"/>
-                        </TextBox.InputBindings>
-                    </TextBox>
-                <Button Height="20" Width="20" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="10" Style="{DynamicResource ButtonFlat}" Click="eyeButtonClick" Focusable="False">
-                    <Button.Content>
-                        <Image Source="/res/icons/eye.png"/>
-                    </Button.Content>
-                </Button>
+
+    <UserControl.Resources>
+        <ControlTemplate x:Key="RoundTextboxCornterTemplate" TargetType="{x:Type TextBoxBase}">
+            <Border Background="{TemplateBinding Background}"   
+         x:Name="Bd" BorderBrush="{DynamicResource COLOR_PRIMARY_DARKER}"  
+         BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                <ScrollViewer x:Name="PART_ContentHost"/>
+            </Border>
+        </ControlTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Border>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0.03, 0.5" EndPoint="1.5, 0.5">
+                    <GradientStop Color="#FFDCD6F7" Offset="0"/>
+                    <GradientStop Color="#FFF4EEFF" Offset="0.6"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="140"/>
+                    <RowDefinition Height="212"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Image Source="/res/images/pos.png" Height="108" Width="108" VerticalAlignment="Top"/>
                 </Grid>
-            
-            <Button FontSize="20" Command="{Binding LoginCommand}" CommandParameter="{Binding Password}" Content="Login" Width="300" Height="40" Margin="0 20 0 0" Style="{DynamicResource ButtonCommon}"/>
-        </StackPanel>
+                <Grid Grid.Row="1" Height="212" Width="394">
+                    <Border CornerRadius="5">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="0" Opacity="0.1" ShadowDepth="2" Color="#FF424874"/>
+                        </Border.Effect>
+                        <Border.Background>
+                            <SolidColorBrush Color="White"/>
+                        </Border.Background>
+                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="24"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <StackPanel>
+                                <Label Content="Login to your POS" FontWeight="SemiBold" Margin="8 8 0 0" FontSize="22" Foreground="{DynamicResource COLOR_PRIMARY_DARKER}"/>
+                                <Label Content="Password" Margin="8 16 0 0" Foreground="{DynamicResource COLOR_GREY_LIGHT}" FontSize="14"/>
+                                <Grid Height="40" Margin="12 8 12 0">
+                                    <TextBox Template="{StaticResource RoundTextboxCornterTemplate}" x:Name="password_txt_box" MaxLength="32" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Padding="10 10 40 10" FontSize="18" FontFamily="{StaticResource PASSWORD_FONT}">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Key="Enter" Command="{Binding LoginCommand}" CommandParameter="{Binding Password}"/>
+                                        </TextBox.InputBindings>
+                                    </TextBox>
+                                    <Button Height="20" Width="20" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="10" Style="{DynamicResource ButtonFlat}" Focusable="False" PreviewMouseDown="eyeButtonMouseDown" PreviewMouseUp="eyeButtonMouseUp">
+                                        <Button.Content>
+                                            <Image Source="/res/icons/eye_primary.png" />
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+
+                                <Button Command="{Binding LoginCommand}" CommandParameter="{Binding Password}" Width="346" Height="40" Margin="0 20 0 0" BorderThickness="0">
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type Button}">
+                                                        <Border CornerRadius="5" Background="{TemplateBinding Background}">
+                                                            <TextBlock Text="Login" Foreground="White" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           FontSize="20" FontWeight="SemiBold"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="{DynamicResource COLOR_PRIMARY_DARK}"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Border CornerRadius="0 5 5 0">
+                                <Border.Background>
+                                    <SolidColorBrush Color="#FF424874"/>
+                                </Border.Background>
+                            </Border>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0.7"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0.7"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="1" Background="{DynamicResource COLOR_PRIMARY_LIGHTER}"/>
+                                    <Grid Grid.Column="3" Background="{DynamicResource COLOR_PRIMARY_LIGHTER}"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
+    
 </UserControl>

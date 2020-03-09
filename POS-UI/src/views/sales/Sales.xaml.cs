@@ -8,12 +8,12 @@ namespace UI.Views
     /// </summary>
     public partial class Sales : UserControl
     {
-        private SalesViewModel _sales_view_model;
+        public SalesViewModel SalesViewModel { get; set; }
         public Sales(HomeViewModel home_view_model)
         {
             InitializeComponent();
-            this._sales_view_model = new SalesViewModel(home_view_model, this);
-            this.DataContext = _sales_view_model;
+            this.SalesViewModel = new SalesViewModel(home_view_model, this);
+            this.DataContext = SalesViewModel;
         }
     }
 }

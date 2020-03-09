@@ -4,10 +4,10 @@
     <SolidColorBrush x:Key="COLOR_BLACK">#FF000000</SolidColorBrush>
     <SolidColorBrush x:Key="COLOR_WHITE">#FFFFFFFF</SolidColorBrush>
 
-    <SolidColorBrush x:Key="COLOR_PRIMARY_DARKER">#FF333333</SolidColorBrush>
-    <SolidColorBrush x:Key="COLOR_PRIMARY_DARK">#FF666666</SolidColorBrush>
-    <SolidColorBrush x:Key="COLOR_PRIMARY_LIGHT">#FF999999</SolidColorBrush>
-    <SolidColorBrush x:Key="COLOR_PRIMARY_LIGHTER">#FFCCCCCC</SolidColorBrush>
+    <SolidColorBrush x:Key="COLOR_PRIMARY_DARKER">#FF424874</SolidColorBrush>
+    <SolidColorBrush x:Key="COLOR_PRIMARY_DARK">#FFA6B1E1</SolidColorBrush>
+    <SolidColorBrush x:Key="COLOR_PRIMARY_LIGHT">#FFDCD6F7</SolidColorBrush>
+    <SolidColorBrush x:Key="COLOR_PRIMARY_LIGHTER">#FFF4EEFF</SolidColorBrush>
 
     <SolidColorBrush x:Key="COLOR_RED_DARKER">#FFA01629</SolidColorBrush>
     <SolidColorBrush x:Key="COLOR_RED_DARK">#FFB8505E</SolidColorBrush>
