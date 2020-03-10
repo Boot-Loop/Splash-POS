@@ -156,7 +156,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Command="{Binding DiscountCommand}" Margin="4 2 2 4" Content="Discount" FontSize="16"   Style="{DynamicResource ButtonCommon2}"/>
                 <Button Grid.Column="1" Margin="2 2 2 4" Content="Lock"     FontSize="16"       Style="{DynamicResource ButtonCommon2}"/>
-                <Button Grid.Column="2" Command="{Binding VoidSaleCommand}" Margin="2 2 4 4" Content="Void"     FontSize="16" Command="{Binding VoidSaleCommand}"  Style="{DynamicResource ButtonCommon2}"/>
+                <Button Grid.Column="2" Command="{Binding VoidSaleCommand}" Margin="2 2 4 4" Content="Void"     FontSize="16" Style="{DynamicResource ButtonCommon2}"/>
             </Grid>
             <Grid Grid.Row="3" Margin="8 0 8 0">
                 <Grid.RowDefinitions>
