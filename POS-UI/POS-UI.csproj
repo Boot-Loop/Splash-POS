@@ -122,6 +122,12 @@
     <Compile Include="src\views\reports_views\Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\views\sales\new_sale_views\components\DiscountView.xaml.cs">
+      <DependentUpon>DiscountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\views\sales\new_sale_views\components\QuantityView.xaml.cs">
+      <DependentUpon>QuantityView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\views\sales\new_sale_views\NewSale.xaml.cs">
       <DependentUpon>NewSale.xaml</DependentUpon>
     </Compile>
@@ -238,6 +244,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\views\reports_views\Reports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\sales\new_sale_views\components\DiscountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\sales\new_sale_views\components\QuantityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

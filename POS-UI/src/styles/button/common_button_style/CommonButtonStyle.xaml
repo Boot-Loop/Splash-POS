@@ -3,9 +3,9 @@
 
 
     <Style x:Key="ButtonCommon" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="{DynamicResource COLOR_WHITE}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -33,8 +33,8 @@
                             <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="border" Value="Transparent"/>
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                            <Setter Property="Background" TargetName="border" Value="{DynamicResource COLOR_GREY_LIGHT}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

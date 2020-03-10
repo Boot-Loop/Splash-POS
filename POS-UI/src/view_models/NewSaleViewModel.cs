@@ -21,6 +21,7 @@ namespace UI.ViewModels
         private string _subtotal;
         private string _discount;
         private string _total;
+        private string _quantity;
         private int _sale_id;
         private bool _search_by_barcode;
         private bool _search_by_code;
@@ -29,13 +30,16 @@ namespace UI.ViewModels
         private bool _is_search_by_barcode_visible;
         private ObservableCollection<SaleProductModel> _sale_products;
         private ObservableCollection<ProductModel> _search_products;
-        public RelayCommand BarcodeAddCommand { get; private set; }
+        public RelayCommand BarcodeSearchCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand VoidSaleCommand { get; private set; }
         public RelayCommand DoPaymentCommand { get; private set; }
         public RelayCommand ReciptPrintCommand { get; private set; }
         public RelayCommand SearchSelectionCommand { get; private set; }
+        public RelayCommand DiscountCommand { get; set; }
+        public RelayCommand QuantityCommand { get; set; }
         public SaleProductModel SelectedItem { get; set; }
+        public ProductModel SearchedModel { get; set; } = null;
         public SalesViewModel SalesViewModel { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
         public NewSale NewSale { get; set; }
@@ -57,6 +61,10 @@ namespace UI.ViewModels
         public string Total {
             get { return _total; }
             set { _total = value; onPropertyRaised("Total"); }
+        }
+        public string Quantity {
+            get { return _quantity; }
+            set { _quantity = value; onPropertyRaised("Quantity"); addProductToList(SearchedModel, Quantity); }
         }
         public int SaleID {
             get { return _sale_id; }
@@ -95,11 +103,13 @@ namespace UI.ViewModels
             this.NewSale = new_sale;
             this.SalesViewModel = sales_view_model;
             this.HomeViewModel = home_view_model;
-            this.BarcodeAddCommand = new RelayCommand(enterPressedOnBarcodeSearch);
+            this.BarcodeSearchCommand = new RelayCommand(searchProductUsingBarcode);
             this.DeleteItemCommand = new RelayCommand(deleteItem, isSelectedItemNotNull);
             this.VoidSaleCommand = new RelayCommand(voidButtonPressed);
             this.DoPaymentCommand = new RelayCommand(doPayment);
             this.SearchSelectionCommand = new RelayCommand(selectSearchType);
+            this.DiscountCommand = new RelayCommand(discountButtonPressed);
+            this.QuantityCommand = new RelayCommand(quantityButtonPressed);
             this.SaleProducts = new ObservableCollection<SaleProductModel>();
             this.SearchProducts = new ObservableCollection<ProductModel>();
             this.ReciptPrintCommand = new RelayCommand(print);
@@ -112,34 +122,71 @@ namespace UI.ViewModels
             this.SearchByName = false;
             this.IsSearchByBarcodeVisible = true;
             this.IsSearchByNameVisible = false;
+            this.selectSearchType("Barcode");
         }
 
-        private void enterPressedOnBarcodeSearch(object parameter) {
+        private void openQuantityView() {
+            bool found = false;
+            QuantityView quantity_view = new QuantityView(this);
+            quantity_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - quantity_view.ActualWidth;
+            quantity_view.Top = HomeViewModel.MainView.Top + 160;
+            foreach (SaleProductModel sp_modle in SaleProducts) {
+                if (sp_modle.ProductID.value == SearchedModel.ID.value) {
+                    quantity_view.Quantity = sp_modle.Qunatity.value.ToString();
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                quantity_view.Quantity = "1";
+            }
+            quantity_view.Show();
+        }
+        private void searchProductUsingBarcode(object parameter) {
             ProductModel model;
             if (SearchByBarcode) {
-                model = ProductAccess.singleton.getProductUsingBarcode(BarcodeOrCode);
+                try { model = ProductAccess.singleton.getProductUsingBarcode(BarcodeOrCode); }
+                catch (Exception) { model = null; }
                 if (model != null) {
-                    addProductToList(model);
+                    SearchedModel = model;
+                    openQuantityView();
                 }
                 else {
+                    SearchedModel = null;
                     MessageBox.Show("No product found please check the Barcode!", "No product found", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             } else if (SearchByCode) {
                 try { model = ProductAccess.singleton.getProductUsingCode(Convert.ToInt32(BarcodeOrCode)); }
                 catch (Exception) { model = null; }
                 if (model != null) {
-                    addProductToList(model);
+                    SearchedModel = model;
+                    openQuantityView();
                 }
                 else {
+                    SearchedModel = null;
                     MessageBox.Show("No product found please check the Code!", "No product found", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-            this.SubTotal = calculateTotal()[0].ToString("0.00");
-            this.Total = calculateTotal()[2].ToString("0.00");
             this.BarcodeOrCode = null;
         }
-        public void addProductToList(ProductModel model) {
+        public void searchProductUsingName() {
+            ProductModel model;
+            try { model = ProductAccess.singleton.getProductUsingCode(PhraseNumber); }
+            catch (Exception) { model = null; }
+            if (model != null) {
+                SearchedModel = model;
+                openQuantityView();
+            }
+            else {
+                MessageBox.Show("Error adding this product. Please try again.", "Cannot add product", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        
+        private void addProductToList(ProductModel model, string quantity) {
             bool found = false;
+            int int_quantity;
+            try { int_quantity = Convert.ToInt32(quantity); }
+            catch (Exception) { int_quantity = 1; }
             ObservableCollection<SaleProductModel> temp_list = new ObservableCollection<SaleProductModel>();
             foreach (SaleProductModel sp_model in SaleProducts) {
                 temp_list.Add(sp_model);
@@ -148,7 +195,7 @@ namespace UI.ViewModels
                 if (sp_modle.ProductID.value == model.ID.value) {
                     SaleProductModel temp_model = sp_modle;
                     SaleProducts.Remove(sp_modle);
-                    temp_model.Qunatity.value += 1;
+                    temp_model.Qunatity.value = int_quantity;
                     temp_model.SubTotal.value = temp_model.Price.value * temp_model.Qunatity.value;
                     SaleProducts.Add(temp_model);
                     found = true;
@@ -159,11 +206,14 @@ namespace UI.ViewModels
                 SaleProductModel sale_product_model = new SaleProductModel();
                 sale_product_model.ProductName.value = model.Name.value;
                 sale_product_model.ProductID.value = model.ID.value;
-                sale_product_model.Qunatity.value = 1;
+                sale_product_model.Qunatity.value = int_quantity;
                 sale_product_model.Price.value = model.Price.value;
                 sale_product_model.SubTotal.value = model.Price.value * sale_product_model.Qunatity.value;
                 SaleProducts.Add(sale_product_model);
             }
+            SearchedModel = null;
+            this.SubTotal = calculateTotal()[0].ToString("0.00");
+            this.Total = calculateTotal()[2].ToString("0.00");
         }
         private void voidButtonPressed(object parameter) {
             this.SalesViewModel.removeSale(NewSale);
@@ -205,7 +255,7 @@ namespace UI.ViewModels
                 }
             }
         }
-        private void selectSearchType(object parameter) {
+        public void selectSearchType(object parameter) {
             string para = parameter as string;
             if (para == "Barcode") {
                 this.SearchByBarcode = true;
@@ -227,14 +277,33 @@ namespace UI.ViewModels
                 this.SearchByName = true;
                 this.IsSearchByBarcodeVisible = false;
                 this.IsSearchByNameVisible = true;
-                NewSale.search_by_name_txt_box.Focus();
+                Task.Delay(100).ContinueWith(_ => {
+                    Application.Current.Dispatcher.Invoke(new Action(() => {
+                        NewSale.search_by_name_txt_box.Focus();
+                    }));
+                });
             }
         }
-        //private void searchUsingName(object parameter) {
-        //    if (string.IsNullOrEmpty(Barcode)) { SearchProducts = new ObservableCollection<ProductModel>(); }
-        //    else { SearchProducts = new ObservableCollection<ProductModel>(ProductAccess.singleton.searchProducts(Barcode)); }
-        //    Console.WriteLine(SearchProducts.Count);
-        //}
+        private void discountButtonPressed(object parameter) {
+            DiscountView discount_view = new DiscountView();
+            discount_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - discount_view.ActualWidth;
+            discount_view.Top = HomeViewModel.MainView.Top + 160;
+            discount_view.Show();
+        }
+        private void quantityButtonPressed(object parameter) {
+            if (SelectedItem != null) {
+                try {
+                    ProductModel model = ProductAccess.singleton.getProductUsingProductID(Convert.ToInt32(SelectedItem.ProductID.value));
+                    QuantityView quantity_view = new QuantityView(this);
+                    quantity_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - quantity_view.ActualWidth;
+                    quantity_view.Top = HomeViewModel.MainView.Top + 160;
+                    quantity_view.Quantity = SelectedItem.Qunatity.value.ToString();
+                    this.SearchedModel = model;
+                    quantity_view.Show();
+                }
+                catch (Exception) { }
+            }
+        }
         private bool isSelectedItemNotNull(object parameter) {
             return SelectedItem == null ? false : true;
         }

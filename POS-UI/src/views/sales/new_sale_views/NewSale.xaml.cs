@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,9 +25,15 @@ namespace UI.Views
     public partial class NewSale : UserControl
     {
         private NewSaleViewModel _new_sale_view_model;
+        private HomeViewModel _home_view_model;
+
         public NewSaleViewModel NewSaleViewModel {
             get { return _new_sale_view_model; }
             set { _new_sale_view_model = value; }
+        }
+        public HomeViewModel HomeViewModel {
+            get { return _home_view_model; }
+            set { _home_view_model = value; }
         }
         private string _name;
 
@@ -37,26 +44,16 @@ namespace UI.Views
 
         public NewSale(SalesViewModel sales_view_model, HomeViewModel home_view_model) {
             InitializeComponent();
-            this.NewSaleViewModel = new NewSaleViewModel(this, sales_view_model, home_view_model);
-            this.DataContext = _new_sale_view_model;
-            this.search_by_name_txt_box.Action = enterPressedOnBarcodeSearch;
+            this.HomeViewModel = home_view_model;
+            this.NewSaleViewModel = new NewSaleViewModel(this, sales_view_model, HomeViewModel);
+            this.DataContext = NewSaleViewModel;
+            this.search_by_name_txt_box.Action = NewSaleViewModel.searchProductUsingName;
             this.NameOfSale = Convert.ToString(NewSaleViewModel.SaleID);
-            this.search_by_barcode_txt_box.Focus();
-            
-        }
-
-        private void enterPressedOnBarcodeSearch() {
-            ProductModel model;
-            try { model = ProductAccess.singleton.getProductUsingCode(NewSaleViewModel.PhraseNumber); }
-            catch (Exception) { model = null; }
-            if (model != null) {
-                NewSaleViewModel.addProductToList(model);
-            }
-            else {
-                MessageBox.Show("Error adding this product. Please try again.", "Cannot add product", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            NewSaleViewModel.SubTotal = NewSaleViewModel.calculateTotal()[0].ToString("0.00");
-            NewSaleViewModel.Total = NewSaleViewModel.calculateTotal()[2].ToString("0.00");
+            Task.Delay(100).ContinueWith(_ => {
+                Application.Current.Dispatcher.Invoke(new Action(() => {
+                    NewSaleViewModel.selectSearchType("Barcode");
+                }));
+            });
         }
     }
 }
