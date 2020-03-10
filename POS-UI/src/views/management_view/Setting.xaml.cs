@@ -14,10 +14,10 @@ namespace UI.Views
     /// </summary>
     public partial class Management : UserControl
     {
-        private SettingsViewModel _settings_view_model;
+        private ManagementViewModel _settings_view_model;
         public Management(HomeView home_view, HomeViewModel home_view_model) {
             InitializeComponent();
-            this._settings_view_model = new SettingsViewModel(home_view, home_view_model);
+            this._settings_view_model = new ManagementViewModel(home_view, home_view_model);
             this.DataContext = _settings_view_model;
         }
     }

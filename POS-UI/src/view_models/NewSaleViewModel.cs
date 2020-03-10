@@ -7,10 +7,12 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using UI.ViewModels.Commands;
 using UI.Views;
 
@@ -110,7 +112,7 @@ namespace UI.ViewModels
             this.DoPaymentCommand = new RelayCommand(doPayment);
             this.SearchSelectionCommand = new RelayCommand(selectSearchType);
             this.DiscountCommand = new RelayCommand(discountButtonPressed);
-            this.QuantityCommand = new RelayCommand(quantityButtonPressed);
+            this.QuantityCommand = new RelayCommand(quantityButtonPressed, isSelectedItemNotNull);
             this.SaleProducts = new ObservableCollection<SaleProductModel>();
             this.SearchProducts = new ObservableCollection<ProductModel>();
             this.ReciptPrintCommand = new RelayCommand(print);
@@ -265,6 +267,9 @@ namespace UI.ViewModels
                 this.IsSearchByBarcodeVisible = true;
                 this.IsSearchByNameVisible = false;
                 NewSale.search_by_barcode_txt_box.Focus();
+                NewSale.barcode_image.Source = new BitmapImage(new Uri("/res/icons/barcode_primary.png", UriKind.Relative));
+                NewSale.code_image.Source = new BitmapImage(new Uri("/res/icons/code_secondary.png", UriKind.Relative));
+                NewSale.name_image.Source = new BitmapImage(new Uri("/res/icons/name_secondary.png", UriKind.Relative));
             } else if (para == "Code") {
                 this.SearchByBarcode = false;
                 this.SearchByCode = true;
@@ -272,12 +277,18 @@ namespace UI.ViewModels
                 this.IsSearchByBarcodeVisible = true;
                 this.IsSearchByNameVisible = false;
                 NewSale.search_by_barcode_txt_box.Focus();
+                NewSale.barcode_image.Source = new BitmapImage(new Uri("/res/icons/barcode_secondary.png", UriKind.Relative));
+                NewSale.code_image.Source = new BitmapImage(new Uri("/res/icons/code_primary.png", UriKind.Relative));
+                NewSale.name_image.Source = new BitmapImage(new Uri("/res/icons/name_secondary.png", UriKind.Relative));
             } else {
                 this.SearchByBarcode = false;
                 this.SearchByCode = false;
                 this.SearchByName = true;
                 this.IsSearchByBarcodeVisible = false;
                 this.IsSearchByNameVisible = true;
+                NewSale.barcode_image.Source = new BitmapImage(new Uri("/res/icons/barcode_secondary.png", UriKind.Relative));
+                NewSale.code_image.Source = new BitmapImage(new Uri("/res/icons/code_secondary.png", UriKind.Relative));
+                NewSale.name_image.Source = new BitmapImage(new Uri("/res/icons/name_primary.png", UriKind.Relative));
                 Task.Delay(100).ContinueWith(_ => {
                     Application.Current.Dispatcher.Invoke(new Action(() => {
                         NewSale.search_by_name_txt_box.Focus();
@@ -345,7 +356,10 @@ namespace UI.ViewModels
             Font text_font = new Font(System.Drawing.FontFamily.GenericSansSerif, 9, System.Drawing.FontStyle.Bold);
             Font item_font = new Font(System.Drawing.FontFamily.GenericSansSerif, 9, System.Drawing.FontStyle.Regular);
 
-            Image image = Image.FromFile(@"C:\Users\Azeem Muzammil\Downloads\header_image.png");
+            string strAppPath = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            string strFilePath = Path.Combine(strAppPath, "Resources");
+            string strFullFilename = Path.Combine(strFilePath, "header_image.png");
+            Image image = Image.FromFile(strFullFilename);
             Bitmap bitmap = new Bitmap(image);
             Rectangle page_bounds = e.PageBounds;
             page_bounds.Width = 260;
@@ -363,7 +377,9 @@ namespace UI.ViewModels
             OFFSET += (TEXT_HEIGHT + LINE_SPACE);
             graphics.DrawString("DATE : " + DateTime.Now, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT);
-            graphics.DrawString("CASHIER : Azeem Muzammil", text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
+            string cashier_first_name = this.HomeViewModel.LoggedInUser.FirstName.value;
+            string cashier_last_name = this.HomeViewModel.LoggedInUser.LastName.value;
+            graphics.DrawString("CASHIER : " + cashier_first_name + " " + cashier_last_name, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT);
             graphics.DrawString(LINE_BREAK, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT);
@@ -465,7 +481,7 @@ namespace UI.ViewModels
             {
                 dict.Add(Convert.ToInt32(product.Code.value), product.Name.value);
             }
-        } 
+        }
 
         public WpfAutoComplete.SearchResult SearchByKey(object Key)
         {
