@@ -10,6 +10,7 @@ namespace UI.ViewModels
         public RelayCommand StockButtonCommand { get; private set; }
         public RelayCommand UserButtonCommand { get; private set; }
         public RelayCommand ReportsButtonCommand { get; private set; }
+        public RelayCommand SettingsButtonCommand { get; private set; }
         public RelayCommand CloseCommand { get; private set; }
         public HomeView HomeView { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
@@ -20,6 +21,7 @@ namespace UI.ViewModels
             this.StockButtonCommand = new RelayCommand(stockButtonPressed);
             this.UserButtonCommand = new RelayCommand(userButtonPressed);
             this.ReportsButtonCommand = new RelayCommand(reportsButtonPressed);
+            this.SettingsButtonCommand = new RelayCommand(settingsButtonPressed);
             this.CloseCommand = new RelayCommand(closeButtonPressed);
             home_view_model.Title = "Settings";
             this.HomeView = home_view;
@@ -39,6 +41,9 @@ namespace UI.ViewModels
             HomeView.home_content_control.Content = new Users(HomeViewModel);
         }
         private void reportsButtonPressed(object parameter) { }
+        private void settingsButtonPressed(object parameter) {
+            HomeView.home_content_control.Content = new SettingsView(HomeViewModel);
+        }
         private void closeButtonPressed(object parameter) {
             HomeView.home_content_control.Content = HomeViewModel.Sales;
             HomeViewModel.Title = "Sales";

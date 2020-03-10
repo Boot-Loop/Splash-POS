@@ -125,6 +125,9 @@
     <Compile Include="src\views\sales\new_sale_views\components\DiscountView.xaml.cs">
       <DependentUpon>DiscountView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\views\sales\new_sale_views\components\PaymentView.xaml.cs">
+      <DependentUpon>PaymentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\views\sales\new_sale_views\components\QuantityView.xaml.cs">
       <DependentUpon>QuantityView.xaml</DependentUpon>
     </Compile>
@@ -134,8 +137,11 @@
     <Compile Include="src\views\sales\Sales.xaml.cs">
       <DependentUpon>Sales.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\management_view\Setting.xaml.cs">
-      <DependentUpon>Setting.xaml</DependentUpon>
+    <Compile Include="src\views\management_view\Management.xaml.cs">
+      <DependentUpon>Management.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\views\settings_views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\views\stock_views\add_stock_view\AddStock.xaml.cs">
       <DependentUpon>AddStock.xaml</DependentUpon>
@@ -167,6 +173,7 @@
     <Compile Include="src\view_models\ProductViewModel.cs" />
     <Compile Include="src\view_models\SalesViewModel.cs" />
     <Compile Include="src\view_models\ManagementViewModel.cs" />
+    <Compile Include="src\view_models\SettingsViewModel.cs" />
     <Compile Include="src\view_models\StockViewModel.cs" />
     <Compile Include="src\view_models\SupplierViewModel.cs" />
     <Compile Include="src\view_models\UserViewModel.cs" />
@@ -251,6 +258,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="src\views\sales\new_sale_views\components\PaymentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\views\sales\new_sale_views\components\QuantityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -263,7 +274,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\management_view\Setting.xaml">
+    <Page Include="src\views\management_view\Management.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\settings_views\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

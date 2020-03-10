@@ -93,15 +93,14 @@ namespace UI.ViewModels
         }
 
         public void addStock(object parameter) {
-            StockModel model = new StockModel();
-            model.ProductID.value = SelectedProduct.ID.value;
-            if (SelectedSupplier == null) model.SupplierID.setToNull();
-            else model.SupplierID.value = SelectedSupplier.ID.value;
-            model.Quantity.value = Quantity;
-            model.UnitPrice.value = UnitPrice;
-            model.Date.value = Date;
-
             try {
+                StockModel model = new StockModel();
+                model.ProductID.value = SelectedProduct.ID.value;
+                if (SelectedSupplier == null) model.SupplierID.setToNull();
+                else model.SupplierID.value = SelectedSupplier.ID.value;
+                model.Quantity.value = Quantity;
+                model.UnitPrice.value = UnitPrice;
+                model.Date.value = Date;
                 StockAccess.singleton.addStock(model);
                 this.AddStock.Close();
                 Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!"));

@@ -53,9 +53,9 @@ namespace Tester
 			//model.UserID.value = 1;
 			//model.PaymentID.value = 17;
 			//int a = SaleAccess.singleton.addSale(model);
-			int pms = 200;
-			pms = ProductAccess.singleton.getLastProductCode();
-			Console.WriteLine("sfdsadf: " + pms);
+			//int pms = 200;
+			//pms = ProductAccess.singleton.getLastProductCode();
+			//Console.WriteLine("sfdsadf: " + pms);
 
 			////var prod = DBAccess.singleton.getProducts();
 			////Console.WriteLine(supplier.LastName.value);

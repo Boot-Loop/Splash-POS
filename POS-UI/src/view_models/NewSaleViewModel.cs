@@ -1,15 +1,15 @@
 ﻿using Core.DB.Access;
 using Core.DB.Models;
+using CoreApp = Core.Application;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -24,6 +24,8 @@ namespace UI.ViewModels
         private string _subtotal;
         private string _discount;
         private string _total;
+        private string _paid;
+        private string _balance;
         private string _quantity;
         private int _sale_id;
         private bool _search_by_barcode;
@@ -37,10 +39,10 @@ namespace UI.ViewModels
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand VoidSaleCommand { get; private set; }
         public RelayCommand DoPaymentCommand { get; private set; }
-        public RelayCommand ReciptPrintCommand { get; private set; }
         public RelayCommand SearchSelectionCommand { get; private set; }
         public RelayCommand DiscountCommand { get; set; }
         public RelayCommand QuantityCommand { get; set; }
+        public RelayCommand PayCommand { get; set; }
         public SaleProductModel SelectedItem { get; set; }
         public ProductModel SearchedModel { get; set; } = null;
         public SalesViewModel SalesViewModel { get; set; }
@@ -64,6 +66,14 @@ namespace UI.ViewModels
         public string Total {
             get { return _total; }
             set { _total = value; onPropertyRaised("Total"); }
+        }
+        public string Paid {
+            get { return _paid; }
+            set { _paid = value; onPropertyRaised("Paid"); }
+        }
+        public string Balance {
+            get { return _balance; }
+            set { _balance = value; onPropertyRaised("Balance"); }
         }
         public string Quantity {
             get { return _quantity; }
@@ -115,7 +125,7 @@ namespace UI.ViewModels
             this.QuantityCommand = new RelayCommand(quantityButtonPressed, isSelectedItemNotNull);
             this.SaleProducts = new ObservableCollection<SaleProductModel>();
             this.SearchProducts = new ObservableCollection<ProductModel>();
-            this.ReciptPrintCommand = new RelayCommand(print);
+            this.PayCommand = new RelayCommand(payButtonPressed);
             this.SubTotal = "0.00";
             this.Discount = "0.00";
             this.Total = "0.00";
@@ -316,6 +326,13 @@ namespace UI.ViewModels
                 catch (Exception) { }
             }
         }
+        private void payButtonPressed(object parameter) {
+            PaymentView payment_view = new PaymentView(this);
+            payment_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - payment_view.ActualWidth;
+            payment_view.Top = HomeViewModel.MainView.Top + 160;
+            payment_view.Total = this.Total;
+            payment_view.ShowDialog();
+        }
         private bool isSelectedItemNotNull(object parameter) {
             return SelectedItem == null ? false : true;
         }
@@ -325,17 +342,13 @@ namespace UI.ViewModels
         }
 
 
-        private void print(object parameter) {
-            //foreach (string printer in PrinterSettings.InstalledPrinters)
-            //{
-            //    Console.WriteLine(printer);
-            //}
+        public void print() {
             PrintDocument document = new PrintDocument();
             PaperSize paperSize = new PaperSize("Custom", 260, 820);
             document.DefaultPageSettings.PaperSize = paperSize;
             document.PrintPage += new PrintPageEventHandler(provideContent);
-            document.PrinterSettings.PrinterName = "Microsoft Print to PDF";
-            document.Print();
+            try { document.PrinterSettings.PrinterName = CoreApp.singleton.readReciptPrinterName(); document.Print(); }
+            catch (Exception) { }
         }
 
         private void provideContent(object sender, PrintPageEventArgs e) {
@@ -412,12 +425,12 @@ namespace UI.ViewModels
             graphics.DrawString(LINE_BREAK, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT + PRODUCT_SPACE);
             graphics.DrawString("Paid: ", text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
-            string paid = "1245.00";
+            string paid = this.Paid;
             SizeF paid_size = measurement(e, paid, text_font);
             graphics.DrawString(paid, text_font, new SolidBrush(System.Drawing.Color.Black), WIDTH - paid_size.Width - START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT + PRODUCT_SPACE);
             graphics.DrawString("Change: ", text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
-            string change = "220.00";
+            string change = this.Balance;
             SizeF change_size = measurement(e, change, text_font);
             graphics.DrawString(change, text_font, new SolidBrush(System.Drawing.Color.Black), WIDTH - change_size.Width - START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT + PRODUCT_SPACE);
