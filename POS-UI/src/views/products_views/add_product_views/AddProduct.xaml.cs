@@ -28,6 +28,26 @@ namespace UI.Views
             this._add_product_view_model = new AddProductViewModel(model, this, home_view_model);
             this.DataContext = _add_product_view_model;
             this.Owner = Application.Current.MainWindow;
+            name_text_box.Focus();
+        }
+
+        private void StackPanel_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                FrameworkElement s = e.Source as FrameworkElement;
+                if (s != null && s != description_text_box)
+                {
+                    s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                }
+
+                if (s == description_text_box)
+                {
+                    _add_product_view_model.addProduct(null);
+                }
+
+                e.Handled = true;
+            }
         }
     }
 }

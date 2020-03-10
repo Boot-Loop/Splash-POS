@@ -28,5 +28,24 @@ namespace UI.Views
             this.DataContext = _add_stock_view_model;
             this.Owner = Application.Current.MainWindow;
         }
+
+        private void StackPanel_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                FrameworkElement s = e.Source as FrameworkElement;
+                if (s != null && s != date_text_box)
+                {
+                    s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                }
+
+                if (s == date_text_box)
+                {
+                    _add_stock_view_model.addStock(null);
+                }
+
+                e.Handled = true;
+            }
+        }
     }
 }

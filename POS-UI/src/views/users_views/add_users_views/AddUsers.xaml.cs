@@ -27,6 +27,26 @@ namespace UI.Views
             this._add_user_view_model = new AddUserViewModel(model, this, home_view_model);
             this.DataContext = _add_user_view_model;
             this.Owner = Application.Current.MainWindow;
+            first_name_text_box.Focus();
+        }
+
+        private void StackPanel_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                FrameworkElement s = e.Source as FrameworkElement;
+                if (s != null && s != email_text_box)
+                {
+                    s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                }
+
+                if (s == email_text_box)
+                {
+                    _add_user_view_model.addStaff(null);
+                }
+
+                e.Handled = true;
+            }
         }
     }
 }

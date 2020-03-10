@@ -14,7 +14,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="360" MaxWidth="500"/>
+            <ColumnDefinition Width="360" MaxWidth="500" MinWidth="200"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -28,9 +28,9 @@
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition x:Name="name_column" Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Command="{Binding SearchSelectionCommand}" CommandParameter="Barcode" Content="B" ToolTip="Search product by Barcode" Margin="2 2 1 2"/>
-                <Button Grid.Column="1" Command="{Binding SearchSelectionCommand}" CommandParameter="Code" Content="C" ToolTip="Search product by Code" Margin="1 2 1 2"/>
-                <Button Grid.Column="2" Command="{Binding SearchSelectionCommand}" CommandParameter="Name" Content="N" ToolTip="Search product by Name" Margin="1 2 1 2"/>
+                <Button Grid.Column="0" Command="{Binding SearchSelectionCommand}" CommandParameter="Barcode"   Content="B" ToolTip="Search product by Barcode" Margin="2 2 1 2" Style="{DynamicResource ButtonCommon2}"/>
+                <Button Grid.Column="1" Command="{Binding SearchSelectionCommand}" CommandParameter="Code"      Content="C" ToolTip="Search product by Code"    Margin="1 2 1 2" Style="{DynamicResource ButtonCommon2}"/>
+                <Button Grid.Column="2" Command="{Binding SearchSelectionCommand}" CommandParameter="Name"      Content="N" ToolTip="Search product by Name"    Margin="1 2 1 2" Style="{DynamicResource ButtonCommon2}"/>
                 <ac:TextBoxAutoComplete Grid.Column="3" Margin="1 2 2 2" Name="search_by_name_txt_box" Visibility="{Binding Path=IsSearchByNameVisible, Converter={StaticResource bool_to_vis_converter}}" FontSize="16"
                 SearchDataProvider="{Binding Path=SearchDataProvider}" MovesFocus="False"
             SelectedListBoxValue="{Binding Path=PhraseNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
@@ -76,13 +76,13 @@
                 </Grid>
             </Popup>-->
             <StackPanel Grid.Row="1" Name="main_stack_panel">
-                <Grid Height="40">
+                <Grid Height="40" Margin="2 0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" x:Name="column_1"/>
-                        <ColumnDefinition Width="*" x:Name="column_2"/>
-                        <ColumnDefinition Width="*" x:Name="column_3"/>
-                        <ColumnDefinition Width="*" x:Name="column_4"/>
-                        <ColumnDefinition Width="*" x:Name="column_5"/>
+                        <ColumnDefinition Width="*" x:Name="column_1" MinWidth="100"/>
+                        <ColumnDefinition Width="*" x:Name="column_2" MinWidth="100"/>
+                        <ColumnDefinition Width="*" x:Name="column_3" MinWidth="100"/>
+                        <ColumnDefinition Width="*" x:Name="column_4" MinWidth="100"/>
+                        <ColumnDefinition Width="*" x:Name="column_5" MinWidth="100"/>
                     </Grid.ColumnDefinitions>
                     <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="6"/>
 
@@ -100,13 +100,13 @@
 
                 </Grid>
 
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SaleProducts}" SelectedItem="{Binding SelectedItem}">
+                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding SaleProducts}" SelectedItem="{Binding SelectedItem}" Margin="2 0">
 
                     <ListView.ItemTemplate>
 
                         <DataTemplate>
                             <Grid Height="30" Margin="0 2"
-                        Width="{Binding Path=ActualWidth, ElementName=main_stack_panel}">
+                                Width="{Binding Path=ActualWidth, ElementName=main_stack_panel}">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{Binding Width, ElementName=column_1}"/>
@@ -128,7 +128,7 @@
             </StackPanel>
         </Grid>
 
-        <GridSplitter Grid.Column="0" Width="2"/>
+        <GridSplitter Grid.Column="0" Width="2" Background="#FF424874"/>
 
         <Grid Grid.Column="1" >
             <Grid.RowDefinitions>
@@ -156,7 +156,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Command="{Binding DiscountCommand}" Margin="4 2 2 4" Content="Discount" FontSize="16"   Style="{DynamicResource ButtonCommon2}"/>
                 <Button Grid.Column="1" Margin="2 2 2 4" Content="Lock"     FontSize="16"       Style="{DynamicResource ButtonCommon2}"/>
-                <Button Grid.Column="2" Command="{Binding VoidSaleCommand}" Margin="2 2 4 4" Content="Void"     FontSize="16" Command="{Binding VoidSaleCommand}"  Style="{DynamicResource ButtonCommon2}"/>
+                <Button Grid.Column="2" Command="{Binding VoidSaleCommand}" Margin="2 2 4 4" Content="Void"     FontSize="16" Style="{DynamicResource ButtonCommon2}"/>
             </Grid>
             <Grid Grid.Row="3" Margin="8 0 8 0">
                 <Grid.RowDefinitions>
