@@ -166,7 +166,7 @@
     <Compile Include="src\view_models\NewSaleViewModel.cs" />
     <Compile Include="src\view_models\ProductViewModel.cs" />
     <Compile Include="src\view_models\SalesViewModel.cs" />
-    <Compile Include="src\view_models\SettingsViewModel.cs" />
+    <Compile Include="src\view_models\ManagementViewModel.cs" />
     <Compile Include="src\view_models\StockViewModel.cs" />
     <Compile Include="src\view_models\SupplierViewModel.cs" />
     <Compile Include="src\view_models\UserViewModel.cs" />
@@ -345,8 +345,20 @@
     <Resource Include="res\icons\eye_primary.png" />
     <Resource Include="res\icons\deletedisable.png" />
     <Resource Include="res\icons\editdisable.png" />
+<<<<<<< HEAD
     <Resource Include="res\icons\enter.png" />
     <Resource Include="res\icons\enterprimarydarker.png" />
+=======
+    <Resource Include="res\icons\barcode_secondary.png" />
+    <Resource Include="res\icons\code_secondary.png" />
+    <Resource Include="res\icons\name_secondary.png" />
+    <Resource Include="res\icons\code_primary.png" />
+    <Resource Include="res\icons\barcode_primary.png" />
+    <Resource Include="res\icons\name_primary.png" />
+    <None Include="Resources\header_image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+>>>>>>> 1dd3940995fcdb48453d03067d3617d0d9965710
     <Content Include="vender\System.Reactive.Core.dll" />
     <Content Include="vender\System.Reactive.Interfaces.dll" />
     <Content Include="vender\System.Reactive.Linq.dll" />
