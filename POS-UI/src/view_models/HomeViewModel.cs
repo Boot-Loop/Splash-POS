@@ -50,7 +50,7 @@ namespace UI.ViewModels
         public void setMessage(string message) {
             this.Message = message;
             this.Height = "40";
-            Thread.Sleep(5000);
+            Thread.Sleep(4000);
             this.Height = "0";
         }
 
@@ -67,7 +67,8 @@ namespace UI.ViewModels
             }
         }
         private void openSettings(object parameter) {
-            HomeView.home_content_control.Content = new Management(HomeView, this);
+            if (this.LoggedInUser.AccessLevel.value == 10) { HomeView.home_content_control.Content = new Management(HomeView, this); }
+            else { MessageBox.Show("To access management administrative privilages required.", "Access Limited", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
         }
         private void onPropertyRaised(string property_name) {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));

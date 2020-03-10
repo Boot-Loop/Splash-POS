@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="UI.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
+    <Grid>
+        <ComboBox Height="20" VerticalAlignment="Top" ItemsSource="{Binding PrinterNames}" SelectedItem="{Binding SelectedPrinter}"/>
+        <Button Height="20" Command="{Binding SaveCommand}"/>
+
+    </Grid>
+</UserControl>
