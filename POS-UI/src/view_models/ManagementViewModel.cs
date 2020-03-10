@@ -3,7 +3,7 @@ using UI.Views;
 
 namespace UI.ViewModels
 {
-    public class SettingsViewModel
+    public class ManagementViewModel
     {
         public RelayCommand ProductButtonCommand { get; private set; }
         public RelayCommand SupplierButtonCommand { get; private set; }
@@ -14,7 +14,7 @@ namespace UI.ViewModels
         public HomeView HomeView { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
 
-        public SettingsViewModel(HomeView home_view, HomeViewModel home_view_model) {
+        public ManagementViewModel(HomeView home_view, HomeViewModel home_view_model) {
             this.ProductButtonCommand = new RelayCommand(productButtonPressed);
             this.SupplierButtonCommand = new RelayCommand(supplierButtonPressed);
             this.StockButtonCommand = new RelayCommand(stockButtonPressed);
