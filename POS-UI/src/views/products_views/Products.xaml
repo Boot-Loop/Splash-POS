@@ -19,18 +19,18 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <Button Command="{Binding EditCommand}"   Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}">
+                <Button x:Name="edit_button" Command="{Binding EditCommand}"   Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}" IsEnabledChanged="edit_button_IsEnabledChanged">
                     <Button.Content>
                         <StackPanel>
-                            <Image Source="/res/icons/edit.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                            <Image x:Name="edit_button_image" Source="/res/icons/edit.png" Width="20" Height="20" Margin="0 2 0 0"/>
                             <Label Content="Edit"/>
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <Button Command="{Binding DeleteCommand}"     Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}">
+                <Button x:Name="delete_button" Command="{Binding DeleteCommand}"     Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}" IsEnabledChanged="delete_button_IsEnabledChanged">
                     <Button.Content>
                         <StackPanel>
-                            <Image Source="/res/icons/bin.png" Width="20" Height="20" Margin="0 2 0 0"/>
+                            <Image x:Name="delete_button_image" Source="/res/icons/bin.png" Width="20" Height="20" Margin="0 2 0 0"/>
                             <Label Content="Delete"/>
                         </StackPanel>
                     </Button.Content>
