@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
@@ -314,15 +315,16 @@ namespace UI.ViewModels
 
 
         private void print(object parameter) {
-            foreach (string printer in PrinterSettings.InstalledPrinters) {
-                Console.WriteLine(printer);
-            }
-            //PrintDocument document = new PrintDocument();
-            //PaperSize paperSize = new PaperSize("Custom", 520, 820);
-            //document.DefaultPageSettings.PaperSize = paperSize;
-            //document.PrintPage += new PrintPageEventHandler(provideContent);
-            //document.PrinterSettings.PrinterName = "";
-            //document.Print();
+            //foreach (string printer in PrinterSettings.InstalledPrinters)
+            //{
+            //    Console.WriteLine(printer);
+            //}
+            PrintDocument document = new PrintDocument();
+            PaperSize paperSize = new PaperSize("Custom", 260, 820);
+            document.DefaultPageSettings.PaperSize = paperSize;
+            document.PrintPage += new PrintPageEventHandler(provideContent);
+            document.PrinterSettings.PrinterName = "Microsoft Print to PDF";
+            document.Print();
         }
 
         private void provideContent(object sender, PrintPageEventArgs e) {
@@ -335,17 +337,22 @@ namespace UI.ViewModels
             float LINE_SPACE = 12;
             float PRODUCT_SPACE = 6;
 
-            const string TITLE = "SPLASH SHOES";
             const string LINE_BREAK = "--------------------------------------------------------------------------------";
 
 
             Graphics graphics = e.Graphics;
             Font title_font = new Font(System.Drawing.FontFamily.GenericSansSerif, 14, System.Drawing.FontStyle.Bold);
             Font text_font = new Font(System.Drawing.FontFamily.GenericSansSerif, 9, System.Drawing.FontStyle.Bold);
+            Font item_font = new Font(System.Drawing.FontFamily.GenericSansSerif, 9, System.Drawing.FontStyle.Regular);
 
-            SizeF measurements = measurement(e, TITLE, title_font);
-            graphics.DrawString(TITLE, title_font, new SolidBrush(System.Drawing.Color.Black), (WIDTH / 2) - (measurements.Width / 2), START_Y + OFFSET);
-            OFFSET += (TITLE_HEIGHT + LINE_SPACE);
+            Image image = Image.FromFile(@"C:\Users\Azeem Muzammil\Downloads\header_image.png");
+            Bitmap bitmap = new Bitmap(image);
+            Rectangle page_bounds = e.PageBounds;
+            page_bounds.Width = 260;
+            page_bounds.Height = 100;
+            e.Graphics.DrawImage(bitmap, page_bounds);
+            OFFSET += 100;
+
             graphics.DrawString("Splash Shoes, Chillaw Road,", text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT);
             graphics.DrawString("Mahawewa.", text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
@@ -360,14 +367,13 @@ namespace UI.ViewModels
             OFFSET += (TEXT_HEIGHT);
             graphics.DrawString(LINE_BREAK, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT);
-            foreach (SaleProductModel sale_product_model in SaleProducts)
-            {
-                graphics.DrawString(sale_product_model.ProductName.value, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
+            foreach (SaleProductModel sale_product_model in SaleProducts) {
+                graphics.DrawString(sale_product_model.ProductName.value, item_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
                 OFFSET += (TEXT_HEIGHT);
-                graphics.DrawString(sale_product_model.Qunatity.value + " x " + sale_product_model.Price.value.ToString("0.00"), text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
+                graphics.DrawString(sale_product_model.Qunatity.value + " x " + sale_product_model.Price.value.ToString("0.00"), item_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
                 string item_amount = sale_product_model.SubTotal.value.ToString("0.00");
-                SizeF item_amoutn_size = measurement(e, item_amount, text_font);
-                graphics.DrawString(item_amount, text_font, new SolidBrush(System.Drawing.Color.Black), WIDTH - item_amoutn_size.Width - START_X, START_Y + OFFSET);
+                SizeF item_amoutn_size = measurement(e, item_amount, item_font);
+                graphics.DrawString(item_amount, item_font, new SolidBrush(System.Drawing.Color.Black), WIDTH - item_amoutn_size.Width - START_X, START_Y + OFFSET);
                 OFFSET += (TEXT_HEIGHT + PRODUCT_SPACE);
             }
             graphics.DrawString(LINE_BREAK, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
@@ -378,12 +384,12 @@ namespace UI.ViewModels
             graphics.DrawString(discount_amount, text_font, new SolidBrush(System.Drawing.Color.Black), WIDTH - discount_amount_size.Width - START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT + PRODUCT_SPACE);
             graphics.DrawString("Sub Total: ", text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
-            string sub_total = "1245.00";
+            string sub_total = this.SubTotal;
             SizeF sub_total_size = measurement(e, sub_total, text_font);
             graphics.DrawString(sub_total, text_font, new SolidBrush(System.Drawing.Color.Black), WIDTH - sub_total_size.Width - START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT + PRODUCT_SPACE);
             graphics.DrawString("Total: ", title_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
-            string total = "3000.40";
+            string total = this.Total;
             SizeF total_size = measurement(e, total, title_font);
             graphics.DrawString(total, title_font, new SolidBrush(System.Drawing.Color.Black), WIDTH - total_size.Width - START_X, START_Y + OFFSET);
             OFFSET += (TITLE_HEIGHT + PRODUCT_SPACE);
@@ -427,13 +433,10 @@ namespace UI.ViewModels
 
         private Int32 _phraseNumber = 0;
 
-        public Int32 PhraseNumber
-        {
+        public Int32 PhraseNumber {
             get { return this._phraseNumber; }
-            set
-            {
-                if (this._phraseNumber != value)
-                {
+            set {
+                if (this._phraseNumber != value) {
                     this._phraseNumber = value;
                     onPropertyRaised("PhraseNumber");
                 }
