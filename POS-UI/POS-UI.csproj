@@ -345,6 +345,8 @@
     <Resource Include="res\icons\eye_primary.png" />
     <Resource Include="res\icons\deletedisable.png" />
     <Resource Include="res\icons\editdisable.png" />
+    <Resource Include="res\icons\enter.png" />
+    <Resource Include="res\icons\enterprimarydarker.png" />
     <Content Include="vender\System.Reactive.Core.dll" />
     <Content Include="vender\System.Reactive.Interfaces.dll" />
     <Content Include="vender\System.Reactive.Linq.dll" />
