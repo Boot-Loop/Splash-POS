@@ -88,7 +88,11 @@
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1">
-                        <Button x:Name="btnEnter" Content="Ent" Margin="2 2 4 2" Width="60"  Height="120" Style="{DynamicResource ButtonCommon}" FontSize="24" FontWeight="SemiBold" Click="btnClick" Focusable="False"/>
+                        <Button x:Name="btnEnter"        Margin="2 2 4 2" Width="60"  Height="120" Style="{DynamicResource ButtonCommon}" FontSize="24" FontWeight="SemiBold" Click="btnClick" Focusable="False">
+                            <Button.Content>
+                                <Image Source="/res/icons/enterprimarydarker.png" Width="40"/>
+                            </Button.Content>
+                        </Button>
                     </Grid>
                 </Grid>
             </Grid>

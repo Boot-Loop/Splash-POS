@@ -360,6 +360,10 @@
     <Resource Include="res\icons\eye_primary.png" />
     <Resource Include="res\icons\deletedisable.png" />
     <Resource Include="res\icons\editdisable.png" />
+<<<<<<< HEAD
+    <Resource Include="res\icons\enter.png" />
+    <Resource Include="res\icons\enterprimarydarker.png" />
+=======
     <Resource Include="res\icons\barcode_secondary.png" />
     <Resource Include="res\icons\code_secondary.png" />
     <Resource Include="res\icons\name_secondary.png" />
@@ -369,6 +373,7 @@
     <None Include="Resources\header_image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+>>>>>>> 1dd3940995fcdb48453d03067d3617d0d9965710
     <Content Include="vender\System.Reactive.Core.dll" />
     <Content Include="vender\System.Reactive.Interfaces.dll" />
     <Content Include="vender\System.Reactive.Linq.dll" />
