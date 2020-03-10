@@ -10,7 +10,7 @@
     <DockPanel Margin="10">
         <Grid Height="50" DockPanel.Dock="Top">
             <StackPanel Orientation="Horizontal" Margin="5 0">
-                <Button Command="{Binding AddCommand}"        Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon}">
+                <Button Command="{Binding AddCommand}"        Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}">
                     <Button.Content>
                         <StackPanel>
                             
@@ -19,7 +19,7 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <Button Command="{Binding EditCommand}"      Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}" >
+                <Button Command="{Binding EditCommand}"   Height="48" Width="48" Margin="5 1 5 1" Style="{DynamicResource ButtonCommon2}">
                     <Button.Content>
                         <StackPanel>
                             <Image Source="/res/icons/edit.png" Width="20" Height="20" Margin="0 2 0 0"/>
