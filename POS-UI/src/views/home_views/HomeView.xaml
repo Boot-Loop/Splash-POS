@@ -19,8 +19,8 @@
                 <Image Source="/res/images/pos.png" Width="38" Height="38" HorizontalAlignment="Left" Margin="8 8 16 4"/>
                 <Label Content="Splash Shoes"   Grid.Column="1" FontSize="22" FontWeight="Bold" VerticalContentAlignment="Center"/>
             </StackPanel>
-            <Label Content="{Binding Message}" Grid.Column="1" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="2" BorderBrush="Black" BorderThickness="2" Width="auto" Background="LightGreen" Height="{Binding Height}"/>
-            <Label Content="{Binding Title}" Grid.Column="1" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
+            <Label Content="{Binding Title}" Grid.Column="1" FontSize="24" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+            <!--<Label Content="{Binding Message}" Grid.Column="1" FontSize="18" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="2" BorderBrush="Black" BorderThickness="2" Width="auto" Background="LightGreen" Height="{Binding Height}"/>-->
             <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                 <Button Width="24" Height="24" Margin="13" Style="{DynamicResource ButtonFlat}" Command="{Binding SettingsCommand}">
                     <Button.Content>
@@ -35,8 +35,10 @@
             </StackPanel>
             
         </Grid>
-
-        <ContentControl x:Name="home_content_control"/>
+        <Grid>
+            <ContentControl x:Name="home_content_control"/>
+            <Label Content="{Binding Message}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Right" VerticalAlignment="Top" Height="{Binding Height}" Margin="0 0 4 0" BorderBrush="Black" BorderThickness="2" Width="300" Background="LightGreen"/>
+        </Grid>
     </DockPanel>
     
 </UserControl>

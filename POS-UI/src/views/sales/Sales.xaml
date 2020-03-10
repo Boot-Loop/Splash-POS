@@ -20,7 +20,13 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>-->
                 </ComboBox>
-                <Button Command="{Binding AddNewSaleCommand}" Width="32" Margin="8 4 8 4"/>
+                <Button Command="{Binding AddNewSaleCommand}" Width="24" Margin="8 4 8 4" Style="{DynamicResource ButtonCommon2}">
+                    <Button.Content>
+                        <StackPanel>
+                            <Image Source="/res/icons/plus.png" Width="16" Height="16" Margin="2"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">

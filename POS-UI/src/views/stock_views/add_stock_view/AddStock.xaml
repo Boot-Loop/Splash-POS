@@ -5,25 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.Views"
         mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
-        Title="AddSupplier" Height="400" Width="500">
+        Title="Add Stock" Height="400" Width="500">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Label Content="Product"    Margin="5 12 0 6"   FontSize="16" Height="30"/>
-            <Label Content="Supplier"   Margin="5 6"        FontSize="16" Height="30"/>
-            <Label Content="Quantity"   Margin="5 6"        FontSize="16" Height="30"/>
-            <Label Content="Unit Price" Margin="5 6"        FontSize="16" Height="30"/>
-            <Label Content="Date"       Margin="5 6"        FontSize="16" Height="30"/>
+            <Label Content="Product"    Margin="5 12 0 6"   FontSize="16" Height="30" Focusable="False"/>
+            <Label Content="Supplier"   Margin="5 6"        FontSize="16" Height="30" Focusable="False"/>
+            <Label Content="Quantity"   Margin="5 6"        FontSize="16" Height="30" Focusable="False"/>
+            <Label Content="Unit Price" Margin="5 6"        FontSize="16" Height="30" Focusable="False"/>
+            <Label Content="Date"       Margin="5 6"        FontSize="16" Height="30" Focusable="False"/>
         </StackPanel>
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1" PreviewKeyDown="StackPanel_PreviewKeyDown">
             <ComboBox Margin="5 12 5 8" FontSize="16" Height="30" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Padding="1"/>
             <ComboBox Margin="5 4 5 8"  FontSize="16" Height="30" ItemsSource="{Binding Suppliers}" SelectedItem="{Binding SelectedSupplier}" Padding="1"/>
             <TextBox Text="{Binding Quantity}"     Margin="5 4 5 8"    FontSize="16" Height="30" Padding="1"/>
             <TextBox Text="{Binding UnitPrice}"  Margin="5 4 5 8"      FontSize="16" Height="30" Padding="1"/>
-            <TextBox Text="{Binding Date}"  Margin="5 4 5 8"           FontSize="16" Height="30" Padding="1"/>
+            <TextBox x:Name="date_text_box" Text="{Binding Date}"  Margin="5 4 5 8"           FontSize="16" Height="30" Padding="1"/>
             <Button Content="{Binding UpdateOrCreate}" Command="{Binding CreateOrUpdateCommand}" FontSize="18" Margin="5 6" Height="30" Width="200" HorizontalAlignment="Right" Style="{DynamicResource ButtonCommon}"/>
         </StackPanel>
     </Grid>

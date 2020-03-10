@@ -35,7 +35,7 @@ namespace UI.ViewModels
             this.EditCommand = new RelayCommand(openEditWindow, isSelectedStaffNotNull);
             this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedStaffNotAdmin);
             this.ExportPDFCommand = new RelayCommand(exportPDF);
-            home_view_model.Title = "Users";
+            home_view_model.Title = "Staffs";
             refresh();
         }
 

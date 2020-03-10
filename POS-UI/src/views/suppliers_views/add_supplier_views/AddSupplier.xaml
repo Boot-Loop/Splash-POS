@@ -12,20 +12,20 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Label Content="First Name"     Margin="5 12 0 6"   FontSize="16" Height="30"/>
-            <Label Content="Last Name"      Margin="5 6"        FontSize="16" Height="30"/>
-            <Label Content="Address"        Margin="5 6"        FontSize="16" Height="30"/>
-            <Label Content="EMail"          Margin="5 6"        FontSize="16" Height="30"/>
-            <Label Content="Telephone"      Margin="5 6"        FontSize="16" Height="30"/>
-            <Label Content="Comments"       Margin="5 6"        FontSize="16" Height="30"/>
+            <Label Content="First Name"     Margin="5 12 0 6"   FontSize="16" Height="30" Focusable="False"/>
+            <Label Content="Last Name"      Margin="5 6"        FontSize="16" Height="30" Focusable="False"/>
+            <Label Content="Address"        Margin="5 6"        FontSize="16" Height="30" Focusable="False"/>
+            <Label Content="EMail"          Margin="5 6"        FontSize="16" Height="30" Focusable="False"/>
+            <Label Content="Telephone"      Margin="5 6"        FontSize="16" Height="30" Focusable="False"/>
+            <Label Content="Comments"       Margin="5 6"        FontSize="16" Height="30" Focusable="False"/>
         </StackPanel>
-        <StackPanel Grid.Column="1">
-            <TextBox Text="{Binding FirstName}"  Margin="5 12 5 8"       FontSize="16" Height="30" Padding="1"/>
+        <StackPanel Grid.Column="1" PreviewKeyDown="StackPanel_PreviewKeyDown">
+            <TextBox x:Name="first_name_text_box" Text="{Binding FirstName}"  Margin="5 12 5 8"       FontSize="16" Height="30" Padding="1"/>
             <TextBox Text="{Binding LastName}"   Margin="5 4 5 8"        FontSize="16" Height="30" Padding="1"/>
             <TextBox Text="{Binding Address}"    Margin="5 4 5 8"        FontSize="16" Height="30" Padding="1"/>
             <TextBox Text="{Binding EMail}"      Margin="5 4 5 8"        FontSize="16" Height="30" Padding="1"/>
             <TextBox Text="{Binding Telephone}"  Margin="5 4 5 8"        FontSize="16" Height="30" Padding="1"/>
-            <TextBox Text="{Binding Comments}"   Margin="5 4 5 6"        FontSize="16" Height="60" TextWrapping="Wrap" Padding="1"/>
+            <TextBox x:Name="comment_text_box" Text="{Binding Comments}"   Margin="5 4 5 6"        FontSize="16" Height="60" TextWrapping="Wrap" Padding="1"/>
             <Button Content="{Binding UpdateOrCreate}" Command="{Binding CreateOrUpdateCommand}" Margin="5 6" FontSize="18" Height="30" Width="200" Style="{DynamicResource ButtonCommon}" HorizontalAlignment="Right"/>
         </StackPanel>
     </Grid>

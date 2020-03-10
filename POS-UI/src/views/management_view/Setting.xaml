@@ -52,7 +52,7 @@
                 <Button.Content>
                     <StackPanel>
                         <Image Source="/res/images/staff.png" Height="100" Width="100"/>
-                        <Label Content="Staff" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                        <Label Content="Staffs" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
