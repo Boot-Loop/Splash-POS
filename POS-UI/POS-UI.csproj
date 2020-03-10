@@ -343,6 +343,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\icons\eye_primary.png" />
+    <Resource Include="res\icons\deletedisable.png" />
+    <Resource Include="res\icons\editdisable.png" />
     <Resource Include="res\icons\barcode_secondary.png" />
     <Resource Include="res\icons\code_secondary.png" />
     <Resource Include="res\icons\name_secondary.png" />

@@ -28,5 +28,19 @@ namespace UI.Views
             this._supplier_view_model = new SupplierViewModel(home_view_model);
             this.DataContext = _supplier_view_model;
         }
+
+        private void edit_button_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (edit_button.IsEnabled)
+                edit_button_image.Source = new BitmapImage(new Uri("/res/icons/edit.png", UriKind.Relative));
+            else edit_button_image.Source = new BitmapImage(new Uri("/res/icons/editdisable.png", UriKind.Relative));
+        }
+
+        private void delete_button_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (delete_button.IsEnabled)
+                delete_button_image.Source = new BitmapImage(new Uri("/res/icons/bin.png", UriKind.Relative));
+            else delete_button_image.Source = new BitmapImage(new Uri("/res/icons/deletedisable.png", UriKind.Relative));
+        }
     }
 }
