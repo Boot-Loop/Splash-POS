@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -117,6 +118,27 @@ namespace UI.Views
             Forms.DialogResult result = Forms.MessageBox.Show("You want to print Recipt?", "Print Recipt", Forms.MessageBoxButtons.YesNo, Forms.MessageBoxIcon.Information);
             if (result == Forms.DialogResult.Yes) {
                 NewSaleViewModel.print();
+            }
+            if (NewSaleViewModel.SalesViewModel.NewSales.Count == 1)  {
+                NewSaleViewModel.SalesViewModel.SaleDescriptions.RemoveAt(0);
+                NewSaleViewModel.SalesViewModel.NewSales.Remove(NewSaleViewModel.NewSale);
+                NewSaleViewModel.SalesViewModel.NewSales.Add(new NewSale(NewSaleViewModel.SalesViewModel, NewSaleViewModel.SalesViewModel.HomeViewModel));
+                NewSaleViewModel.SalesViewModel.SaleDescriptions.Add("New Sale");
+                NewSaleViewModel.SalesViewModel.SelectedIndex = 0;
+            }
+            else {
+                List<NewSale> temp_list = new List<NewSale>();
+                foreach (NewSale new_sale in NewSaleViewModel.SalesViewModel.NewSales) {
+                    temp_list.Add(new_sale);
+                }
+                for (int i = 0; i < temp_list.Count; i++) {
+                    if (temp_list[i] == NewSaleViewModel.NewSale) {
+                        NewSaleViewModel.SalesViewModel.NewSales.Remove(NewSaleViewModel.NewSale);
+                        NewSaleViewModel.SalesViewModel.SaleDescriptions.RemoveAt(i);
+                        NewSaleViewModel.SalesViewModel.SelectedIndex = NewSaleViewModel.SalesViewModel.NewSales.Count - 1;
+                        break;
+                    }
+                }
             }
             this.Close();
         }

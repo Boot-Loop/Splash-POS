@@ -310,7 +310,13 @@ namespace UI.ViewModels
             DiscountView discount_view = new DiscountView();
             discount_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - discount_view.ActualWidth;
             discount_view.Top = HomeViewModel.MainView.Top + 160;
-            discount_view.Show();
+            if (SelectedItem != null) {
+                discount_view.CartSelected = false;
+                discount_view.Show();
+            } else {
+                discount_view.product_button.IsEnabled = false;
+                discount_view.Show();
+            }
         }
         private void quantityButtonPressed(object parameter) {
             if (SelectedItem != null) {
@@ -327,11 +333,13 @@ namespace UI.ViewModels
             }
         }
         private void payButtonPressed(object parameter) {
-            PaymentView payment_view = new PaymentView(this);
-            payment_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - payment_view.ActualWidth;
-            payment_view.Top = HomeViewModel.MainView.Top + 160;
-            payment_view.Total = this.Total;
-            payment_view.ShowDialog();
+            if (this.SaleProducts.Count != 0) {
+                PaymentView payment_view = new PaymentView(this);
+                payment_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - payment_view.ActualWidth;
+                payment_view.Top = HomeViewModel.MainView.Top + 160;
+                payment_view.Total = this.Total;
+                payment_view.ShowDialog();
+            }
         }
         private bool isSelectedItemNotNull(object parameter) {
             return SelectedItem == null ? false : true;
