@@ -17,17 +17,17 @@
                     <RowDefinition Height="2"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="4 4 4 2">
-                    <Button Content="Cart"      Width="124" Margin="0 0 2 0" Style="{DynamicResource ButtonCommon2}"/>
-                    <Button Content="Product"   Width="124" Margin="2 0 0 0" Style="{DynamicResource ButtonCommon2}"/>
+                    <Button x:Name="cart_button" Content="Cart"      Width="124" Margin="0 0 2 0" Style="{DynamicResource ButtonCommon2}" FontSize="16" Foreground="{DynamicResource COLOR_PRIMARY_DARKER}" FontWeight="SemiBold" Click="btnClickD" Focusable="False"/>
+                    <Button x:Name="product_button" Content="Product"   Width="124" Margin="2 0 0 0" Style="{DynamicResource ButtonCommon2}" FontSize="16" Foreground="{DynamicResource COLOR_PRIMARY_DARKER}" FontWeight="SemiBold" Click="btnClickD" Focusable="False"/>
                 </StackPanel>
-                <TextBox Grid.Row="1"  x:Name="inputTextBox" Margin="4 2" HorizontalContentAlignment="Right" Padding="6" FontSize="24" FontWeight="SemiBold">
+                <TextBox Grid.Row="1"  x:Name="inputTextBox" Margin="4 2" HorizontalContentAlignment="Right" Padding="6" FontSize="24" FontWeight="SemiBold" PreviewTextInput="previewTextInput" CommandManager.PreviewExecuted="previewExecuted" >
                     <TextBox.InputBindings>
                         <KeyBinding x:Name="enterKeyBinding" Key="Enter" />
                     </TextBox.InputBindings>
                 </TextBox>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="4 2">
-                    <Button Content="%"      Width="124" Margin="0 0 2 0" Style="{DynamicResource ButtonCommon2}"/>
-                    <Button Content="Rs"     Width="124" Margin="2 0 0 0" Style="{DynamicResource ButtonCommon2}"/>
+                    <Button x:Name="percent_button" Content="%"      Width="124" Margin="0 0 2 0" Style="{DynamicResource ButtonCommon2}" FontSize="16" Foreground="{DynamicResource COLOR_PRIMARY_DARKER}" FontWeight="Bold" Click="btnClickD" Focusable="False"/>
+                    <Button x:Name="rs_button" Content="Rs"     Width="124" Margin="2 0 0 0" Style="{DynamicResource ButtonCommon2}" FontSize="16" Foreground="{DynamicResource COLOR_PRIMARY_DARKER}" FontWeight="Bold" Click="btnClickD" Focusable="False"/>
                 </StackPanel>
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
@@ -51,7 +51,7 @@
                     <Button x:Name="btnFour"     Tag="4"    Content="4"   Grid.Column="0" Grid.Row="1" Margin="4 2 2 2" Width="59" Height="56" Style="{DynamicResource ButtonCommon}" FontSize="24" FontWeight="SemiBold" Focusable="False" Click="btnClick"/>
                     <Button x:Name="btnFive"     Tag="5"    Content="5"   Grid.Column="1" Grid.Row="1" Margin="2 2 2 2" Width="59" Height="56" Style="{DynamicResource ButtonCommon}" FontSize="24" FontWeight="SemiBold" Focusable="False" Click="btnClick"/>
                     <Button x:Name="btnSix"      Tag="6"    Content="6"   Grid.Column="2" Grid.Row="1" Margin="2 2 2 2" Width="59" Height="56" Style="{DynamicResource ButtonCommon}" FontSize="24" FontWeight="SemiBold" Focusable="False" Click="btnClick"/>
-                    <Button x:Name="btnESC"      Tag="ESC"  Content="ESC" Grid.Column="3" Grid.Row="1" Margin="2 2 4 2" Width="59" Height="56" Style="{DynamicResource ButtonCommon}" FontSize="24" FontWeight="SemiBold" Focusable="False" Click="btnClick"/>
+                    <Button x:Name="btnEsc"      Tag="ESC"  Content="ESC" Grid.Column="3" Grid.Row="1" Margin="2 2 4 2" Width="59" Height="56" Style="{DynamicResource ButtonCommon}" FontSize="24" FontWeight="SemiBold" Focusable="False" Click="btnClick"/>
 
 
 
