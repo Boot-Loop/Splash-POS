@@ -1,18 +1,9 @@
-﻿using POS_UI.src.views.customers_views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using UI.Views;
+
+using UI.ViewModels;
 
 namespace UI.Views
 {
@@ -21,10 +12,32 @@ namespace UI.Views
     /// </summary>
     public partial class MainView : Window
     {
+        public NewSaleViewModel NewSaleViewModel { get; set; }
         public MainView()
         {
             InitializeComponent();
             this.Content = new LoginView(this);
+        }
+
+        private void windowActivated(object sender, EventArgs e) {
+            if (NewSaleViewModel != null)
+            {
+                if (NewSaleViewModel.SearchByBarcode) {
+                    NewSaleViewModel.selectSearchType("Barcode");
+                }
+                else if (NewSaleViewModel.SearchByName) {
+                    NewSaleViewModel.selectSearchType("Name");
+                }
+                else if (NewSaleViewModel.SearchByCode) {
+                    NewSaleViewModel.selectSearchType("Code");
+                }
+            }
+        }
+
+        public void bringToFront() {
+            //this.Topmost = true;
+            //this.Activate();
+            //this.Show();
         }
     }
 }

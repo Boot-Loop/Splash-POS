@@ -87,7 +87,10 @@ namespace UI.ViewModels
             this.SelectedIndex = NewSales.Count - 1;
         }
         private void bringSaleToFront(int selected_index) {
-            if (selected_index >= 0) Sales.sales_content_control.Content = NewSales[selected_index];
+            if (selected_index >= 0) {
+                Sales.sales_content_control.Content = NewSales[selected_index];
+                HomeViewModel.MainView.NewSaleViewModel = NewSales[selected_index].NewSaleViewModel;
+            }
         }
 
         private void onPropertyRaised(string property_name) {

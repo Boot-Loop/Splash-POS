@@ -1,11 +1,17 @@
-﻿using System;
+﻿using Core.DB.Models;
+using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using UI.ViewModels;
+using UI.ViewModels.Commands;
 
 namespace UI.Views
 {
@@ -21,28 +27,47 @@ namespace UI.Views
 
         private bool _cart_selected;
         private bool _percent_selected;
+        private string _discount;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public NewSaleViewModel NewSaleViewModel { get; set; }
+        public RelayCommand EnterCommand { get; private set; }
+        public RelayCommand CloseCommand { get; private set; }
+
         public bool CartSelected {
             get { return _cart_selected; }
-            set { _cart_selected = value; onPropertyRaised("CartSelected"); }
+            set { _cart_selected = value;
+                onPropertyRaised("CartSelected");
+                if (CartSelected) { cart_button.Background = selected_bg; product_button.Background = not_selected_bg; }
+                else { cart_button.Background = not_selected_bg; product_button.Background = selected_bg; }
+            }
         }
         public bool PercentSelected {
             get { return _percent_selected; }
-            set { _percent_selected = value; onPropertyRaised("PercentSelected"); }
+            set { _percent_selected = value;
+                onPropertyRaised("PercentSelected");
+                if (PercentSelected) { percent_button.Background = selected_bg; rs_button.Background = not_selected_bg; }
+                else { percent_button.Background = not_selected_bg; rs_button.Background = selected_bg; }
+            }
+        }
+        public string Discount {
+            get { return _discount; }
+            set { _discount = value; onPropertyRaised("Discount"); }
         }
 
-
-        public DiscountView() {
+        public DiscountView(NewSaleViewModel new_sale_view_model) {
             InitializeComponent();
+            this.DataContext = this;
+            this.NewSaleViewModel = new_sale_view_model;
+            this.EnterCommand = new RelayCommand(enterPressed);
+            this.CloseCommand = new RelayCommand(closeCommand);
             this.CartSelected = true;
             this.PercentSelected = false;
-            if (CartSelected) { cart_button.Background = selected_bg; product_button.Background = not_selected_bg; }
-            else { cart_button.Background = not_selected_bg; product_button.Background = selected_bg; }
-            if (PercentSelected) { percent_button.Background = selected_bg; rs_button.Background = not_selected_bg; }
-            else { percent_button.Background = not_selected_bg; rs_button.Background = selected_bg; }
+            this.Discount = "0";
             inputTextBox.Focus();
         }
+
+        private void closeCommand(object parameter) { this.Close(); }
 
         private void windowDeactivated(object sender, EventArgs e) {
             try { this.Close(); }
@@ -88,7 +113,7 @@ namespace UI.Views
                 this.Close();
             }
             else if (name == "btnEnter") {
-                
+                enterPressed(Discount);
             }
             else if (name == "btnDot") {
                 if (string.IsNullOrEmpty(inputTextBox.SelectedText)) { if (!inputTextBox.Text.Contains(".")) { inputTextBox.AppendText("."); } }
@@ -104,21 +129,53 @@ namespace UI.Views
             Button button = (Button)sender;
             string name = button.Name;
             if (name == "cart_button") {
-                cart_button.Background = selected_bg; product_button.Background = not_selected_bg;
+                CartSelected = true;
             }
             else if (name == "product_button") {
-                cart_button.Background = not_selected_bg; product_button.Background = selected_bg;
+                CartSelected = false;
             }
             else if (name == "percent_button") {
-                percent_button.Background = selected_bg; rs_button.Background = not_selected_bg;
+                PercentSelected = true;
             }
             else if (name == "rs_button") {
-                percent_button.Background = not_selected_bg; rs_button.Background = selected_bg;
+                PercentSelected = false;
             }
         }
 
         private void enterPressed(object parameter) {
             Thread.Sleep(100);
+            if (!_cart_selected) {
+                ObservableCollection<SaleProductModel> temp_list = new ObservableCollection<SaleProductModel>();
+                double discount;
+                try { discount = Convert.ToDouble(Discount); }
+                catch (Exception) { discount = 0; }
+                foreach (SaleProductModel sp_model in NewSaleViewModel.SaleProducts) {
+                    temp_list.Add(sp_model);
+                }
+                for (int i = 0; i < temp_list.Count; i++) {
+                    if (temp_list[i] == NewSaleViewModel.SelectedItem) {
+                        SaleProductModel temp_model = temp_list[i];
+                        NewSaleViewModel.SaleProducts.Remove(temp_list[i]);
+                        if (_percent_selected) { temp_model.Discount.value = -(temp_model.Price.value * temp_model.Qunatity.value) * discount * 0.01; }
+                        else { temp_model.Discount.value = -discount; }
+                        temp_model.SubTotal.value = (temp_model.Price.value * temp_model.Qunatity.value) + temp_model.Discount.value;
+                        NewSaleViewModel.SaleProducts.Insert(i, temp_model);
+                        break;
+                    }
+                }
+            } else {
+                double discount;
+                double sub_total = 0;
+                try { discount = Convert.ToDouble(Discount); }
+                catch (Exception) { discount = 0; }
+                foreach (SaleProductModel sale_product in NewSaleViewModel.SaleProducts) {
+                    sub_total += sale_product.Price.value * sale_product.Qunatity.value;
+                }
+                if (_percent_selected) { NewSaleViewModel.CartDiscount = sub_total * discount * 0.01; }
+                else { NewSaleViewModel.CartDiscount = discount; }
+               
+            }
+            NewSaleViewModel.calculateTotal();
             this.Close();
         }
 
@@ -131,5 +188,8 @@ namespace UI.Views
             inputTextBox.SelectAll();
         }
 
+        private void windowClosed(object sender, EventArgs e) {
+            NewSaleViewModel.HomeViewModel.MainView.bringToFront();
+        }
     }
 }

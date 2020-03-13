@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI.Views"
         mc:Ignorable="d"
-        Title="DiscountView" Height="372" Width="264" WindowStyle="None" Deactivated="windowDeactivated" Background="{DynamicResource COLOR_PRIMARY_LIGHTER}" ResizeMode="NoResize">
+        Title="DiscountView" Height="372" Width="264" WindowStyle="None" Deactivated="windowDeactivated" Background="{DynamicResource COLOR_PRIMARY_LIGHTER}" ResizeMode="NoResize" Loaded="windowLoaded" Closed="windowClosed">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}"/>
+    </Window.InputBindings>
     <Grid>
         <Border BorderBrush="{DynamicResource COLOR_PRIMARY_DARKER}" BorderThickness="2">
             <Grid>
@@ -20,9 +23,9 @@
                     <Button x:Name="cart_button" Content="Cart"      Width="124" Margin="0 0 2 0" Style="{DynamicResource ButtonCommon2}" FontSize="16" Foreground="{DynamicResource COLOR_PRIMARY_DARKER}" FontWeight="SemiBold" Click="btnClickD" Focusable="False"/>
                     <Button x:Name="product_button" Content="Product"   Width="124" Margin="2 0 0 0" Style="{DynamicResource ButtonCommon2}" FontSize="16" Foreground="{DynamicResource COLOR_PRIMARY_DARKER}" FontWeight="SemiBold" Click="btnClickD" Focusable="False"/>
                 </StackPanel>
-                <TextBox Grid.Row="1"  x:Name="inputTextBox" Margin="4 2" HorizontalContentAlignment="Right" Padding="6" FontSize="24" FontWeight="SemiBold" PreviewTextInput="previewTextInput" CommandManager.PreviewExecuted="previewExecuted" >
+                <TextBox Text="{Binding Discount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1"  x:Name="inputTextBox" Margin="4 2" HorizontalContentAlignment="Right" Padding="6" FontSize="24" FontWeight="SemiBold" PreviewTextInput="previewTextInput" CommandManager.PreviewExecuted="previewExecuted" >
                     <TextBox.InputBindings>
-                        <KeyBinding x:Name="enterKeyBinding" Key="Enter" />
+                        <KeyBinding x:Name="enterKeyBinding" Key="Enter" Command="{Binding EnterCommand}" CommandParameter="{Binding Discount}"/>
                     </TextBox.InputBindings>
                 </TextBox>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="4 2">

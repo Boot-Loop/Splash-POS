@@ -1,17 +1,14 @@
-﻿using Core.DB.Access;
-using Core.DB.Models;
-using Core.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+
+using Core.DB.Access;
+using Core.DB.Models;
+using Core.Utils;
 
 namespace Core
 {
@@ -19,37 +16,51 @@ namespace Core
     {
 		private static readonly Application instance = new Application();
 
+        public static Logger logger = new Logger("logs");
+
 		private Application() { }
+
 		public static Application singleton {
 			get { return instance; }
 		}
 
 		public void initialize() {
 			createDatabase();
+            insertInitialDatas();
 			if (!Directory.Exists(Paths.PROGRAMME_DATA)) Directory.CreateDirectory(Paths.PROGRAMME_DATA);
 			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
 
 		}
 
-		public static bool checkDatabaseExists(string databaseName) {
-			using (SqlConnection connection = new SqlConnection(@"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True")) {
-				using (SqlCommand command = new SqlCommand($"SELECT db_id('{databaseName}')", connection)) {
-					try {
+		private bool checkDatabaseExists(string databaseName) {
+            bool isExists;
+			using (SqlConnection connection = new SqlConnection(Constants.INITIAL_CONNECTION_STRING)) {
+                string command_text = "SELECT db_id('@DB_Name')";
+                using (SqlCommand command = new SqlCommand(command_text)) {
+                    command.Connection = connection;
+                    command.Parameters.Add("@DB_Name", System.Data.SqlDbType.Text).Value = databaseName;
+                    try {
 						connection.Open();
-						return (command.ExecuteScalar() != DBNull.Value);
-					}catch (Exception ex) { Console.WriteLine(ex); }
+                        isExists = command.ExecuteScalar() != DBNull.Value;
+                        logger.log("Successfully existance of database checked");
+                        return isExists;
+					}
+                    catch (Exception ex) { logger.log($"Failed to check existance of database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+                    finally {
+                        try { connection.Close(); logger.log("Successfully connection closed"); }
+                        catch (Exception ex) { logger.log($"Failed to close connection while checking existance of database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+                    }
 				}
 			}
 			return false;
 		}
-
 		private void createDatabase() {
 			if (!checkDatabaseExists("POS-DB")) {
-				using (SqlConnection connection = new SqlConnection(@"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True")) {
-					string strAppPath = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-					string strFilePath = Path.Combine(strAppPath, "Resources");
-					string strFullFilename = Path.Combine(strFilePath, "script.sql");
-					string script = File.ReadAllText(strFullFilename);
+				using (SqlConnection connection = new SqlConnection(Constants.INITIAL_CONNECTION_STRING)) {
+					string strAppPath       = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+					string strFilePath      = Path.Combine(strAppPath, "Resources");
+					string strFullFilename  = Path.Combine(strFilePath, "script.sql");
+					string script           = File.ReadAllText(strFullFilename);
 					try {
 						connection.Open();
 						IEnumerable<string> commandStrings = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -58,22 +69,38 @@ namespace Core
 								new SqlCommand(commandString, connection).ExecuteNonQuery();
 							}
 						}
-						StaffModel model = new StaffModel();
-						model.FirstName.value = "admin";
-						model.LastName.value = "admin";
-						model.UserName.value = "admin";
-						model.Password.value = "admin";
-						model.EMail.value = "admin@mail.com";
-						model.AccessLevel.value = 10;
-						StaffAccess.singleton.addStaff(model);
-					}
-					catch (Exception ex) {
-						Console.WriteLine(ex);
-					}
-					finally { connection.Close(); }
+                        logger.log("Successfully database created!");
+                    }
+					catch (Exception ex) { logger.log($"Failed to create database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+					finally {
+                        try { connection.Close(); logger.log("Successfully connection closed"); }
+                        catch (Exception ex) { logger.log($"Failed to close connection while creatig database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+                    }
 				}
 			}
 		}
+        private void insertInitialDatas() {
+            StaffModel staff_model                  = new StaffModel();
+            PaymentMethodModel payment_method_model = new PaymentMethodModel();
+            ProductGroupModel product_group_model   = new ProductGroupModel();
+            staff_model.FirstName.value     = "admin";
+            staff_model.LastName.value      = "admin";
+            staff_model.UserName.value      = "admin";
+            staff_model.Password.value      = "admin";
+            staff_model.EMail.value         = "admin@mail.com";
+            staff_model.AccessLevel.value   = 10;
+            payment_method_model.Type.value = "Cash";
+            product_group_model.Name.value  = "Products";
+            try {
+                StaffAccess.singleton.addStaff(staff_model);
+                SaleAccess.singleton.addPaymentMethod(payment_method_model);
+                ProductAccess.singleton.addProductGroup(product_group_model);
+                logger.log("Successfully initial datas inserted");
+            }
+            catch (Exception ex) { logger.log($"Failed to insert initial datas to the database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+        }
+
+        
 
         public void updateReciptPrinterName(string name) {
             ReciptPrinter printer = new ReciptPrinter() { Name = name };

@@ -27,6 +27,7 @@ namespace UI.ViewModels
         private string _paid;
         private string _balance;
         private string _quantity;
+        private double _cart_discount;
         private int _sale_id;
         private bool _search_by_barcode;
         private bool _search_by_code;
@@ -78,6 +79,10 @@ namespace UI.ViewModels
         public string Quantity {
             get { return _quantity; }
             set { _quantity = value; onPropertyRaised("Quantity"); addProductToList(SearchedModel, Quantity); }
+        }
+        public double CartDiscount {
+            get { return _cart_discount; }
+            set { _cart_discount = value; onPropertyRaised("CartDiscount"); }
         }
         public int SaleID {
             get { return _sale_id; }
@@ -144,7 +149,7 @@ namespace UI.ViewModels
             quantity_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - quantity_view.ActualWidth;
             quantity_view.Top = HomeViewModel.MainView.Top + 160;
             foreach (SaleProductModel sp_modle in SaleProducts) {
-                if (sp_modle.ProductID.value == SearchedModel.ID.value) {
+                if (sp_modle.ProductID.value == SearchedModel.ID.value && sp_modle.Discount.value == 0) {
                     quantity_view.Quantity = sp_modle.Qunatity.value.ToString();
                     found = true;
                     break;
@@ -204,13 +209,13 @@ namespace UI.ViewModels
             foreach (SaleProductModel sp_model in SaleProducts) {
                 temp_list.Add(sp_model);
             }
-            foreach (SaleProductModel sp_modle in temp_list) {
-                if (sp_modle.ProductID.value == model.ID.value) {
-                    SaleProductModel temp_model = sp_modle;
-                    SaleProducts.Remove(sp_modle);
+            for (int i = 0; i < temp_list.Count; i++) {
+                if (temp_list[i].ProductID.value == model.ID.value && temp_list[i].Discount.value == 0) {
+                    SaleProductModel temp_model = temp_list[i];
+                    SaleProducts.Remove(temp_list[i]);
                     temp_model.Qunatity.value = int_quantity;
                     temp_model.SubTotal.value = temp_model.Price.value * temp_model.Qunatity.value;
-                    SaleProducts.Add(temp_model);
+                    SaleProducts.Insert(i, temp_model);
                     found = true;
                     break;
                 }
@@ -225,27 +230,30 @@ namespace UI.ViewModels
                 SaleProducts.Add(sale_product_model);
             }
             SearchedModel = null;
-            this.SubTotal = calculateTotal()[0].ToString("0.00");
-            this.Total = calculateTotal()[2].ToString("0.00");
+            calculateTotal();
         }
         private void voidButtonPressed(object parameter) {
             this.SalesViewModel.removeSale(NewSale);
         }
 
-        public List<double> calculateTotal() {
+        public void calculateTotal() {
             double sub_total = 0;
             double discount = 0;
+            double total = 0;
             foreach (SaleProductModel sale_product in SaleProducts) {
-                sub_total += sale_product.SubTotal.value;
+                sub_total += sale_product.Price.value * sale_product.Qunatity.value;
                 discount += sale_product.Discount.value;
+                total += sale_product.SubTotal.value;
             }
-            double total = sub_total - discount;
-            return new List<double>() { sub_total, discount, total };
+            discount -= CartDiscount;
+            total -= CartDiscount;
+            this.SubTotal = sub_total.ToString("0.00");
+            this.Discount = discount.ToString("0.00");
+            this.Total = total.ToString("0.00");
         }
         private void deleteItem(object parameter) {
             SaleProducts.Remove(SelectedItem);
-            this.SubTotal = calculateTotal()[0].ToString("0.00");
-            this.Total = calculateTotal()[2].ToString("0.00");
+            calculateTotal();
         }
         private void doPayment(object parameter) {
             if (SaleProducts.Count == 0) { }
@@ -307,7 +315,7 @@ namespace UI.ViewModels
             }
         }
         private void discountButtonPressed(object parameter) {
-            DiscountView discount_view = new DiscountView();
+            DiscountView discount_view = new DiscountView(this);
             discount_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - discount_view.ActualWidth;
             discount_view.Top = HomeViewModel.MainView.Top + 160;
             if (SelectedItem != null) {
@@ -407,7 +415,8 @@ namespace UI.ViewModels
             foreach (SaleProductModel sale_product_model in SaleProducts) {
                 graphics.DrawString(sale_product_model.ProductName.value, item_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
                 OFFSET += (TEXT_HEIGHT);
-                graphics.DrawString(sale_product_model.Qunatity.value + " x " + sale_product_model.Price.value.ToString("0.00"), item_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
+                if (sale_product_model.Discount.value == 0) { graphics.DrawString(sale_product_model.Qunatity.value + " x " + sale_product_model.Price.value.ToString("0.00"), item_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET); }
+                else { graphics.DrawString(sale_product_model.Qunatity.value + " x " + sale_product_model.Price.value.ToString("0.00") + " (" + sale_product_model.Discount.value.ToString("0.00") + ")", item_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET); }
                 string item_amount = sale_product_model.SubTotal.value.ToString("0.00");
                 SizeF item_amoutn_size = measurement(e, item_amount, item_font);
                 graphics.DrawString(item_amount, item_font, new SolidBrush(System.Drawing.Color.Black), WIDTH - item_amoutn_size.Width - START_X, START_Y + OFFSET);
@@ -416,7 +425,7 @@ namespace UI.ViewModels
             graphics.DrawString(LINE_BREAK, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT);
             graphics.DrawString("Total Discount: ", text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
-            string discount_amount = "0.00";
+            string discount_amount = this.Discount;
             SizeF discount_amount_size = measurement(e, discount_amount, text_font);
             graphics.DrawString(discount_amount, text_font, new SolidBrush(System.Drawing.Color.Black), WIDTH - discount_amount_size.Width - START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT + PRODUCT_SPACE);

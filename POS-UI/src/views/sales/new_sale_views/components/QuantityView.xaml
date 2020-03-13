@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:UI.Views"
         mc:Ignorable="d"
         Title="QuantityView" Height="358" Width="264" WindowStyle="None" Deactivated="windowDeactivated" Background="{DynamicResource COLOR_PRIMARY_LIGHTER}" ResizeMode="NoResize" Loaded="windowLoaded">
-
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}"/>
+    </Window.InputBindings>
     <Window.Resources>
         <ControlTemplate x:Key="TextboxCornerTemplate" TargetType="{x:Type TextBoxBase}">
             <Border Background="{TemplateBinding Background}"   
