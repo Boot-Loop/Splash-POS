@@ -1,19 +1,19 @@
-﻿using Core.DB.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Core.DB.Models;
+using CoreApp = Core.Application;
 
 namespace Core.DB.Access
 {
-	public class SupplierAccess
+	public class SupplierAccess : DataAccess
 	{
-
 		private static readonly SupplierAccess instance = new SupplierAccess();
+
 		private SupplierAccess() { }
+
 		public static SupplierAccess singleton {
 			get { return instance; }
 		}
@@ -38,9 +38,13 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
+						CoreApp.logger.log("Successfully supplier added to database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
+					finally {
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
 				}
 			}
 		}
@@ -53,9 +57,13 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
+						CoreApp.logger.log("Successfully supplier deleted from database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
+					finally {
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
 				}
 			}
 		}
@@ -76,39 +84,15 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
-					}
-					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
-				}
-			}
-		}
-
-		private DataTable select(SqlCommand sql_command) {
-			DataTable data_table = new DataTable();
-			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				using (SqlCommand command = sql_command) {
-					command.Connection = connection;
-					try {
-						connection.Open();
-						SqlDataAdapter data_adapter = new SqlDataAdapter(command);
-						data_adapter.Fill(data_table);
+						CoreApp.logger.log("Successfully supplier updated in database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
 					finally {
-						connection.Close();
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
 					}
-					return data_table;
 				}
 			}
-		}
-		private IEnumerable<T> excuteObject<T>(SqlCommand sql_command) {
-			List<T> items = new List<T>();
-			var dataTable = select(sql_command);
-			foreach (var row in dataTable.Rows) {
-				T item = (T)Activator.CreateInstance(typeof(T), row);
-				items.Add(item);
-			}
-			return items;
 		}
 	}
 }

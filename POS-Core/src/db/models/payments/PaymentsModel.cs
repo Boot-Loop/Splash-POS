@@ -11,23 +11,27 @@ namespace Core.DB.Models
 {
     public class PaymentModel : Model
     {
-        public IntergerField ID { get; set; } = new IntergerField(name: "ID");
-        public IntergerField PaymentMethodID { get; set; } = new IntergerField(name: "PaymentMethodID");
-        public FloatField Amount { get; set; } = new FloatField(name: "Amount", is_required: true);
-        public DateTimeField TransactionTime { get; set; } = new DateTimeField(name: "TransactionTime");
-
-        public PaymentModel(DataRow data_row) {
-            this.ID.value = Convert.ToInt32(data_row["ID"]);
-            if (!data_row.IsNull("PaymentMethod_ID")) this.PaymentMethodID.value = Convert.ToInt32(data_row["PaymentMethod_ID"]); else this.PaymentMethodID.setToNull();
-            this.Amount.value = Convert.ToDouble(data_row["Amount"]);
-            if (!data_row.IsNull("TransactionTime")) this.TransactionTime.value = Convert.ToDateTime(data_row["TransactionTime"]); else this.TransactionTime.setToNull();
-        }
+        public IntergerField ID                 { get; set; } = new IntergerField(  name: "ID");
+        public IntergerField PaymentMethodID    { get; set; } = new IntergerField(  name: "PaymentMethodID",    is_required: true);
+        public FloatField SubTotal              { get; set; } = new FloatField(     name: "SubTotal",           is_required: true);
+        public FloatField Discount              { get; set; } = new FloatField(     name: "Discount",           is_required: true);
+        public FloatField Total                 { get; set; } = new FloatField(     name: "Total",              is_required: true);
+        public FloatField Paid                  { get; set; } = new FloatField(     name: "Paid",               is_required: true);
+        public FloatField Balance               { get; set; } = new FloatField(     name: "Balance",            is_required: true);
+        public DateTimeField TransactionTime    { get; set; } = new DateTimeField(  name: "TransactionTime",    is_required: true);
 
         public PaymentModel() { }
 
-        public override object getPK() => null;
-        public override ModelType getType() => ModelType.MODEL_PAYMENT;
-        public override bool matchPK(object pk) { return false; }
-        public override void validateRelation() { }
+        public PaymentModel(DataRow data_row) {
+            this.ID.value               = Convert.ToInt32(data_row["ID"]);
+            this.PaymentMethodID.value  = Convert.ToInt32(data_row["PaymentMethod_ID"]);
+            this.SubTotal.value         = Convert.ToDouble(data_row["SubTotal"]);
+            this.Discount.value         = Convert.ToDouble(data_row["Discount"]);
+            this.Total.value            = Convert.ToDouble(data_row["Total"]);
+            this.Paid.value             = Convert.ToDouble(data_row["Paid"]);
+            this.Balance.value          = Convert.ToDouble(data_row["Balance"]);
+            this.TransactionTime.value  = Convert.ToDateTime(data_row["TransactionTime"]);
+        }
+
     }
 }

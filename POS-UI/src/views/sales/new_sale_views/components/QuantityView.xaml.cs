@@ -30,6 +30,7 @@ namespace UI.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand EnterCommand { get; private set; }
+        public RelayCommand CloseCommand { get; private set; } 
         public NewSaleViewModel NewSaleViewModel { get; set; }
 
         public string Quantity {
@@ -40,11 +41,14 @@ namespace UI.Views
         public QuantityView(NewSaleViewModel new_sale_view_model) {
             InitializeComponent();
             this.EnterCommand = new RelayCommand(enterPressed);
+            this.CloseCommand = new RelayCommand(closeCommand);
             this.DataContext = this;
             this.Quantity = "1";
             this.NewSaleViewModel = new_sale_view_model;
             inputTextBox.Focus();
         }
+
+        private void closeCommand(object parameter) { this.Close(); }
 
         private void windowDeactivated(object sender, EventArgs e) {
             try { this.Close(); }

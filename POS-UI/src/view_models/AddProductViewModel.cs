@@ -97,11 +97,11 @@ namespace UI.ViewModels
             try {
                 ProductAccess.singleton.addProduct(model);
                 this.AddProduct.Close();
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!", true));
                 thread.Start();
             }
             catch (Exception) {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!", false));
                 thread.Start();
             }
 
@@ -124,11 +124,11 @@ namespace UI.ViewModels
             try {
                 ProductAccess.singleton.updateProduct(model, this.ID);
                 this.AddProduct.Close();
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!", true));
                 thread.Start();
             }
             catch (Exception) {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!", false));
                 thread.Start();
             }
 

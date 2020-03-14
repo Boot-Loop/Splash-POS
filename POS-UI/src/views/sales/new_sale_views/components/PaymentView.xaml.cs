@@ -26,6 +26,7 @@ namespace UI.Views
 
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand EnterCommand { get; private set; }
+        public RelayCommand CloseCommand { get; private set; } 
         public NewSaleViewModel NewSaleViewModel { get; set; }
 
         public string Paid {
@@ -52,10 +53,13 @@ namespace UI.Views
         public PaymentView(NewSaleViewModel new_sale_view_model) {
             InitializeComponent();
             this.EnterCommand = new RelayCommand(enterPressed);
+            this.CloseCommand = new RelayCommand(closeCommand);
             this.DataContext = this;
             this.NewSaleViewModel = new_sale_view_model;
             inputTextBox.Focus();
         }
+
+        private void closeCommand(object parameter) { this.Close(); }
         private static bool isTextAllowed(string text) {
             return !_regex.IsMatch(text);
         }

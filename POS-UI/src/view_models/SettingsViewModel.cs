@@ -54,11 +54,11 @@ namespace UI.ViewModels
             if (SelectedPrinter != null) {
                 try {
                     CoreApp.singleton.updateReciptPrinterName(this.SelectedPrinter);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Printer Successfully Configured!"));
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Printer Successfully Configured!", true));
                     thread.Start();
                 }
                 catch (Exception) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Printer Configuration Failed!"));
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Printer Configuration Failed!", false));
                     thread.Start();
                 }
             }

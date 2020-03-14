@@ -80,7 +80,6 @@ namespace UI.ViewModels
                     if (supplier.ID.value == SupplierID) { this.SelectedSupplier = supplier; break; }
                 }
                 this.Quantity = Convert.ToInt32(model.Quantity.value);
-                this.UnitPrice = model.UnitPrice.value;
                 this.Date = model.Date.value;
 
                 this.CreateOrUpdateCommand = new RelayCommand(updateStock);
@@ -99,15 +98,14 @@ namespace UI.ViewModels
                 if (SelectedSupplier == null) model.SupplierID.setToNull();
                 else model.SupplierID.value = SelectedSupplier.ID.value;
                 model.Quantity.value = Quantity;
-                model.UnitPrice.value = UnitPrice;
                 model.Date.value = Date;
                 StockAccess.singleton.addStock(model);
                 this.AddStock.Close();
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!", true));
                 thread.Start();
             }
             catch (Exception) {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!", false));
                 thread.Start();
             }
         }
@@ -117,17 +115,16 @@ namespace UI.ViewModels
             if (SelectedSupplier == null) model.SupplierID.setToNull();
             else model.SupplierID.value = SelectedSupplier.ID.value;
             model.Quantity.value = Quantity;
-            model.UnitPrice.value = UnitPrice;
             model.Date.value = Date;
 
             try {
                 StockAccess.singleton.updateStock(model, this.ID);
                 this.AddStock.Close();
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!", true));
                 thread.Start();
             }
             catch (Exception) {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!", false));
                 thread.Start();
             } 
         }

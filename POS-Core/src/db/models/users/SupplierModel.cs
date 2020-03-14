@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.DB.Models
 {
@@ -18,6 +14,8 @@ namespace Core.DB.Models
         public TextField        Telephone   { get; set; } = new TextField(      name: "Telephone"   );
         public TextField        Comments    { get; set; } = new TextField(      name: "Comments"    );
 
+        public SupplierModel() { }
+
         public SupplierModel(DataRow data_row) {
             this.ID.value           = Convert.ToInt32(data_row["ID"]);
             this.FirstName.value    = data_row["FirstName"].ToString();
@@ -28,15 +26,5 @@ namespace Core.DB.Models
             this.Telephone.value    = !data_row.IsNull("Telephone")     ? data_row["Telephone"].ToString()          : null;
             this.Comments.value     = !data_row.IsNull("Comments")      ? data_row["Comments"].ToString()           : null;
         }
-
-        public SupplierModel() {
-
-        }
-
-        public override object getPK() => ID.value;
-        public override ModelType getType() => ModelType.MODEL_SUPPLIER;
-        public override bool matchPK(object pk) { return false; }
-        public override void validateRelation() { }
-        public override string ToString() => FirstName.value;
     }
 }

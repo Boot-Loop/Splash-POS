@@ -49,7 +49,7 @@ namespace UI.Views
             this.DataContext = NewSaleViewModel;
             this.search_by_name_txt_box.Action = NewSaleViewModel.searchProductUsingName;
             this.NameOfSale = Convert.ToString(NewSaleViewModel.SaleID);
-            Task.Delay(100).ContinueWith(_ => {
+            Task.Delay(300).ContinueWith(_ => {
                 Application.Current.Dispatcher.Invoke(new Action(() => {
                     NewSaleViewModel.selectSearchType("Barcode");
                 }));

@@ -1,16 +1,20 @@
-﻿using Core.DB.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
+using Core.DB.Models;
+using CoreApp = Core.Application;
+
 namespace Core.DB.Access
 {
-	public class ProductAccess
+	public class ProductAccess : DataAccess
 	{
 		private static readonly ProductAccess instance = new ProductAccess();
+
 		private ProductAccess() { }
+
 		public static ProductAccess singleton {
 			get { return instance; }
 		}
@@ -48,12 +52,6 @@ namespace Core.DB.Access
 			}
 			return return_products;
 		}
-
-		//public List<ProductModel> getProductsWithBarcodes() {
-		//	SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product AS pr FULL OUTER JOIN dbo.Barcode AS bc ON pr.ID = bc.Product_ID  ORDER BY pr.Code");
-		//	return excuteObject<ProductModel>(command).ToList();
-		//}
-
 		public ProductModel getProductUsingBarcode(string barcode) {
 			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product AS pr LEFT JOIN dbo.Barcode AS bc ON pr.ID = bc.Product_ID  WHERE Value = @Value");
 			command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = barcode;
@@ -81,33 +79,65 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						Code = Convert.ToInt32(command.ExecuteScalar());
+						CoreApp.logger.log("Successfully last product code fetched from database");
 						return Code;
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
+					finally {
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
 				}
 			}
 		}
 		public void addProduct(ProductModel model) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				string command_text = "INSERT INTO dbo.Product (Name, Code, Description, Price, IsService, DateCreated, DateUpdated) VALUES (@Name, @Code, @Description, @Price, @IsService, @DateCreated, @DateUpdated);";
+				string command_text = "INSERT INTO dbo.Product (Name, ProductGroup_ID, Code, Description, Price, Cost, IsService, DateCreated, DateUpdated) VALUES (@Name, @ProductGroup_ID, @Code, @Description, @Price, @Cost, @IsService, @DateCreated, @DateUpdated);";
 				if (!string.IsNullOrEmpty(model.Barcode.value)) { command_text += "INSERT INTO dbo.Barcode(Product_ID, Value) VALUES(SCOPE_IDENTITY(), @Value);"; }
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
-					command.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar, 100).Value = model.Name.value;
-					command.Parameters.Add("@Code", System.Data.SqlDbType.Int).Value = model.Code.value;
-					command.Parameters.Add("@Description", System.Data.SqlDbType.Text).Value = !string.IsNullOrEmpty(model.Description.value) ? model.Description.value : (object)DBNull.Value;
-					command.Parameters.Add("@Price", System.Data.SqlDbType.Float).Value = model.Price.value;
-					command.Parameters.Add("@IsService", System.Data.SqlDbType.Bit).Value = model.IsService.value;
-					command.Parameters.Add("@DateCreated", System.Data.SqlDbType.DateTime).Value = model.DateCreated.value;
-					command.Parameters.Add("@DateUpdated", System.Data.SqlDbType.DateTime).Value = model.DateUpdated.value;
+					command.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar, 100).Value		= model.Name.value;
+					command.Parameters.Add("@ProductGroup_ID", System.Data.SqlDbType.Int).Value		= model.ProductGroupID.value;
+					command.Parameters.Add("@Code", System.Data.SqlDbType.Int).Value				= model.Code.value;
+					command.Parameters.Add("@Description", System.Data.SqlDbType.Text).Value		= !string.IsNullOrEmpty(model.Description.value) ? model.Description.value : (object)DBNull.Value;
+					command.Parameters.Add("@Price", System.Data.SqlDbType.Float).Value				= model.Price.value;
+					command.Parameters.Add("@Cost", System.Data.SqlDbType.Float).Value				= model.Cost.value;
+					command.Parameters.Add("@IsService", System.Data.SqlDbType.Bit).Value			= model.IsService.value;
+					command.Parameters.Add("@DateCreated", System.Data.SqlDbType.DateTime).Value	= model.DateCreated.value;
+					command.Parameters.Add("@DateUpdated", System.Data.SqlDbType.DateTime).Value	= model.DateUpdated.value;
 					if (!string.IsNullOrEmpty(model.Barcode.value)) { command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = model.Barcode.value; }
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
+						CoreApp.logger.log("Successfully product added to database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
+					finally {
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
+				}
+			}
+		}
+		public void addProductGroup(ProductGroupModel model) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
+				string command_text = "INSERT INTO dbo.ProductGroup (Name, ParentGroup_ID, Color) VALUES (@Name, @ParentGroup_ID, @Color)";
+				using (SqlCommand command = new SqlCommand(command_text)) {
+					command.Connection = connection;
+					command.Parameters.Add("@Name", System.Data.SqlDbType.VarChar, 20).Value	= model.Name.value;
+					command.Parameters.Add("@ParentGroup_ID", System.Data.SqlDbType.Int).Value	= !model.ParentGroup_ID.isNull() ? model.ParentGroup_ID.value : (object)DBNull.Value;
+					command.Parameters.Add("@Color", System.Data.SqlDbType.VarChar, 20).Value	= !string.IsNullOrEmpty(model.Color.value) ? model.Color.value : (object)DBNull.Value;
+					try {
+						connection.Open();
+						command.ExecuteNonQuery();
+						CoreApp.logger.log("Successfully product group added to database");
+					}
+					catch (Exception ex) { throw new Exception(ex.Message); }
+					finally
+					{
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
 				}
 			}
 		}
@@ -120,67 +150,47 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
+						CoreApp.logger.log("Successfully product deleted from database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
+					finally {
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
 				}
 			}
 		}
 		public void updateProduct(ProductModel model, int id) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				string command_text = "UPDATE dbo.Product SET Name = @Name, Code = @Code, Description = @Description, Price = @Price, IsService = @IsService, DateCreated = @DateCreated, DateUpdated = @DateUpdated WHERE ID = @ID;";
+				string command_text = "UPDATE dbo.Product SET Name = @Name, ProductGroup_ID = @ProductGroup_ID, Code = @Code, Description = @Description, Price = @Price, Cost = @Cost, IsService = @IsService, DateCreated = @DateCreated, DateUpdated = @DateUpdated WHERE ID = @ID;";
 				if (!string.IsNullOrEmpty(model.Barcode.value)) { command_text += @"UPDATE dbo.Barcode SET Value = @Value WHERE Product_ID = @ID
 																					IF @@ROWCOUNT = 0
 																					INSERT INTO dbo.Barcode(Product_ID, Value) VALUES(@ID, @Value);"; }
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
-					command.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar, 100).Value = model.Name.value;
-					command.Parameters.Add("@Code", System.Data.SqlDbType.Int).Value = model.Code.value;
-					command.Parameters.Add("@Description", System.Data.SqlDbType.Text).Value = !string.IsNullOrEmpty(model.Description.value) ? model.Description.value : (object)DBNull.Value;
-					command.Parameters.Add("@Price", System.Data.SqlDbType.Float).Value = model.Price.value;
-					command.Parameters.Add("@IsService", System.Data.SqlDbType.Bit).Value = model.IsService.value;
-					command.Parameters.Add("@DateCreated", System.Data.SqlDbType.DateTime).Value = model.DateCreated.value;
-					command.Parameters.Add("@DateUpdated", System.Data.SqlDbType.DateTime).Value = model.DateUpdated.value;
+					command.Parameters.Add("@Name", System.Data.SqlDbType.NVarChar, 100).Value		= model.Name.value;
+					command.Parameters.Add("@ProductGroup_ID", System.Data.SqlDbType.Int).Value		= model.ProductGroupID.value;
+					command.Parameters.Add("@Code", System.Data.SqlDbType.Int).Value				= model.Code.value;
+					command.Parameters.Add("@Description", System.Data.SqlDbType.Text).Value		= !string.IsNullOrEmpty(model.Description.value) ? model.Description.value : (object)DBNull.Value;
+					command.Parameters.Add("@Price", System.Data.SqlDbType.Float).Value				= model.Price.value;
+					command.Parameters.Add("@Cost", System.Data.SqlDbType.Float).Value				= model.Cost.value;
+					command.Parameters.Add("@IsService", System.Data.SqlDbType.Bit).Value			= model.IsService.value;
+					command.Parameters.Add("@DateCreated", System.Data.SqlDbType.DateTime).Value	= model.DateCreated.value;
+					command.Parameters.Add("@DateUpdated", System.Data.SqlDbType.DateTime).Value	= model.DateUpdated.value;
 					if (!string.IsNullOrEmpty(model.Barcode.value)) { command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = model.Barcode.value; }
 					command.Parameters.Add("@ID", System.Data.SqlDbType.Int).Value = id;
-
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
-					}
-					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
-				}
-			}
-		}
-
-
-		private DataTable select(SqlCommand sql_command) {
-			DataTable data_table = new DataTable();
-			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				using (SqlCommand command = sql_command) {
-					command.Connection = connection;
-					try {
-						connection.Open();
-						SqlDataAdapter data_adapter = new SqlDataAdapter(command);
-						data_adapter.Fill(data_table);
+						CoreApp.logger.log("Successfully product updated in database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
 					finally {
-						connection.Close();
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
 					}
-					return data_table;
 				}
 			}
-		}
-		private IEnumerable<T> excuteObject<T>(SqlCommand sql_command) {
-			List<T> items = new List<T>();
-			var dataTable = select(sql_command);
-			foreach (var row in dataTable.Rows) {
-				T item = (T)Activator.CreateInstance(typeof(T), row);
-				items.Add(item);
-			}
-			return items;
 		}
 	}
 }

@@ -1,16 +1,19 @@
-﻿using Core.DB.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
+using Core.DB.Models;
+using CoreApp = Core.Application;
+
 namespace Core.DB.Access
 {
-	public class StockAccess
+	public class StockAccess : DataAccess
 	{
 		private static readonly StockAccess instance = new StockAccess();
+
 		private StockAccess() { }
+
 		public static StockAccess singleton {
 			get { return instance; }
 		}
@@ -21,21 +24,24 @@ namespace Core.DB.Access
 		}
 		public void addStock(StockModel model) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				string command_text = "INSERT INTO dbo.Stock (Product_ID, Warehouse_ID, Supplier_ID, Quantity, UnitPrice, Date) VALUES (@Product_ID, @Warehouse_ID, @Supplier_ID, @Quantity, @UnitPrice, @Date)";
+				string command_text = "INSERT INTO dbo.Stock (Product_ID, Warehouse_ID, Supplier_ID, Quantity, Date) VALUES (@Product_ID, @Warehouse_ID, @Supplier_ID, @Quantity, @Date)";
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
 					command.Parameters.Add("@Product_ID", System.Data.SqlDbType.Int).Value = model.ProductID.value;
 					command.Parameters.Add("@Warehouse_ID", System.Data.SqlDbType.Int).Value = model.WarehouseID.isNull() ? (object)DBNull.Value : model.WarehouseID.value;
 					command.Parameters.Add("@Supplier_ID", System.Data.SqlDbType.Int).Value = model.SupplierID.isNull() ? (object)DBNull.Value : model.SupplierID.value;
 					command.Parameters.Add("@Quantity", System.Data.SqlDbType.Int).Value = model.Quantity.value;
-					command.Parameters.Add("@UnitPrice", System.Data.SqlDbType.Float).Value = model.UnitPrice.value;
 					command.Parameters.Add("@Date", System.Data.SqlDbType.DateTime).Value = model.Date.isNull() ? (object)DBNull.Value : model.Date.value;
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
+						CoreApp.logger.log("Successfully stock added to database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
+					finally {
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
 				}
 			}
 		}
@@ -48,9 +54,13 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
+						CoreApp.logger.log("Successfully stock deleted from database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
+					finally {
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
 				}
 			}
 		}
@@ -69,40 +79,15 @@ namespace Core.DB.Access
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
-					}
-					catch (Exception ex) { throw new Exception(ex.Message); }
-					finally { connection.Close(); }
-				}
-			}
-		}
-
-
-		private DataTable select(SqlCommand sql_command) {
-			DataTable data_table = new DataTable();
-			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				using (SqlCommand command = sql_command) {
-					command.Connection = connection;
-					try {
-						connection.Open();
-						SqlDataAdapter data_adapter = new SqlDataAdapter(command);
-						data_adapter.Fill(data_table);
+						CoreApp.logger.log("Successfully stock updated in database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
 					finally {
-						connection.Close();
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
 					}
-					return data_table;
 				}
 			}
-		}
-		private IEnumerable<T> excuteObject<T>(SqlCommand sql_command) {
-			List<T> items = new List<T>();
-			var dataTable = select(sql_command);
-			foreach (var row in dataTable.Rows) {
-				T item = (T)Activator.CreateInstance(typeof(T), row);
-				items.Add(item);
-			}
-			return items;
 		}
 	}
 }

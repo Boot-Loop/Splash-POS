@@ -65,9 +65,9 @@ namespace Core.DB
             set
             {
                 if (this.max_length > 0 && value != null) if (this.max_length < value.Length) throw new ValidationError("value exceded max length : " + max_length.ToString());
-                
+
                 last_value = value;
-                if (value != null)
+                if (string.IsNullOrEmpty(value))
                 {
                     last_value_valid = false;
                     _validate(value);
@@ -80,7 +80,7 @@ namespace Core.DB
             }
         }
         private TextField() { }
-        public TextField(string name = null, string replace_tag = null, string text = null, string default_value = null, bool is_required = false, int max_length = -1, string validation_error_msg = "")
+        public TextField(string name = null, string replace_tag = null, string text = null, string default_value = null, bool is_required = false, int max_length = -1,  string validation_error_msg = "")
         {
             this.name = name; this.replace_tag = replace_tag; this.max_length = max_length; this.value = text;
             this.default_value = default_value; this.is_required = is_required; this.validation_error_msg = validation_error_msg;

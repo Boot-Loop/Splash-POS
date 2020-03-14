@@ -1,4 +1,4 @@
-﻿<Application x:Class="POS_UI.App"
+﻿<Application x:Class="UI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Startup="applicationStartup">
@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="/src/styles/button/flat_button_style/FlatButtonStyle.xaml"/>
                 <ResourceDictionary Source="/src/styles/colors/Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
             <FontFamily x:Key="PASSWORD_FONT">./res/fonts/password.ttf#Password</FontFamily>
             <FontFamily x:Key="FONT_ROBOTO_REGULAR">./res/fonts/Roboto-Regular.ttf#Roboto</FontFamily>
 

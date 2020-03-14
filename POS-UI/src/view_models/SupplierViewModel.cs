@@ -1,15 +1,18 @@
-﻿using Core.DB.Access;
-using Core.DB.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using a = System.Windows;
 using System.Windows.Forms;
+using System.Threading;
+
+using Core.DB.Access;
+using Core.DB.Models;
+using Core.Documents;
+using Core.Utils;
+using CoreApp = Core.Application;
+
 using UI.ViewModels.Commands;
 using UI.Views;
-using System.Threading;
-using Core.Documents;
 
 namespace UI.ViewModels
 {
@@ -31,27 +34,36 @@ namespace UI.ViewModels
         }
 
         public SupplierViewModel(HomeViewModel home_view_model) {
-            this.HomeViewModel = home_view_model;
-            this.AddCommand = new RelayCommand(openAddWindow);
-            this.EditCommand = new RelayCommand(openEditWindow, isSelectedSupplierNotNull);
-            this.DeleteCommand = new RelayCommand(deleteRecord, isSelectedSupplierNotNull);
-            this.ExportPDFCommand = new RelayCommand(exportPDF);
-            home_view_model.Title = "Suppliers";
+            this.HomeViewModel      = home_view_model;
+            this.AddCommand         = new RelayCommand(openAddWindow);
+            this.EditCommand        = new RelayCommand(openEditWindow, isSelectedSupplierNotNull);
+            this.DeleteCommand      = new RelayCommand(deleteRecord, isSelectedSupplierNotNull);
+            this.ExportPDFCommand   = new RelayCommand(exportPDF);
+            home_view_model.Title   = "Suppliers";
             refresh();
+            CoreApp.logger.log("SupplierViewModel successfully initialized.");
         }
 
         public void refresh() {
-            this.Suppliers = new ObservableCollection<SupplierModel>(SupplierAccess.singleton.getSuppliers());
+            try {
+                this.Suppliers = new ObservableCollection<SupplierModel>(SupplierAccess.singleton.getSuppliers());
+                CoreApp.logger.log("Suppliers successfully fetched from database(SupplierViewModel)");
+            }
+            catch (Exception ex) {
+                this.Suppliers = new ObservableCollection<SupplierModel>();
+                CoreApp.logger.log($"Suppliers cannot be fetched from database(SupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                MessageBox.Show("Failed to fetch supplier data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void openAddWindow(object parameter) {
-            AddSupplier new_supplier = new AddSupplier(null, HomeViewModel);
+            AddSupplierView new_supplier = new AddSupplierView(null, HomeViewModel);
             new_supplier.ShowDialog();
             refresh();
         }
         private void openEditWindow(object parameter) {
-            AddSupplier new_supplier = new AddSupplier(SelectedSupplier, HomeViewModel);
-            new_supplier.ShowDialog();
+            AddSupplierView old_supplier = new AddSupplierView(SelectedSupplier, HomeViewModel);
+            old_supplier.ShowDialog();
             refresh();
         }
         private void deleteRecord(object parameter) {
@@ -59,11 +71,13 @@ namespace UI.ViewModels
             if (result == DialogResult.Yes) {
                 try {
                     SupplierAccess.singleton.deleteSupplier(Convert.ToInt32(SelectedSupplier.ID.value));
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully deleted!"));
+                    CoreApp.logger.log("Supplier model is successfully deleted(SupplierViewModel)");
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Supplier {SelectedSupplier.FirstName.value} with ID {SelectedSupplier.ID.value} successfully deleted.", true));
                     thread.Start();
                 }
-                catch (Exception) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to delete!"));
+                catch (Exception ex) {
+                    CoreApp.logger.log($"Failed to delete supplier model(StaffViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Failed to delete the supplier {SelectedSupplier.FirstName.value} with ID {SelectedSupplier.ID.value}.", false));
                     thread.Start();
                 }
             }
@@ -72,18 +86,19 @@ namespace UI.ViewModels
         private void exportPDF(object parameter) {
             try {
                 SuppliersDocument.singleton.export(new List<SupplierModel>(Suppliers));
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully Exported!"));
+                CoreApp.logger.log("Supplier models successfully exported as PDF(SupplierViewModel)");
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Supplier details successfully exported!", true));
                 thread.Start();
             }
-            catch (Exception) {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Export delete!"));
+            catch (Exception ex) {
+                CoreApp.logger.log($"Failed to export supplier models(SupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to export supplier details. Please make sure output directory is not deleted.", false));
                 thread.Start();
             }
         }
         private bool isSelectedSupplierNotNull(object parameter) {
             return SelectedSupplier == null ? false : true;
         }
-
         private void onPropertyRaised(string property_name) {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));
         }

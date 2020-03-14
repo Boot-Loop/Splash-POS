@@ -1,8 +1,12 @@
 ﻿CREATE TABLE [dbo].[Payment]
 (
 	[ID] INT NOT NULL PRIMARY KEY IDENTITY(1, 1), 
-    [PaymentMethod_ID] INT NULL, 
-    [Amount] DECIMAL(24, 2) NOT NULL DEFAULT 0.00, 
-    [TransactionTime] DATETIME NULL, 
-    CONSTRAINT [FK_Payment_PaymentMethod] FOREIGN KEY ([PaymentMethod_ID]) REFERENCES [dbo].[PaymentMethod]([ID]) ON DELETE SET NULL
+    [PaymentMethod_ID] INT NOT NULL DEFAULT 1,
+    [SubTotal] DECIMAL(24, 2) NOT NULL DEFAULT 0.00,
+    [Discount] DECIMAL(24, 2) NOT NULL DEFAULT 0.00,
+    [Total] DECIMAL(24, 2) NOT NULL DEFAULT 0.00, 
+    [Paid] DECIMAL(24, 2) NOT NULL DEFAULT 0.00,
+    [Balance] DECIMAL(24, 2) NOT NULL DEFAULT 0.00, 
+    [TransactionTime] DATETIME NOT NULL, 
+    CONSTRAINT [FK_Payment_PaymentMethod] FOREIGN KEY ([PaymentMethod_ID]) REFERENCES [dbo].[PaymentMethod]([ID]) ON DELETE CASCADE
 )

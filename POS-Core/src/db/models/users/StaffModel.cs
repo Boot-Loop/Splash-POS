@@ -1,11 +1,5 @@
-﻿using Core.DB;
-using Core.DB.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.DB.Models
 {
@@ -19,6 +13,8 @@ namespace Core.DB.Models
         public EmailField       EMail           { get; set; } = new EmailField(     name: "EMail"       );
         public IntergerField    AccessLevel     { get; set; } = new IntergerField(  name: "AccessLevel",    is_required: true);
 
+        public StaffModel() { }
+
         public StaffModel(DataRow data_row) {
             this.ID.value           = Convert.ToInt32(data_row["ID"]);
             this.FirstName.value    = data_row["FirstName"].ToString();
@@ -29,11 +25,5 @@ namespace Core.DB.Models
             this.AccessLevel.value  = Convert.ToInt16(data_row["AccessLevel"]);
         }
 
-        public StaffModel() { }
-
-        public override object getPK()          => ID.value;
-        public override ModelType getType()     => ModelType.MODEL_STAFF;
-        public override bool matchPK(object pk) { return false; }
-        public override void validateRelation() {}
     }
 }

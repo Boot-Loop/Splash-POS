@@ -22,8 +22,7 @@ namespace Core.Utils
 		public static Logger logger = new Logger();
 		private static String time_format = "HH:mm:ss";
 
-		public enum LogLevel
-		{
+		public enum LogLevel {
 			LEVEL_SUCCESS   = 0,
 			LEVEL_INFO		= 1,
 			LEVEL_WARNING	= 2,
@@ -86,10 +85,8 @@ namespace Core.Utils
 				default:						return "Info";
 			}
 		}
-		private static void consoleColoredLog(String log_str, LogLevel level)
-		{
-			switch ( level )
-			{
+		private static void consoleColoredLog(String log_str, LogLevel level) {
+			switch ( level ) {
 				case LogLevel.LEVEL_INFO:
 					Console.WriteLine(log_str);
 					break;

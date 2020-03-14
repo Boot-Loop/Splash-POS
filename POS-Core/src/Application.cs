@@ -1,17 +1,10 @@
-﻿using Core.DB.Access;
-using Core.DB.Models;
-using Core.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
+
+using Core.Utils;
 
 namespace Core
 {
@@ -19,7 +12,10 @@ namespace Core
     {
 		private static readonly Application instance = new Application();
 
+        public static Logger logger = new Logger("logs");
+
 		private Application() { }
+
 		public static Application singleton {
 			get { return instance; }
 		}
@@ -28,28 +24,70 @@ namespace Core
 			createDatabase();
 			if (!Directory.Exists(Paths.PROGRAMME_DATA)) Directory.CreateDirectory(Paths.PROGRAMME_DATA);
 			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
+            if (!Directory.Exists(Paths.DOCUMENT_SAVE_PATH)) Directory.CreateDirectory(Paths.DOCUMENT_SAVE_PATH);
 
 		}
+        public void updateReciptPrinterName(string name) {
+            ReciptPrinter printer = new ReciptPrinter() { Name = name };
+            try { XMLFile.ToXmlFile(printer, Paths.PROGRAME_DATA_FILE); logger.log("Recipt printer name successfully updated!"); }
+            catch (Exception ex) { logger.log($"Failed to update printer name: {ex}", Logger.LogLevel.LEVEL_ERROR); } 
+        }
+        public string readReciptPrinterName() {
+            try {
+                ReciptPrinter printer = XMLFile.FromXmlFile<ReciptPrinter>(Paths.PROGRAME_DATA_FILE);
+                logger.log("Recipt printer name successfully read!");
+                return printer.Name;
+            }
+            catch (Exception ex) {
+                logger.log($"Failed to read printer name: {ex}", Logger.LogLevel.LEVEL_ERROR);
+                return "";
+            }
+        }
+        public void updateDocumentSavePath(string path) {
+            DocumentSavePath document = new DocumentSavePath() { Path = path };
+            try { XMLFile.ToXmlFile(document, Paths.PROGRAME_DATA_FILE); logger.log("Document save path successfully updated!"); }
+            catch (Exception ex) { logger.log($"Failed to update document save path: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+        }
+        public string readDocumentSavePath() {
+            try {
+                DocumentSavePath document = XMLFile.FromXmlFile<DocumentSavePath>(Paths.PROGRAME_DATA_FILE);
+                logger.log("Document save path successfully read!");
+                return document.Path;
+            }
+            catch (Exception ex) {
+                logger.log($"Failed to read document save path: {ex}", Logger.LogLevel.LEVEL_ERROR);
+                return Paths.DOCUMENT_SAVE_PATH;
+            }
+        }
 
-		public static bool checkDatabaseExists(string databaseName) {
-			using (SqlConnection connection = new SqlConnection(@"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True")) {
-				using (SqlCommand command = new SqlCommand($"SELECT db_id('{databaseName}')", connection)) {
-					try {
+        private bool checkDatabaseExists(string database_name) {
+            bool isExists;
+			using (SqlConnection connection = new SqlConnection(Constants.INITIAL_CONNECTION_STRING)) {
+                string command_text = $"SELECT db_id('{database_name}')";
+                using (SqlCommand command = new SqlCommand(command_text)) {
+                    command.Connection = connection;
+                    try {
 						connection.Open();
-						return (command.ExecuteScalar() != DBNull.Value);
-					}catch (Exception ex) { Console.WriteLine(ex); }
+                        isExists = command.ExecuteScalar() != DBNull.Value;
+                        logger.log("Successfully existance of database checked");
+                        return isExists;
+					}
+                    catch (Exception ex) { logger.log($"Failed to check existance of database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+                    finally {
+                        try { connection.Close(); logger.log("Successfully connection closed"); }
+                        catch (Exception ex) { logger.log($"Failed to close connection while checking existance of database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+                    }
 				}
 			}
 			return false;
 		}
-
 		private void createDatabase() {
 			if (!checkDatabaseExists("POS-DB")) {
-				using (SqlConnection connection = new SqlConnection(@"Server=.\SQLEXPRESS;Database=master;Trusted_Connection=True")) {
-					string strAppPath = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
-					string strFilePath = Path.Combine(strAppPath, "Resources");
-					string strFullFilename = Path.Combine(strFilePath, "script.sql");
-					string script = File.ReadAllText(strFullFilename);
+				using (SqlConnection connection = new SqlConnection(Constants.INITIAL_CONNECTION_STRING)) {
+					string strAppPath       = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+					string strFilePath      = Path.Combine(strAppPath, "Resources");
+					string strFullFilename  = Path.Combine(strFilePath, "script.sql");
+					string script           = File.ReadAllText(strFullFilename);
 					try {
 						connection.Open();
 						IEnumerable<string> commandStrings = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -58,91 +96,22 @@ namespace Core
 								new SqlCommand(commandString, connection).ExecuteNonQuery();
 							}
 						}
-						StaffModel model = new StaffModel();
-						model.FirstName.value = "admin";
-						model.LastName.value = "admin";
-						model.UserName.value = "admin";
-						model.Password.value = "admin";
-						model.EMail.value = "admin@mail.com";
-						model.AccessLevel.value = 10;
-						StaffAccess.singleton.addStaff(model);
-					}
-					catch (Exception ex) {
-						Console.WriteLine(ex);
-					}
-					finally { connection.Close(); }
+                        logger.log("Successfully database created!");
+                    }
+					catch (Exception ex) { logger.log($"Failed to create database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+					finally {
+                        try { connection.Close(); logger.log("Successfully connection closed"); }
+                        catch (Exception ex) { logger.log($"Failed to close connection while creatig database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+                    }
 				}
 			}
 		}
-
-        public void updateReciptPrinterName(string name) {
-            ReciptPrinter printer = new ReciptPrinter() { Name = name };
-            XmlHelper.ToXmlFile(printer, Paths.PROGRAME_DATA_FILE);
-        }
-        public string readReciptPrinterName() {
-            ReciptPrinter printer = XmlHelper.FromXmlFile<ReciptPrinter>(Paths.PROGRAME_DATA_FILE);
-            return printer.Name;
-        }
-
 	}
 
 	public class ReciptPrinter {
 		public string Name { get; set; }
 	}
-
-
-    public static class XmlHelper
-    {
-        public static bool NewLineOnAttributes { get; set; }
-
-        /// <summary>
-        /// Deserializes an object from an XML string.
-        /// </summary>
-        public static T FromXml<T>(string xml)
-        {
-            XmlSerializer xs = new XmlSerializer(typeof(T));
-            using (StringReader sr = new StringReader(xml))
-            {
-                return (T)xs.Deserialize(sr);
-            }
-        }
-
-        /// <summary>
-        /// Serializes an object to an XML file.
-        /// </summary>
-        public static void ToXmlFile(Object obj, string filePath)
-        {
-            var xs = new XmlSerializer(obj.GetType());
-            var ns = new XmlSerializerNamespaces();
-            var ws = new XmlWriterSettings { Indent = true, NewLineOnAttributes = NewLineOnAttributes, OmitXmlDeclaration = true };
-            ns.Add("", "");
-
-            using (XmlWriter writer = XmlWriter.Create(filePath, ws))
-            {
-                xs.Serialize(writer, obj);
-            }
-        }
-
-        /// <summary>
-        /// Deserializes an object from an XML file.
-        /// </summary>
-        public static T FromXmlFile<T>(string filePath)
-        {
-            StreamReader sr = new StreamReader(filePath);
-            try
-            {
-                var result = FromXml<T>(sr.ReadToEnd());
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("There was an error attempting to read the file " + filePath + "\n\n" + e.InnerException.Message);
-            }
-            finally
-            {
-                sr.Close();
-            }
-        }
-    }
-
+	public class DocumentSavePath {
+		public string Path { get; set; }
+	}
 }

@@ -55,6 +55,7 @@
     <Compile Include="src\Application.cs" />
     <Compile Include="src\Core.cs" />
     <Compile Include="src\data\ProgramData.cs" />
+    <Compile Include="src\db\data_access\DataAccess.cs" />
     <Compile Include="src\db\data_access\ProductAccess.cs" />
     <Compile Include="src\db\data_access\SaleAccess.cs" />
     <Compile Include="src\db\data_access\StaffAccess.cs" />
@@ -62,10 +63,12 @@
     <Compile Include="src\db\data_access\SupplierAccess.cs" />
     <Compile Include="src\db\Field.cs" />
     <Compile Include="src\db\models\Model.cs" />
+    <Compile Include="src\db\models\payments\PaymentMethodModel.cs" />
     <Compile Include="src\db\models\payments\PaymentsModel.cs" />
     <Compile Include="src\db\models\products\BarcodeModel.cs" />
     <Compile Include="src\db\models\products\BrandModel.cs" />
     <Compile Include="src\db\models\products\MeasurementUnitModel.cs" />
+    <Compile Include="src\db\models\products\ProductGroupModel.cs" />
     <Compile Include="src\db\models\products\ProductModel.cs" />
     <Compile Include="src\db\models\sales\SaleModel.cs" />
     <Compile Include="src\db\models\sales\SaleProductModel.cs" />
@@ -91,8 +94,6 @@
     <None Include="Resources\script.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="vender\itextsharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

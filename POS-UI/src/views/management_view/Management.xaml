@@ -48,7 +48,7 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <Button Command="{Binding UserButtonCommand}"     BorderThickness="2" BorderBrush="Black"     FontSize="24" Grid.Column="0" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource ButtonFlat}">
+            <Button Command="{Binding StaffButtonCommand}"     BorderThickness="2" BorderBrush="Black"     FontSize="24" Grid.Column="0" Grid.Row="1" Width="180" Height="180" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource ButtonFlat}">
                 <Button.Content>
                     <StackPanel>
                         <Image Source="/res/images/staff.png" Height="100" Width="100"/>

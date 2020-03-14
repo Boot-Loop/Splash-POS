@@ -7,9 +7,9 @@ using System.IO;
 
 namespace Core.Documents
 {
-    public class Doc
+    public abstract class Doc
     {
-        public static void exportDataTableToPdf(DataTable data_table, String pdf_path, string header) {
+        public void exportDataTableToPdf(DataTable data_table, String pdf_path, string header) {
             FileStream file_stream = new FileStream(pdf_path, FileMode.Create, FileAccess.Write, FileShare.None);
             Document document = new Document();
             document.SetPageSize(PageSize.A4);

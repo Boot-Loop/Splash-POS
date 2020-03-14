@@ -61,11 +61,11 @@ namespace UI.ViewModels
                 if (result == DialogResult.Yes) {
                     try {
                         ProductAccess.singleton.deleteProduct(Convert.ToInt32(SelectedProduct.ID.value));
-                        Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully deleted!"));
+                        Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully deleted!", true));
                         thread.Start();
                     }
                     catch (Exception) {
-                        Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to delete!"));
+                        Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to delete!", false));
                         thread.Start();
                     }
 
@@ -76,11 +76,11 @@ namespace UI.ViewModels
         private void exportPDF(object parameter) {
             try {
                 ProductsDocument.singleton.export(new List<ProductModel>(Products));
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully Exported!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully Exported!", true));
                 thread.Start();
             }
             catch (Exception) {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Export delete!"));
+                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Export delete!", false));
                 thread.Start();
             }
         }

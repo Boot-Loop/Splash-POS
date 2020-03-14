@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="UI.Views.Suppliers"
+﻿<UserControl x:Class="UI.Views.SupplierView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -49,7 +49,6 @@
                     </StackPanel>
                 </Button.Content>
             </Button>
-            <TextBox FontSize="18" Text="  Scan or Search Item" Height="30" Width="200" HorizontalAlignment="Left" Margin="20" Foreground="Gray"/>
         </StackPanel>
 
         <Grid Height="40">

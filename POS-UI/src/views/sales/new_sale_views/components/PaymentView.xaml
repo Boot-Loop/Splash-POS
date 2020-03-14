@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:UI.Views"
         mc:Ignorable="d"
         Title="QuantityView" Height="498" Width="500" WindowStyle="None" Background="{DynamicResource COLOR_PRIMARY_LIGHTER}" ResizeMode="NoResize" Loaded="windowLoaded">
-
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}"/>
+    </Window.InputBindings>
     <Window.Resources>
         <Style x:Key="PaidTextBox" TargetType="{x:Type TextBox}">
             <Setter Property="BorderBrush" Value="{DynamicResource COLOR_PRIMARY_DARKER}"/>
