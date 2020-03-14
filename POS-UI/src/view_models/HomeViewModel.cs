@@ -47,7 +47,7 @@ namespace UI.ViewModels
             this.Height = "0";
         }
 
-        public void setMessage(string message) {
+        public void setMessage(string message, bool success) {
             this.Message = message;
             this.Height = "40";
             Thread.Sleep(4000);

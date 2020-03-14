@@ -149,22 +149,22 @@
     <Compile Include="src\views\stock_views\Stocks.xaml.cs">
       <DependentUpon>Stocks.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\suppliers_views\add_supplier_views\AddSupplier.xaml.cs">
-      <DependentUpon>AddSupplier.xaml</DependentUpon>
+    <Compile Include="src\views\supplier_views\add_supplier_views\AddSupplierView.xaml.cs">
+      <DependentUpon>AddSupplierView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\suppliers_views\Suppliers.xaml.cs">
-      <DependentUpon>Suppliers.xaml</DependentUpon>
+    <Compile Include="src\views\supplier_views\SupplierView.xaml.cs">
+      <DependentUpon>SupplierView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\users_views\add_users_views\AddUsers.xaml.cs">
-      <DependentUpon>AddUsers.xaml</DependentUpon>
+    <Compile Include="src\views\staff_views\add_staff_views\AddStaffView.xaml.cs">
+      <DependentUpon>AddStaffView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\users_views\Users.xaml.cs">
-      <DependentUpon>Users.xaml</DependentUpon>
+    <Compile Include="src\views\staff_views\StaffView.xaml.cs">
+      <DependentUpon>StaffView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\view_models\AddProductViewModel.cs" />
     <Compile Include="src\view_models\AddStockViewModel.cs" />
     <Compile Include="src\view_models\AddSupplierViewModel.cs" />
-    <Compile Include="src\view_models\AddUserViewModel.cs" />
+    <Compile Include="src\view_models\AddStaffViewModel.cs" />
     <Compile Include="src\view_models\commands\ReciptPrintCommand.cs" />
     <Compile Include="src\view_models\HomeViewModel.cs" />
     <Compile Include="src\view_models\LoginViewModel.cs" />
@@ -176,7 +176,7 @@
     <Compile Include="src\view_models\SettingsViewModel.cs" />
     <Compile Include="src\view_models\StockViewModel.cs" />
     <Compile Include="src\view_models\SupplierViewModel.cs" />
-    <Compile Include="src\view_models\UserViewModel.cs" />
+    <Compile Include="src\view_models\StaffViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -206,9 +206,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="src\styles\button\common_button_style\CommonButtonStyle.xaml">
       <SubType>Designer</SubType>
@@ -290,19 +288,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\suppliers_views\add_supplier_views\AddSupplier.xaml">
+    <Page Include="src\views\supplier_views\add_supplier_views\AddSupplierView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\suppliers_views\Suppliers.xaml">
+    <Page Include="src\views\supplier_views\SupplierView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\users_views\add_users_views\AddUsers.xaml">
+    <Page Include="src\views\staff_views\add_staff_views\AddStaffView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\users_views\Users.xaml">
+    <Page Include="src\views\staff_views\StaffView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

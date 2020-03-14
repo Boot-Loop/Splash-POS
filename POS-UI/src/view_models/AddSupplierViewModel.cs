@@ -1,8 +1,13 @@
-﻿using Core.DB.Access;
-using Core.DB.Models;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Threading;
+
+using Core.DB.Access;
+using Core.DB.Models;
+using Core.Utils;
+using Core;
+using CoreApp = Core.Application;
+
 using UI.ViewModels.Commands;
 using UI.Views;
 
@@ -16,13 +21,12 @@ namespace UI.ViewModels
         private string _email;
         private string _telephone;
         private string _comments;
-
         private string _update_or_create;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand CreateOrUpdateCommand { get; private set; }
         public HomeViewModel HomeViewModel { get; set; }
-        public AddSupplier AddSupplier { get; set; }
+        public AddSupplierView AddSupplierView { get; set; }
 
         public int ID { get; set; }
         public string FirstName {
@@ -54,70 +58,77 @@ namespace UI.ViewModels
             set { _update_or_create = value; onPropertyRaised("UpdateOrCreate"); }
         }
 
-        public AddSupplierViewModel(SupplierModel model, AddSupplier add_supplier, HomeViewModel home_view_model) {
-            this.AddSupplier = add_supplier;
-            this.HomeViewModel = home_view_model;
+        public AddSupplierViewModel(SupplierModel model, AddSupplierView add_supplier_view, HomeViewModel home_view_model) {
+            this.AddSupplierView        = add_supplier_view;
+            this.HomeViewModel          = home_view_model;
+            this.CreateOrUpdateCommand  = new RelayCommand(addOrUpdateSupplier);
 
             if (model != null) {
-                this.UpdateOrCreate = "Update";
-                this.ID = Convert.ToInt32(model.ID.value);
-                this.FirstName = model.FirstName.value;
-                this.LastName = model.LastName.value;
-                this.Address = model.Address.value;
-                this.EMail = model.EMail.value;
-                this.Telephone = model.Telephone.value;
-                this.Comments = model.Comments.value;
-                this.CreateOrUpdateCommand = new RelayCommand(updateSupplier);
+                this.UpdateOrCreate     = "Update";
+                this.ID                 = Convert.ToInt32(model.ID.value);
+                this.FirstName          = model.FirstName.value;
+                this.LastName           = model.LastName.value;
+                this.Address            = model.Address.value;
+                this.EMail              = model.EMail.value;
+                this.Telephone          = model.Telephone.value;
+                this.Comments           = model.Comments.value;
             }
-            else
-            {
-                this.UpdateOrCreate = "Create";
-                this.CreateOrUpdateCommand = new RelayCommand(addSupplier);
+            else {
+                this.UpdateOrCreate     = "Create";
             }
         }
 
-        public void addSupplier(object parameter) {
-            SupplierModel model = new SupplierModel();
-            model.FirstName.value = FirstName;
-            model.LastName.value = LastName;
-            model.Address.value = Address;
-            model.EMail.value = EMail;
-            model.Telephone.value = Telephone;
-            model.Comments.value = Comments;
+        public void addOrUpdateSupplier(object parameter) {
+            SupplierModel model     = new SupplierModel();
+            model.FirstName.value   = FirstName;
+            model.LastName.value    = LastName;
+            model.Address.value     = Address;
+            model.EMail.value       = EMail;
+            model.Telephone.value   = Telephone;
+            model.Comments.value    = Comments;
 
-            try {
-                SupplierAccess.singleton.addSupplier(model);
-                this.AddSupplier.Close();
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!"));
-                thread.Start();
+            if (this.UpdateOrCreate == "Create") {
+                try {
+                    validate();
+                    SupplierAccess.singleton.addSupplier(model);
+                    this.AddSupplierView.Close();
+                    CoreApp.logger.log("Supplier model successfully uploaded.(AddSupplierViewModel)");
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Supplier details added successfully!", true));
+                    thread.Start();
+                }
+                catch (EmptyFieldException) {
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
+                    thread.Start();
+                }
+                catch (Exception ex) {
+                    CoreApp.logger.log($"Unexpected error while adding supplier details.(AddSupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while adding supplier details.", false));
+                    thread.Start();
+                }
             }
-            catch (Exception) {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!"));
-                thread.Start();
+            else {
+                try {
+                    validate();
+                    SupplierAccess.singleton.updateSupplier(model, this.ID);
+                    this.AddSupplierView.Close();
+                    CoreApp.logger.log("Supplier model successfully updated.(AddSupplierViewModel)");
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Supplier details updated successfully!", true));
+                    thread.Start();
+                }
+                catch (EmptyFieldException) {
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
+                    thread.Start();
+                }
+                catch (Exception ex) {
+                    CoreApp.logger.log($"Unexpected error while updating supplier details.(AddSupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while updating supplier details.", false));
+                    thread.Start();
+                }
             }
         }
-        public void updateSupplier(object parameter) {
-            SupplierModel model = new SupplierModel();
-            model.FirstName.value = FirstName;
-            model.LastName.value = LastName;
-            model.Address.value = Address;
-            model.EMail.value = EMail;
-            model.Telephone.value = Telephone;
-            model.Comments.value = Comments;
-
-            try {
-                SupplierAccess.singleton.updateSupplier(model, this.ID);
-                this.AddSupplier.Close();
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!"));
-                thread.Start();
-            }
-            catch (Exception)
-            {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!"));
-                thread.Start();
-            }  
+        private void validate() {
+            if (string.IsNullOrEmpty(FirstName)) throw new EmptyFieldException("Required fields cannot be empty!");
         }
-
         private void onPropertyRaised(string property_name) {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));
         }

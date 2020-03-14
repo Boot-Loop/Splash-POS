@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
 using System.Windows;
 
 using UI.ViewModels;
+using CoreApp = Core.Application;
 
 namespace UI.Views
 {
@@ -13,15 +12,15 @@ namespace UI.Views
     public partial class MainView : Window
     {
         public NewSaleViewModel NewSaleViewModel { get; set; }
-        public MainView()
-        {
+
+        public MainView() {
             InitializeComponent();
             this.Content = new LoginView(this);
+            CoreApp.logger.log("Main view successfully initialized!");
         }
 
         private void windowActivated(object sender, EventArgs e) {
-            if (NewSaleViewModel != null)
-            {
+            if (NewSaleViewModel != null) {
                 if (NewSaleViewModel.SearchByBarcode) {
                     NewSaleViewModel.selectSearchType("Barcode");
                 }

@@ -86,7 +86,9 @@ namespace Tester
 			//	Console.WriteLine(md.DateUpdated.getName() + " " + md.DateUpdated.value);
 			//	//Console.WriteLine("barcode: " + md.Barcode.ToString());
 			//}
-			Console.ReadKey();
+			//bool a = Core.Application.singleton.checkDatabaseExists("POS-DB");
+			//Console.WriteLine(a);
+			//Console.ReadKey();
 
 		}
 

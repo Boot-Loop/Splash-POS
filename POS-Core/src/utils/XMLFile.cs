@@ -1,42 +1,53 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Core.Utils
 {
-	public class XMLFile<DataClass>
+	public class XMLFile
 	{
-		static Logger logger = new Logger();
+        public static bool NewLineOnAttributes { get; set; }
 
-		public string path { get; set; } = null;
-		public DataClass data { get; set; } = default(DataClass);
+        /// <summary>
+        /// Deserializes an object from an XML string.
+        /// </summary>
+        public static T FromXml<T>(string xml) {
+            XmlSerializer xs = new XmlSerializer(typeof(T));
+            using (StringReader sr = new StringReader(xml)) {
+                return (T)xs.Deserialize(sr);
+            }
+        }
 
-		public XMLFile() { }
-		public XMLFile(string file_path = null, DataClass data = default(DataClass)) { this.path = file_path; this.data = data; }
+        /// <summary>
+        /// Serializes an object to an XML file.
+        /// </summary>
+        public static void ToXmlFile(Object obj, string filePath) {
+            var xs = new XmlSerializer(obj.GetType());
+            var ns = new XmlSerializerNamespaces();
+            var ws = new XmlWriterSettings { Indent = true, NewLineOnAttributes = NewLineOnAttributes, OmitXmlDeclaration = true };
+            ns.Add("", "");
 
-		public void save() {
-			if (this.path == null) logger.logError("save xml file path was null");
-			if (this.data.Equals(default(DataClass))) logger.logError("data was default(DataClass) : null data");
-			XmlSerializer serializer = new XmlSerializer(typeof(DataClass));
-			using (TextWriter writer = new StreamWriter(this.path)) {
-				serializer.Serialize(writer, this.data);
-			}
-		}
+            using (XmlWriter writer = XmlWriter.Create(filePath, ws)) {
+                xs.Serialize(writer, obj);
+            }
+        }
 
-		/// <summary>
-		/// throws :
-		///		InvalidOperationException - if the xml file is currupted
-		///		FileNotFoundException     - if the file not found
-		///		ArgumentNullException     - if the file_path is null
-		/// </summary>
-		/// <returns></returns>
-		public DataClass load() {
-			if (this.path == null) logger.logError("save xml file path was null");
-			XmlSerializer deserializer = new XmlSerializer(typeof(DataClass));
-			using (TextReader reader = new StreamReader(this.path))
-			{
-				data = (DataClass)deserializer.Deserialize(reader);
-				return data;
-			}
-		}
-	}
+        /// <summary>
+        /// Deserializes an object from an XML file.
+        /// </summary>
+        public static T FromXmlFile<T>(string filePath) {
+            StreamReader sr = new StreamReader(filePath);
+            try {
+                var result = FromXml<T>(sr.ReadToEnd());
+                return result;
+            }
+            catch (Exception e) {
+                throw new Exception("There was an error attempting to read the file " + filePath + "\n\n" + e.InnerException.Message);
+            }
+            finally {
+                sr.Close();
+            }
+        }
+    }
 }

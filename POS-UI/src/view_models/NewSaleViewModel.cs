@@ -259,7 +259,6 @@ namespace UI.ViewModels
             if (SaleProducts.Count == 0) { }
             else {
                 PaymentModel payment_model = new PaymentModel();
-                payment_model.Amount.value = Convert.ToDouble(Total);
                 payment_model.TransactionTime.value = DateTime.Now;
                 int payment_id = SaleAccess.singleton.addPayment(payment_model);
 

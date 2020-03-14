@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Serialization;
 
-using Core.DB.Access;
-using Core.DB.Models;
 using Core.Utils;
 
 namespace Core
@@ -26,19 +22,50 @@ namespace Core
 
 		public void initialize() {
 			createDatabase();
-            insertInitialDatas();
 			if (!Directory.Exists(Paths.PROGRAMME_DATA)) Directory.CreateDirectory(Paths.PROGRAMME_DATA);
 			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
+            if (!Directory.Exists(Paths.DOCUMENT_SAVE_PATH)) Directory.CreateDirectory(Paths.DOCUMENT_SAVE_PATH);
 
 		}
+        public void updateReciptPrinterName(string name) {
+            ReciptPrinter printer = new ReciptPrinter() { Name = name };
+            try { XMLFile.ToXmlFile(printer, Paths.PROGRAME_DATA_FILE); logger.log("Recipt printer name successfully updated!"); }
+            catch (Exception ex) { logger.log($"Failed to update printer name: {ex}", Logger.LogLevel.LEVEL_ERROR); } 
+        }
+        public string readReciptPrinterName() {
+            try {
+                ReciptPrinter printer = XMLFile.FromXmlFile<ReciptPrinter>(Paths.PROGRAME_DATA_FILE);
+                logger.log("Recipt printer name successfully read!");
+                return printer.Name;
+            }
+            catch (Exception ex) {
+                logger.log($"Failed to read printer name: {ex}", Logger.LogLevel.LEVEL_ERROR);
+                return "";
+            }
+        }
+        public void updateDocumentSavePath(string path) {
+            DocumentSavePath document = new DocumentSavePath() { Path = path };
+            try { XMLFile.ToXmlFile(document, Paths.PROGRAME_DATA_FILE); logger.log("Document save path successfully updated!"); }
+            catch (Exception ex) { logger.log($"Failed to update document save path: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+        }
+        public string readDocumentSavePath() {
+            try {
+                DocumentSavePath document = XMLFile.FromXmlFile<DocumentSavePath>(Paths.PROGRAME_DATA_FILE);
+                logger.log("Document save path successfully read!");
+                return document.Path;
+            }
+            catch (Exception ex) {
+                logger.log($"Failed to read document save path: {ex}", Logger.LogLevel.LEVEL_ERROR);
+                return Paths.DOCUMENT_SAVE_PATH;
+            }
+        }
 
-		private bool checkDatabaseExists(string databaseName) {
+        private bool checkDatabaseExists(string database_name) {
             bool isExists;
 			using (SqlConnection connection = new SqlConnection(Constants.INITIAL_CONNECTION_STRING)) {
-                string command_text = "SELECT db_id('@DB_Name')";
+                string command_text = $"SELECT db_id('{database_name}')";
                 using (SqlCommand command = new SqlCommand(command_text)) {
                     command.Connection = connection;
-                    command.Parameters.Add("@DB_Name", System.Data.SqlDbType.Text).Value = databaseName;
                     try {
 						connection.Open();
                         isExists = command.ExecuteScalar() != DBNull.Value;
@@ -79,97 +106,12 @@ namespace Core
 				}
 			}
 		}
-        private void insertInitialDatas() {
-            StaffModel staff_model                  = new StaffModel();
-            PaymentMethodModel payment_method_model = new PaymentMethodModel();
-            ProductGroupModel product_group_model   = new ProductGroupModel();
-            staff_model.FirstName.value     = "admin";
-            staff_model.LastName.value      = "admin";
-            staff_model.UserName.value      = "admin";
-            staff_model.Password.value      = "admin";
-            staff_model.EMail.value         = "admin@mail.com";
-            staff_model.AccessLevel.value   = 10;
-            payment_method_model.Type.value = "Cash";
-            product_group_model.Name.value  = "Products";
-            try {
-                StaffAccess.singleton.addStaff(staff_model);
-                SaleAccess.singleton.addPaymentMethod(payment_method_model);
-                ProductAccess.singleton.addProductGroup(product_group_model);
-                logger.log("Successfully initial datas inserted");
-            }
-            catch (Exception ex) { logger.log($"Failed to insert initial datas to the database: {ex}", Logger.LogLevel.LEVEL_ERROR); }
-        }
-
-        
-
-        public void updateReciptPrinterName(string name) {
-            ReciptPrinter printer = new ReciptPrinter() { Name = name };
-            XmlHelper.ToXmlFile(printer, Paths.PROGRAME_DATA_FILE);
-        }
-        public string readReciptPrinterName() {
-            ReciptPrinter printer = XmlHelper.FromXmlFile<ReciptPrinter>(Paths.PROGRAME_DATA_FILE);
-            return printer.Name;
-        }
-
 	}
 
 	public class ReciptPrinter {
 		public string Name { get; set; }
 	}
-
-
-    public static class XmlHelper
-    {
-        public static bool NewLineOnAttributes { get; set; }
-
-        /// <summary>
-        /// Deserializes an object from an XML string.
-        /// </summary>
-        public static T FromXml<T>(string xml)
-        {
-            XmlSerializer xs = new XmlSerializer(typeof(T));
-            using (StringReader sr = new StringReader(xml))
-            {
-                return (T)xs.Deserialize(sr);
-            }
-        }
-
-        /// <summary>
-        /// Serializes an object to an XML file.
-        /// </summary>
-        public static void ToXmlFile(Object obj, string filePath)
-        {
-            var xs = new XmlSerializer(obj.GetType());
-            var ns = new XmlSerializerNamespaces();
-            var ws = new XmlWriterSettings { Indent = true, NewLineOnAttributes = NewLineOnAttributes, OmitXmlDeclaration = true };
-            ns.Add("", "");
-
-            using (XmlWriter writer = XmlWriter.Create(filePath, ws))
-            {
-                xs.Serialize(writer, obj);
-            }
-        }
-
-        /// <summary>
-        /// Deserializes an object from an XML file.
-        /// </summary>
-        public static T FromXmlFile<T>(string filePath)
-        {
-            StreamReader sr = new StreamReader(filePath);
-            try
-            {
-                var result = FromXml<T>(sr.ReadToEnd());
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("There was an error attempting to read the file " + filePath + "\n\n" + e.InnerException.Message);
-            }
-            finally
-            {
-                sr.Close();
-            }
-        }
-    }
-
+	public class DocumentSavePath {
+		public string Path { get; set; }
+	}
 }
