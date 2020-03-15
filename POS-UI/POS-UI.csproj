@@ -131,6 +131,9 @@
     <Compile Include="src\views\sales\new_sale_views\components\QuantityView.xaml.cs">
       <DependentUpon>QuantityView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\views\sales\new_sale_views\components\ReturnView.xaml.cs">
+      <DependentUpon>ReturnView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\views\sales\new_sale_views\NewSale.xaml.cs">
       <DependentUpon>NewSale.xaml</DependentUpon>
     </Compile>
@@ -261,6 +264,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\views\sales\new_sale_views\components\QuantityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\sales\new_sale_views\components\ReturnView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

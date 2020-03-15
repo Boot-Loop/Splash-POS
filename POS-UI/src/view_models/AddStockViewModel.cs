@@ -106,17 +106,14 @@ namespace UI.ViewModels
                     StockAccess.singleton.addStock(model);
                     this.AddStockView.Close();
                     CoreApp.logger.log("Stock model successfully uploaded.(AddStockViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Stock details added successfully!", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Stock details added successfully!", true);
                 }
                 catch (EmptyFieldException) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Required fields cannot be empty.", false);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Unexpected error while adding stock details.(AddStockViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while adding stock details.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Some unexpected error occured while adding stock details.", false);
                 }
             }
             else {
@@ -132,17 +129,14 @@ namespace UI.ViewModels
                     StockAccess.singleton.updateStock(model, this.ID);
                     this.AddStockView.Close();
                     CoreApp.logger.log("Stock model successfully updated.(AddStockViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Stock details updated successfully!", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Stock details updated successfully!", true);
                 }
                 catch (EmptyFieldException) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Required fields cannot be empty.", false);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Unexpected error while updating stock details.(AddStockViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while updating stock details.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Some unexpected error occured while updating stock details.", false);
                 }
             }
         }

@@ -87,7 +87,9 @@ namespace Tester
 			//	//Console.WriteLine("barcode: " + md.Barcode.ToString());
 			//}
 			//bool a = Core.Application.singleton.checkDatabaseExists("POS-DB");
-			//Console.WriteLine(a);
+			//DateTime foo = DateTime.UtcNow;
+			//long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
+			//Console.WriteLine(unixTime);
 			//Console.ReadKey();
 
 		}

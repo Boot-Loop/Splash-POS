@@ -94,17 +94,14 @@ namespace UI.ViewModels
                     SupplierAccess.singleton.addSupplier(model);
                     this.AddSupplierView.Close();
                     CoreApp.logger.log("Supplier model successfully uploaded.(AddSupplierViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Supplier details added successfully!", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Supplier details added successfully!", true);
                 }
                 catch (EmptyFieldException) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Required fields cannot be empty.", false);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Unexpected error while adding supplier details.(AddSupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while adding supplier details.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Some unexpected error occured while adding supplier details.", false);
                 }
             }
             else {
@@ -113,17 +110,14 @@ namespace UI.ViewModels
                     SupplierAccess.singleton.updateSupplier(model, this.ID);
                     this.AddSupplierView.Close();
                     CoreApp.logger.log("Supplier model successfully updated.(AddSupplierViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Supplier details updated successfully!", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Supplier details updated successfully!", true);
                 }
                 catch (EmptyFieldException) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Required fields cannot be empty.", false);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Unexpected error while updating supplier details.(AddSupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while updating supplier details.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Some unexpected error occured while updating supplier details.", false);
                 }
             }
         }

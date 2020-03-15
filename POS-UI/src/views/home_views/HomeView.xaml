@@ -37,7 +37,13 @@
         </Grid>
         <Grid>
             <ContentControl x:Name="home_content_control"/>
-            <Label Content="{Binding Message}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Right" VerticalAlignment="Top" Height="{Binding Height}" Margin="0 0 4 0" BorderBrush="Black" BorderThickness="2" Width="300" Background="LightGreen"/>
+            <Border x:Name="notification_view" HorizontalAlignment="Right" VerticalAlignment="Top" Height="{Binding Height}" Width="300" Background="ForestGreen">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{Binding Message}" FontSize="13" VerticalAlignment="Center" Width="272" Foreground="White" Margin="8 0 0 0"/>
+                    <Button Content="x" Command="{Binding CloseCommand}" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{DynamicResource ButtonFlat}" Width="20" Height="20" Margin="0 0 0 0"/>
+                </StackPanel>
+            </Border>
+            
         </Grid>
     </DockPanel>
     

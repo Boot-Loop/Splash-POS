@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 using Core.DB.Models;
 using CoreApp = Core.Application;
@@ -101,6 +103,54 @@ namespace Core.DB.Access
 						connection.Open();
 						command.ExecuteNonQuery();
 						CoreApp.logger.log("Successfully saleproduct added to database");
+					}
+					catch (Exception ex) { throw new Exception(ex.Message); }
+					finally {
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
+				}
+			}
+		}
+		public ReciptModel getReceiptUsingID(string id) {
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Recipt WHERE ID = @ID");
+			command.Parameters.Add("@ID", System.Data.SqlDbType.VarChar, 20).Value = id;
+			List<ReciptModel> models = excuteObject<ReciptModel>(command).ToList();
+			return models.Count == 0 ? null : models[0];
+		}
+		public void addRecipt(ReciptModel model) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
+				string command_text = "INSERT INTO dbo.Recipt (ID, Sale_ID) VALUES (@ID, @Sale_ID)";
+				using (SqlCommand command = new SqlCommand(command_text)) {
+					command.Connection = connection;
+					command.Parameters.Add("@ID", System.Data.SqlDbType.VarChar, 20).Value	= model.ID.value;
+					command.Parameters.Add("@Sale_ID", System.Data.SqlDbType.Int).Value		= model.SaleID.value;
+					try {
+						connection.Open();
+						command.ExecuteNonQuery();
+						CoreApp.logger.log("Successfully recipt added to database");
+					}
+					catch (Exception ex) { throw new Exception(ex.Message); }
+					finally {
+						try { connection.Close(); CoreApp.logger.log("Successfully connection closed"); }
+						catch (Exception ex) { throw new Exception(ex.Message); }
+					}
+				}
+			}
+		}
+		public void addReturnProduct(ProductReturnModel model) {
+			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
+				string command_text = "INSERT INTO dbo.ProductReturn (Recipt_ID, Product_ID, Quantity, RefundAmount) VALUES (@Recipt_ID, @Product_ID, @Quantity, @RefundAmount)";
+				using (SqlCommand command = new SqlCommand(command_text)) {
+					command.Connection = connection;
+					command.Parameters.Add("@Recipt_ID", System.Data.SqlDbType.VarChar, 20).Value = model.ReciptID.value;
+					command.Parameters.Add("@Product_ID", System.Data.SqlDbType.Int).Value = model.ProductID.value;
+					command.Parameters.Add("@Quantity", System.Data.SqlDbType.Int).Value = model.Qunatity.value;
+					command.Parameters.Add("@RefundAmount", System.Data.SqlDbType.Float).Value = model.RefuntAmount.value;
+					try {
+						connection.Open();
+						command.ExecuteNonQuery();
+						CoreApp.logger.log("Successfully returnproduct added to database");
 					}
 					catch (Exception ex) { throw new Exception(ex.Message); }
 					finally {
