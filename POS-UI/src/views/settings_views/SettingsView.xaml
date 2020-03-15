@@ -20,7 +20,7 @@
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Grid x:Name="One" Tag="0" Height='40' Width="8"/>
-                        <TextBlock Text="Select Printer" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                        <TextBlock Text="Receipt Printer" VerticalAlignment="Center" Margin="10 0 0 0"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -28,7 +28,7 @@
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Grid x:Name="Two" Tag="1" Height='40' Width="8"/>
-                        <TextBlock Text="Export Document" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                        <TextBlock Text="Document Printer" VerticalAlignment="Center" Margin="10 0 0 0"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -65,7 +65,7 @@
                 <TabItem Header="One">
                     <Grid Margin="40" HorizontalAlignment="Left" Width="400">
                         <StackPanel Margin="4">
-                            <Label Content="Select Printer" FontSize="24" FontWeight="SemiBold"/>
+                            <Label Content="Receipt Printer" FontSize="24" FontWeight="SemiBold"/>
                             <ComboBox ItemsSource="{Binding PrinterNames}" SelectedItem="{Binding SelectedPrinter}" Margin="0 24"/>
                             <Button Content="Select" Height="20" Width="100" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="0 200 0 0" Style="{DynamicResource ButtonCommon2}"/>
                         </StackPanel>
@@ -74,22 +74,20 @@
                 <TabItem Header="Two">
                     <Grid Margin="40" HorizontalAlignment="Left" Width="400">
                         <StackPanel Margin="4">
-                            <Label Content="Export Documents" FontSize="24" FontWeight="SemiBold"/>
-                            <Label Content="C:Document/SplashShoes/New Member.pdf" FontSize="16" Margin="0 24"/>
-                            <Button Content="Browse" Height="20" Width="100" Command="" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Style="{DynamicResource ButtonCommon2}"/>
-                            <Button Content="Export" Height="20" Width="100" Command="" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10 200 10 10" Style="{DynamicResource ButtonCommon2}"/>
+                            <Label Content="Document Printer" FontSize="24" FontWeight="SemiBold"/>
+                            <ComboBox ItemsSource="{Binding PrinterNames}" SelectedItem="{Binding SelectedPrinter}" Margin="0 24"/>
+                            <Button Content="Select" Height="20" Width="100" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="0 200 0 0" Style="{DynamicResource ButtonCommon2}"/>
                         </StackPanel>
-                        
                     </Grid>
                 </TabItem>
                 <TabItem Header="Three">
-                    <Grid Margin="40">
-                        <Border Background="White" BorderBrush="Black" BorderThickness="2" />
+                    <Grid Margin="40" HorizontalAlignment="Left" Width="400">
                         <StackPanel Margin="4">
-                            <Label Content="Select Printer" FontSize="16" FontWeight="SemiBold" Margin="5"/>
-                            <ComboBox Height="20" ItemsSource="{Binding PrinterNames}" SelectedItem="{Binding SelectedPrinter}" Margin="5 10"/>
-                        </StackPanel>
-                        <Button Content="Select" Height="20" Width="100" Command="{Binding SaveCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Style="{DynamicResource ButtonCommon2}"/>
+                            <Label Content="Export Documents" FontSize="24" FontWeight="SemiBold"/>
+                            <Label Content="C:Document/SplashShoes/New Member.pdf" FontSize="16" Margin="0 24"/>
+                        <Button Content="Browse" Height="20" Width="100" Command="" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Style="{DynamicResource ButtonCommon2}"/>
+                    </StackPanel>
+                        
                     </Grid>
                 </TabItem>
                 <TabItem Header="Four">
