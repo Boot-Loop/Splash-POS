@@ -5,6 +5,7 @@ namespace Core.DB.Models
 {
     public class SaleProductModel : Model
     {
+        public IntergerField    ID          { get; set; } = new IntergerField(  name: "ID");
         public IntergerField    SaleID      { get; set; } = new IntergerField(  name: "SaleID");
         public IntergerField    ProductID   { get; set; } = new IntergerField(  name: "ProductID",  is_required: true);
         public IntergerField    Qunatity    { get; set; } = new IntergerField(  name: "Qunatity",   is_required: true);
@@ -16,6 +17,7 @@ namespace Core.DB.Models
         public SaleProductModel() { }
 
         public SaleProductModel(DataRow data_row) {
+            this.ID.value           = Convert.ToInt32(data_row["ID"]);
             this.SaleID.value       = Convert.ToInt32(data_row["Sale_ID"]);
             this.ProductID.value    = Convert.ToInt32(data_row["Product_ID"]);
             this.Qunatity.value     = Convert.ToInt32(data_row["Qunatity"]);

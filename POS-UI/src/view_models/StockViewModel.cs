@@ -72,13 +72,11 @@ namespace UI.ViewModels
                 try {
                     StockAccess.singleton.deleteStock(Convert.ToInt32(SelectedStock.ID.value));
                     CoreApp.logger.log("Stock model is successfully deleted(StockViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Supplier {SelectedStock.ProductName.value} with ID {SelectedStock.ID.value} successfully deleted.", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification($"Supplier {SelectedStock.ProductName.value} with ID {SelectedStock.ID.value} successfully deleted.", true);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Failed to delete stock model(StockViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Failed to delete the supplier {SelectedStock.ProductName.value} with ID {SelectedStock.ID.value}.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification($"Failed to delete the supplier {SelectedStock.ProductName.value} with ID {SelectedStock.ID.value}.", false);
                 } 
             }
             refresh();
@@ -87,13 +85,11 @@ namespace UI.ViewModels
             try {
                 StocksDocument.singleton.export(new List<StockModel>(Stocks));
                 CoreApp.logger.log("Stock models successfully exported as PDF(StockViewModel)");
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Stock details successfully exported!", true));
-                thread.Start();
+                this.HomeViewModel.setNotification("Stock details successfully exported!", true);
             }
             catch (Exception ex) {
                 CoreApp.logger.log($"Failed to export stock models(StockViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to export stock details. Please make sure output directory is not deleted.", false));
-                thread.Start();
+                this.HomeViewModel.setNotification("Failed to export stock details. Please make sure output directory is not deleted.", false);
             }
         }
         private bool isSelectedStockNotNull(object parameter) {

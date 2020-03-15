@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing.Printing;
-using System.Threading;
-
-using UI.ViewModels.Commands;
+using System.Windows.Forms;
 
 using CoreApp = Core.Application;
+
+using UI.ViewModels.Commands;
 
 namespace UI.ViewModels
 {
@@ -14,9 +14,11 @@ namespace UI.ViewModels
     {
         private ObservableCollection<string> _printer_names;
         private string _selected_printer;
+        private string _document_save_path;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand SaveCommand { get; private set; }
+        public RelayCommand BrowseCommand { get; private set; }
         public HomeViewModel HomeViewModel { get; set; }
 
         public ObservableCollection<string> PrinterNames {
@@ -27,11 +29,16 @@ namespace UI.ViewModels
             get { return _selected_printer; }
             set { _selected_printer = value; onPropertyRaised("SelectedPrinter"); }
         }
+        public string DocumentSavePath {
+            get { return _document_save_path; }
+            set { _document_save_path = value; onPropertyRaised("DocumentSavePath"); CoreApp.singleton.updateDocumentSavePath(DocumentSavePath); }
+        }
 
-        public SettingsViewModel(HomeViewModel home_view_model)
-        {
+        public SettingsViewModel(HomeViewModel home_view_model) {
             this.HomeViewModel = home_view_model;
             this.SaveCommand = new RelayCommand(savePrinter);
+            this.BrowseCommand = new RelayCommand(browseSavePath);
+            DocumentSavePath = CoreApp.singleton.readDocumentSavePath();
             home_view_model.Title = "Settings";
             loadPrinters();
             this.SelectedPrinter = loadPrinter();
@@ -54,14 +61,17 @@ namespace UI.ViewModels
             if (SelectedPrinter != null) {
                 try {
                     CoreApp.singleton.updateReciptPrinterName(this.SelectedPrinter);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Printer Successfully Configured!", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Printer Successfully Configured!", true);
                 }
                 catch (Exception) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Printer Configuration Failed!", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Printer Configuration Failed!", false);
                 }
             }
+        }
+        private void browseSavePath(object parameter) {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            DialogResult dialogResult = folderBrowserDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK) DocumentSavePath = folderBrowserDialog.SelectedPath;
         }
 
         private void onPropertyRaised(string property_name) {

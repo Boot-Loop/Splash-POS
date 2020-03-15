@@ -1,8 +1,4 @@
-﻿using Core.DB.Access;
-using Core.DB.Models;
-using CoreApp = Core.Application;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,6 +9,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+
+using Core.DB.Access;
+using Core.DB.Models;
+using CoreApp = Core.Application;
+
 using UI.ViewModels.Commands;
 using UI.Views;
 
@@ -20,6 +21,9 @@ namespace UI.ViewModels
 {
     public class NewSaleViewModel : INotifyPropertyChanged
     {
+        private ObservableCollection<SaleProductModel> _sale_products;
+        private ObservableCollection<ProductModel> _search_products;
+        private int _phraseNumber = 0;
         private string _barcode_or_code;
         private string _subtotal;
         private string _discount;
@@ -27,6 +31,7 @@ namespace UI.ViewModels
         private string _paid;
         private string _balance;
         private string _quantity;
+        private string _recipt_id;
         private double _cart_discount;
         private int _sale_id;
         private bool _search_by_barcode;
@@ -34,24 +39,27 @@ namespace UI.ViewModels
         private bool _search_by_name;
         private bool _is_search_by_name_visible;
         private bool _is_search_by_barcode_visible;
-        private ObservableCollection<SaleProductModel> _sale_products;
-        private ObservableCollection<ProductModel> _search_products;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public SearchDataProvider SearchDataProvider { get { return new SearchDataProvider(); } }
         public RelayCommand BarcodeSearchCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand VoidSaleCommand { get; private set; }
-        public RelayCommand DoPaymentCommand { get; private set; }
         public RelayCommand SearchSelectionCommand { get; private set; }
         public RelayCommand DiscountCommand { get; set; }
         public RelayCommand QuantityCommand { get; set; }
         public RelayCommand PayCommand { get; set; }
+        public RelayCommand ReturnCommand { get; set; }
         public SaleProductModel SelectedItem { get; set; }
         public ProductModel SearchedModel { get; set; } = null;
         public SalesViewModel SalesViewModel { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
         public NewSale NewSale { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        public int PhraseNumber {
+            get { return _phraseNumber; }
+            set { _phraseNumber = value; onPropertyRaised("PhraseNumber"); }
+        }
         public string BarcodeOrCode {
             get { return _barcode_or_code; }
             set { _barcode_or_code = value; onPropertyRaised("BarcodeOrCode"); }
@@ -79,6 +87,10 @@ namespace UI.ViewModels
         public string Quantity {
             get { return _quantity; }
             set { _quantity = value; onPropertyRaised("Quantity"); addProductToList(SearchedModel, Quantity); }
+        }
+        public string ReciptID {
+            get { return _recipt_id; }
+            set { _recipt_id = value; onPropertyRaised("ReciptID"); }
         }
         public double CartDiscount {
             get { return _cart_discount; }
@@ -118,30 +130,31 @@ namespace UI.ViewModels
         }
 
         public NewSaleViewModel(NewSale new_sale, SalesViewModel sales_view_model, HomeViewModel home_view_model) {
-            this.NewSale = new_sale;
-            this.SalesViewModel = sales_view_model;
-            this.HomeViewModel = home_view_model;
-            this.BarcodeSearchCommand = new RelayCommand(searchProductUsingBarcode);
-            this.DeleteItemCommand = new RelayCommand(deleteItem, isSelectedItemNotNull);
-            this.VoidSaleCommand = new RelayCommand(voidButtonPressed);
-            this.DoPaymentCommand = new RelayCommand(doPayment);
-            this.SearchSelectionCommand = new RelayCommand(selectSearchType);
-            this.DiscountCommand = new RelayCommand(discountButtonPressed);
-            this.QuantityCommand = new RelayCommand(quantityButtonPressed, isSelectedItemNotNull);
-            this.SaleProducts = new ObservableCollection<SaleProductModel>();
-            this.SearchProducts = new ObservableCollection<ProductModel>();
-            this.PayCommand = new RelayCommand(payButtonPressed);
-            this.SubTotal = "0.00";
-            this.Discount = "0.00";
-            this.Total = "0.00";
-            this.SaleID = 123;
-            this.SearchByBarcode = true;
-            this.SearchByCode = false;
-            this.SearchByName = false;
-            this.IsSearchByBarcodeVisible = true;
-            this.IsSearchByNameVisible = false;
+            this.NewSale                    = new_sale;
+            this.SalesViewModel             = sales_view_model;
+            this.HomeViewModel              = home_view_model;
+            this.BarcodeSearchCommand       = new RelayCommand(searchProductUsingBarcode);
+            this.DeleteItemCommand          = new RelayCommand(deleteItem, isSelectedItemNotNull);
+            this.VoidSaleCommand            = new RelayCommand(voidButtonPressed);
+            this.SearchSelectionCommand     = new RelayCommand(selectSearchType);
+            this.DiscountCommand            = new RelayCommand(discountButtonPressed);
+            this.QuantityCommand            = new RelayCommand(quantityButtonPressed, isSelectedItemNotNull);
+            this.PayCommand                 = new RelayCommand(payButtonPressed);
+            this.ReturnCommand              = new RelayCommand(returnButtonPressed);
+            this.SaleProducts               = new ObservableCollection<SaleProductModel>();
+            this.SearchProducts             = new ObservableCollection<ProductModel>();
+            this.SubTotal                   = "0.00";
+            this.Discount                   = "0.00";
+            this.Total                      = "0.00";
+            this.SearchByBarcode            = true;
+            this.SearchByCode               = false;
+            this.SearchByName               = false;
+            this.IsSearchByBarcodeVisible   = true;
+            this.IsSearchByNameVisible      = false;
             this.selectSearchType("Barcode");
         }
+
+        #region AddProduct
 
         private void openQuantityView() {
             bool found = false;
@@ -173,7 +186,8 @@ namespace UI.ViewModels
                     SearchedModel = null;
                     MessageBox.Show("No product found please check the Barcode!", "No product found", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-            } else if (SearchByCode) {
+            }
+            else if (SearchByCode) {
                 try { model = ProductAccess.singleton.getProductUsingCode(Convert.ToInt32(BarcodeOrCode)); }
                 catch (Exception) { model = null; }
                 if (model != null) {
@@ -199,7 +213,7 @@ namespace UI.ViewModels
                 MessageBox.Show("Error adding this product. Please try again.", "Cannot add product", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-        
+
         private void addProductToList(ProductModel model, string quantity) {
             bool found = false;
             int int_quantity;
@@ -232,6 +246,10 @@ namespace UI.ViewModels
             SearchedModel = null;
             calculateTotal();
         }
+
+        #endregion
+
+
         private void voidButtonPressed(object parameter) {
             this.SalesViewModel.removeSale(NewSale);
         }
@@ -255,16 +273,23 @@ namespace UI.ViewModels
             SaleProducts.Remove(SelectedItem);
             calculateTotal();
         }
-        private void doPayment(object parameter) {
+        public void recordSale() {
             if (SaleProducts.Count == 0) { }
             else {
                 PaymentModel payment_model = new PaymentModel();
+                payment_model.PaymentMethodID.value = 1;
+                payment_model.SubTotal.value        = Convert.ToDouble(SubTotal);
+                payment_model.Discount.value        = Convert.ToDouble(Discount);
+                payment_model.Total.value           = Convert.ToDouble(Total);
+                payment_model.Paid.value            = Convert.ToDouble(Paid);
+                payment_model.Balance.value         = Convert.ToDouble(Balance);
                 payment_model.TransactionTime.value = DateTime.Now;
                 int payment_id = SaleAccess.singleton.addPayment(payment_model);
 
                 SaleModel sale_model = new SaleModel();
-                sale_model.UserID.value = this.HomeViewModel.LoggedInUser.ID.value;
-                sale_model.PaymentID.value = payment_id;
+                sale_model.UserID.value             = this.HomeViewModel.LoggedInUser.ID.value;
+                sale_model.PaymentID.value          = payment_id;
+                sale_model.CartDiscount.value       = CartDiscount;
                 int sale_id = SaleAccess.singleton.addSale(sale_model);
 
                 foreach (SaleProductModel sale_product in SaleProducts) {
@@ -272,7 +297,23 @@ namespace UI.ViewModels
                     sale_product_model = sale_product;
                     sale_product_model.SaleID.value = sale_id;
                     SaleAccess.singleton.addSaleProduct(sale_product_model);
+                    StockModel model = StockAccess.singleton.getStockOfProduct(Convert.ToInt32(sale_product.ProductID.value));
+                    if (model != null) {
+                        if (model.Quantity.value > sale_product.Qunatity.value) {
+                            model.Quantity.value -= sale_product.Qunatity.value;
+                            StockAccess.singleton.updateStock(model, Convert.ToInt32(model.ID.value));
+                        }else {
+                            model.Quantity.value = 0;
+                            StockAccess.singleton.updateStock(model, Convert.ToInt32(model.ID.value));
+                        }
+                    }
                 }
+                ReciptModel recipt_model = new ReciptModel();
+                string recipt_id = string.Format("rpt-{0}", ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds());
+                recipt_model.ID.value = recipt_id;
+                recipt_model.SaleID.value = sale_id;
+                this.ReciptID = recipt_id;
+                SaleAccess.singleton.addRecipt(recipt_model);
             }
         }
         public void selectSearchType(object parameter) {
@@ -350,14 +391,17 @@ namespace UI.ViewModels
                 payment_view.ShowDialog();
             }
         }
-        private bool isSelectedItemNotNull(object parameter) {
-            return SelectedItem == null ? false : true;
+        private void returnButtonPressed(object parameter) {
+            if (this.SaleProducts.Count != 0) {
+                ReturnView return_view = new ReturnView(this);
+                return_view.Left = HomeViewModel.MainView.Left + (HomeViewModel.MainView.ActualWidth / 2) - return_view.ActualWidth;
+                return_view.Top = HomeViewModel.MainView.Top + 160;
+                return_view.RefundAmount = this.Total;
+                return_view.ShowDialog();
+            }
         }
 
-        private void onPropertyRaised(string property_name) {
-            if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));
-        }
-
+        #region ReciptPrint
 
         public void print() {
             PrintDocument document = new PrintDocument();
@@ -403,7 +447,7 @@ namespace UI.ViewModels
             OFFSET += (TEXT_HEIGHT);
             graphics.DrawString("TEL : (+94) 77 995 6868", text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT + LINE_SPACE);
-            graphics.DrawString("Recipt No : 101", text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
+            graphics.DrawString("Recipt No : " + ReciptID, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT + LINE_SPACE);
             graphics.DrawString("DATE : " + DateTime.Now, text_font, new SolidBrush(System.Drawing.Color.Black), START_X, START_Y + OFFSET);
             OFFSET += (TEXT_HEIGHT);
@@ -476,48 +520,34 @@ namespace UI.ViewModels
             return measurements;
         }
 
+        #endregion
 
-
-        private Int32 _phraseNumber = 0;
-
-        public Int32 PhraseNumber {
-            get { return this._phraseNumber; }
-            set {
-                if (this._phraseNumber != value) {
-                    this._phraseNumber = value;
-                    onPropertyRaised("PhraseNumber");
-                }
-            }
+        private bool isSelectedItemNotNull(object parameter) {
+            return SelectedItem == null ? false : true;
         }
-
-        public SearchDataProvider SearchDataProvider { get { return new SearchDataProvider(); } }
-
+        private void onPropertyRaised(string property_name) {
+            if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));
+        }
     }
 
 
-    public class SearchDataProvider : WpfAutoComplete.ISearchDataProvider
-    {
-        public WpfAutoComplete.SearchResult DoSearch(string searchTerm)
-        {
-            return new WpfAutoComplete.SearchResult
-            {
-                SearchTerm = searchTerm,
-                Results = dict.Where(item => item.Value.ToUpperInvariant().Contains(searchTerm.ToUpperInvariant())).ToDictionary(v => v.Key, v => v.Value)
-            };
-        }
+    public class SearchDataProvider : WpfAutoComplete.ISearchDataProvider {
 
         public SearchDataProvider() {
             List<ProductModel> products = ProductAccess.singleton.getProducts("");
-            foreach(ProductModel product in products)
-            {
+            foreach(ProductModel product in products) {
                 dict.Add(Convert.ToInt32(product.Code.value), product.Name.value);
             }
         }
 
-        public WpfAutoComplete.SearchResult SearchByKey(object Key)
-        {
-            return new WpfAutoComplete.SearchResult
-            {
+        public WpfAutoComplete.SearchResult DoSearch(string searchTerm) {
+            return new WpfAutoComplete.SearchResult {
+                SearchTerm = searchTerm,
+                Results = dict.Where(item => item.Value.ToUpperInvariant().Contains(searchTerm.ToUpperInvariant())).ToDictionary(v => v.Key, v => v.Value)
+            };
+        }
+        public WpfAutoComplete.SearchResult SearchByKey(object Key) {
+            return new WpfAutoComplete.SearchResult {
                 SearchTerm = null,
                 Results = dict.Where(item => item.Key.ToString() == Key.ToString()).ToDictionary(v => v.Key, v => v.Value)
             };

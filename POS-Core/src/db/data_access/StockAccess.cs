@@ -22,6 +22,12 @@ namespace Core.DB.Access
 			SqlCommand command = new SqlCommand("SELECT * FROM dbo.StockView");
 			return excuteObject<StockModel>(command).ToList();
 		}
+		public StockModel getStockOfProduct(int product_id) {
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.StockView WHERE Product_ID = @Product_ID");
+			command.Parameters.Add("@Product_ID", System.Data.SqlDbType.Int).Value = product_id;
+			List<StockModel> stocks = excuteObject<StockModel>(command).ToList();
+			return stocks.Count == 0 ? null : stocks[0];
+		}
 		public void addStock(StockModel model) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
 				string command_text = "INSERT INTO dbo.Stock (Product_ID, Warehouse_ID, Supplier_ID, Quantity, Date) VALUES (@Product_ID, @Warehouse_ID, @Supplier_ID, @Quantity, @Date)";

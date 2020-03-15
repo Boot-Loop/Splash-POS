@@ -44,5 +44,7 @@ namespace Core.DB.Models
             this.DateCreated.value      = Convert.ToDateTime(data_row["DateCreated"]);
             this.DateUpdated.value      = Convert.ToDateTime(data_row["DateUpdated"]);
         }
+
+        public override string ToString() => this.Name.value;
     }
 }

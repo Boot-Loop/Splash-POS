@@ -2,8 +2,8 @@
 
 using System.ComponentModel;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 using UI.ViewModels.Commands;
 using UI.Views;
@@ -20,6 +20,7 @@ namespace UI.ViewModels
         public StaffModel LoggedInUser { get; private set; }
         public RelayCommand LogoutCommand { get; private set; }
         public RelayCommand SettingsCommand { get; private set; }
+        public RelayCommand CloseCommand { get; private set; }
         public MainView MainView { get; set; }
         public HomeView HomeView { get; set; }
         public Sales Sales { get; set; }
@@ -46,16 +47,26 @@ namespace UI.ViewModels
             this.HomeView.home_content_control.Content = Sales;
             this.LogoutCommand = new RelayCommand(logout);
             this.SettingsCommand = new RelayCommand(openSettings);
+            this.CloseCommand = new RelayCommand(closeNotification);
             this.Height = "0";
         }
 
-        public void setMessage(string message, bool success) {
+        public void setNotification(string message, bool success) {
+            if (success) this.HomeView.notification_view.Background = new SolidColorBrush(Color.FromRgb(2, 115, 32));
+            else this.HomeView.notification_view.Background = new SolidColorBrush(Color.FromRgb(166, 3, 3));
+            Thread thread = new Thread(() => setMessage(message));
+            thread.Start();
+        }
+
+        private void setMessage(string message) {
             this.Message = message;
-            this.Height = "40";
-            Thread.Sleep(4000);
+            this.Height = "50";
+            Thread.Sleep(5000);
             this.Height = "0";
         }
-
+        private void closeNotification(object parameter) {
+            this.Height = "0";
+        }
         private void logout(object parameter) {
             bool found = false;
             for (int i = 0; i < this.Sales.SalesViewModel.NewSales.Count; i++) {

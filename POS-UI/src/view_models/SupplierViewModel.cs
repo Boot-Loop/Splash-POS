@@ -71,13 +71,11 @@ namespace UI.ViewModels
                 try {
                     SupplierAccess.singleton.deleteSupplier(Convert.ToInt32(SelectedSupplier.ID.value));
                     CoreApp.logger.log("Supplier model is successfully deleted(SupplierViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Supplier {SelectedSupplier.FirstName.value} with ID {SelectedSupplier.ID.value} successfully deleted.", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification($"Supplier {SelectedSupplier.FirstName.value} with ID {SelectedSupplier.ID.value} successfully deleted.", true);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Failed to delete supplier model(StaffViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Failed to delete the supplier {SelectedSupplier.FirstName.value} with ID {SelectedSupplier.ID.value}.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification($"Failed to delete the supplier {SelectedSupplier.FirstName.value} with ID {SelectedSupplier.ID.value}.", false);
                 }
             }
             refresh();
@@ -86,13 +84,11 @@ namespace UI.ViewModels
             try {
                 SuppliersDocument.singleton.export(new List<SupplierModel>(Suppliers));
                 CoreApp.logger.log("Supplier models successfully exported as PDF(SupplierViewModel)");
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Supplier details successfully exported!", true));
-                thread.Start();
+                this.HomeViewModel.setNotification("Supplier details successfully exported!", true);
             }
             catch (Exception ex) {
                 CoreApp.logger.log($"Failed to export supplier models(SupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to export supplier details. Please make sure output directory is not deleted.", false));
-                thread.Start();
+                this.HomeViewModel.setNotification("Failed to export supplier details. Please make sure output directory is not deleted.", false);
             }
         }
         private bool isSelectedSupplierNotNull(object parameter) {

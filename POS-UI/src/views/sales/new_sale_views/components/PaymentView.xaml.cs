@@ -35,7 +35,7 @@ namespace UI.Views
         }
         public string Total {
             get { return _total; }
-            set { _total = value; onPropertyRaised("Total"); onPropertyRaised("Change"); }
+            set { _total = value; Paid = Total; onPropertyRaised("Total"); onPropertyRaised("Change"); }
         }
         public string Change {
             get {
@@ -119,6 +119,7 @@ namespace UI.Views
             catch (Exception) { paid = "0.00"; }
             NewSaleViewModel.Paid = paid;
             NewSaleViewModel.Balance = this.Change;
+            NewSaleViewModel.recordSale();
             Forms.DialogResult result = Forms.MessageBox.Show("You want to print Recipt?", "Print Recipt", Forms.MessageBoxButtons.YesNo, Forms.MessageBoxIcon.Information);
             if (result == Forms.DialogResult.Yes) {
                 NewSaleViewModel.print();

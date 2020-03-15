@@ -115,17 +115,14 @@ namespace UI.ViewModels
                     HomeViewModel.ProductsUpdated = true;
                     this.AddProductView.Close();
                     CoreApp.logger.log("Product model successfully uploaded.(AddProductViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Product details added successfully!", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Product details added successfully!", true);
                 }
                 catch (EmptyFieldException) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Required fields cannot be empty.", false);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Unexpected error while adding product details.(AddProductViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while adding product details.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Some unexpected error occured while adding product details.", false);
                 }
             }
             else {
@@ -136,22 +133,19 @@ namespace UI.ViewModels
                     HomeViewModel.ProductsUpdated = true;
                     this.AddProductView.Close();
                     CoreApp.logger.log("Product model successfully updated.(AddProductViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Product details updated successfully!", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Product details updated successfully!", true);
                 }
                 catch (EmptyFieldException) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Required fields cannot be empty.", false);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Unexpected error while updating product details.(AddProductViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while updating product details.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Some unexpected error occured while updating product details.", false);
                 }
             } 
         }
         private void validate() {
-            if (string.IsNullOrEmpty(Name)) throw new EmptyFieldException("Required fields cannot be empty!");
+            if (string.IsNullOrEmpty(Name) || Code <= 0) throw new EmptyFieldException("Required fields cannot be empty!");
         }
         private void onPropertyRaised(string property_name) {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));

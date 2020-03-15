@@ -87,15 +87,12 @@ namespace UI.ViewModels
                     try {
                         ProductAccess.singleton.deleteProduct(Convert.ToInt32(SelectedProduct.ID.value));
                         CoreApp.logger.log("Product model is successfully deleted(ProductViewModel)");
-                        Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Product {SelectedProduct.Name.value} with ID {SelectedProduct.ID.value} successfully deleted.", true));
-                        thread.Start();
+                        this.HomeViewModel.setNotification($"Product {SelectedProduct.Name.value} with ID {SelectedProduct.ID.value} successfully deleted.", true);
                     }
                     catch (Exception ex) {
                         CoreApp.logger.log($"Failed to delete product model(ProductViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                        Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Failed to delete the product {SelectedProduct.Name.value} with ID {SelectedProduct.ID.value}.", false));
-                        thread.Start();
+                        this.HomeViewModel.setNotification($"Failed to delete the product {SelectedProduct.Name.value} with ID {SelectedProduct.ID.value}.", false);
                     }
-
                 }
             }
             refresh();
@@ -104,13 +101,11 @@ namespace UI.ViewModels
             try {
                 ProductsDocument.singleton.export(new List<ProductModel>(Products));
                 CoreApp.logger.log("Product models successfully exported as PDF(ProductViewModel)");
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Product details successfully exported!", true));
-                thread.Start();
+                this.HomeViewModel.setNotification("Product details successfully exported!", true);
             }
             catch (Exception ex) {
                 CoreApp.logger.log($"Failed to export product models(ProductViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to export product details. Please make sure output directory is not deleted.", false));
-                thread.Start();
+                this.HomeViewModel.setNotification("Failed to export product details. Please make sure output directory is not deleted.", false);
             }
         }
         private bool isSelectedProductNotNull(object parameter) {

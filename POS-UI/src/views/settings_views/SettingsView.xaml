@@ -74,9 +74,11 @@
                 <TabItem Header="Two">
                     <Grid Margin="40" HorizontalAlignment="Left" Width="400">
                         <StackPanel Margin="4">
+
                             <Label Content="Document Printer" FontSize="24" FontWeight="SemiBold"/>
                             <ComboBox ItemsSource="{Binding PrinterNames}" SelectedItem="{Binding SelectedPrinter}" Margin="0 24"/>
                             <Button Content="Select" Height="20" Width="100" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="0 200 0 0" Style="{DynamicResource ButtonCommon2}"/>
+
                         </StackPanel>
                     </Grid>
                 </TabItem>
