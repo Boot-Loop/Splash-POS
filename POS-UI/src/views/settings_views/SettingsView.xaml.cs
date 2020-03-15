@@ -26,41 +26,43 @@ namespace UI.Views
 
         public SettingsView(HomeViewModel home_view_model)
         {
+            SolidColorBrush color_primary_darker = FindResource("COLOR_PRIMARY_DARKER") as SolidColorBrush;
             InitializeComponent();
             this._settings_view_model = new SettingsViewModel(home_view_model);
             this.DataContext = _settings_view_model;
-            One.Background = Brushes.MediumPurple;
+            One.Background = color_primary_darker;
         }
 
         private void SettingButtonClick(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
+            SolidColorBrush color_primary_darker = FindResource("COLOR_PRIMARY_DARKER") as SolidColorBrush;
             switch (Convert.ToInt16(button.Tag))
             {
                 case 0:
                     setting_tab_control.SelectedIndex = Convert.ToInt16(button.Tag);
                     ButtonSelectedEffect();
-                    One.Background = Brushes.MediumPurple;
+                    One.Background = color_primary_darker;
                     break;
                 case 1:
                     setting_tab_control.SelectedIndex = Convert.ToInt16(button.Tag);
                     ButtonSelectedEffect();
-                    Two.Background = Brushes.MediumPurple;
+                    Two.Background = color_primary_darker;
                     break;
                 case 2:
                     setting_tab_control.SelectedIndex = Convert.ToInt16(button.Tag);
                     ButtonSelectedEffect();
-                    Three.Background = Brushes.MediumPurple;
+                    Three.Background = color_primary_darker;
                     break;
                 case 3:
                     setting_tab_control.SelectedIndex = Convert.ToInt16(button.Tag);
                     ButtonSelectedEffect();
-                    Four.Background = Brushes.MediumPurple;
+                    Four.Background = color_primary_darker;
                     break;
                 case 4:
                     setting_tab_control.SelectedIndex = Convert.ToInt16(button.Tag);
                     ButtonSelectedEffect();
-                    Five.Background = Brushes.MediumPurple;
+                    Five.Background = color_primary_darker;
                     break;
             }
         }
