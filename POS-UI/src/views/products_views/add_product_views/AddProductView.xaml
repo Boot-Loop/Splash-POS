@@ -28,7 +28,7 @@
             <TextBox Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"             Margin="5 4 5 8"        FontSize="16" Height="30" Padding="1"/>
             <CheckBox IsChecked="{Binding IsService, UpdateSourceTrigger=PropertyChanged}"   Margin="5 16 0 14" />
             <TextBox x:Name="description_text_box" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"       Margin="5 4 5 6"        FontSize="16" Height="60" TextWrapping="Wrap" Padding="1"/>
-            <Button Content="{Binding UpdateOrCreate}" Command="{Binding CreateOrUpdateCommand}" Margin="5 6" FontSize="18" Height="30" Width="200" HorizontalAlignment="Right" Style="{DynamicResource ButtonCommon}"/>
+            <Button Content="{Binding UpdateOrCreate}" Command="{Binding CreateOrUpdateCommand}" Margin="5 6" FontSize="18" Height="30" Width="200" HorizontalAlignment="Right" Style="{DynamicResource ButtonCommon2}"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -10,14 +10,16 @@
     <SolidColorBrush x:Key="COLOR_PRIMARY_LIGHTER">#FFF4EEFF</SolidColorBrush>
 
     <SolidColorBrush x:Key="COLOR_RED_DARKER">#FFA01629</SolidColorBrush>
-    <SolidColorBrush x:Key="COLOR_RED_DARK">#FFB8505E</SolidColorBrush>
-    <SolidColorBrush x:Key="COLOR_RED_LIGHT">#FFE7C4C9</SolidColorBrush>
-    <SolidColorBrush x:Key="COLOR_RED_LIGHTER">#FFF1DCDF</SolidColorBrush>
+    <SolidColorBrush x:Key="COLOR_RED_DARK">#FFd92232</SolidColorBrush>
+    <SolidColorBrush x:Key="COLOR_RED_LIGHT">#FFe73040</SolidColorBrush>
+    <SolidColorBrush x:Key="COLOR_RED_LIGHTER">#FFff4b5b</SolidColorBrush>
 
 
     <SolidColorBrush x:Key="COLOR_GREY_DARKER">#FF333333</SolidColorBrush>
     <SolidColorBrush x:Key="COLOR_GREY_DARK">#FF666666</SolidColorBrush>
     <SolidColorBrush x:Key="COLOR_GREY_LIGHT">#FF999999</SolidColorBrush>
     <SolidColorBrush x:Key="COLOR_GREY_LIGHTER">#FFCCCCCC</SolidColorBrush>
+    
+    
 
 </ResourceDictionary>
