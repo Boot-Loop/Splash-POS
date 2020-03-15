@@ -88,21 +88,17 @@ namespace UI.ViewModels
                     StaffAccess.singleton.addStaff(model);
                     this.AddStaffView.Close();
                     CoreApp.logger.log("Staff model successfully uploaded.(AddStaffViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Staff details added successfully!", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Staff details added successfully!", true);
                 }
                 catch (EmptyFieldException) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Required fields cannot be empty.", false);
                 }
                 catch (ValidationError) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Password cannot be less than 4 digits.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Password cannot be less than 4 digits.", false);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Unexpected error while adding staff details.(AddStaffViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while adding staff details.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Some unexpected error occured while adding staff details.", false);
                 }
             }
             else {
@@ -112,21 +108,17 @@ namespace UI.ViewModels
                     StaffAccess.singleton.updateStaff(model, this.ID);
                     this.AddStaffView.Close();
                     CoreApp.logger.log("Staff model successfully updated.(AddStaffViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Staff details updated successfully!", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Staff details updated successfully!", true);
                 }
                 catch (EmptyFieldException) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Required fields cannot be empty.", false);
                 }
                 catch (ValidationError) {
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Password cannot be less than 4 digits.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Password cannot be less than 4 digits.", false);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Unexpected error while updating staff details.(AddStaffViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while updating staff details.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification("Some unexpected error occured while updating staff details.", false);
                 }
             }
         }

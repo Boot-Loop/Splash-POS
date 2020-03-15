@@ -70,6 +70,8 @@
     <Compile Include="src\db\models\products\MeasurementUnitModel.cs" />
     <Compile Include="src\db\models\products\ProductGroupModel.cs" />
     <Compile Include="src\db\models\products\ProductModel.cs" />
+    <Compile Include="src\db\models\sales\ProductReturnModel.cs" />
+    <Compile Include="src\db\models\sales\ReciptModel.cs" />
     <Compile Include="src\db\models\sales\SaleModel.cs" />
     <Compile Include="src\db\models\sales\SaleProductModel.cs" />
     <Compile Include="src\db\models\stocks\StockModel.cs" />

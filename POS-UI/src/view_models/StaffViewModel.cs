@@ -71,13 +71,11 @@ namespace UI.ViewModels
                 try {
                     StaffAccess.singleton.deleteStaff(Convert.ToInt32(SelectedStaff.ID.value));
                     CoreApp.logger.log("Staff model is successfully deleted(StaffViewModel)");
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Staff {SelectedStaff.FirstName.value} with ID {SelectedStaff.ID.value} successfully deleted.", true));
-                    thread.Start();
+                    this.HomeViewModel.setNotification($"Staff {SelectedStaff.FirstName.value} with ID {SelectedStaff.ID.value} successfully deleted.", true);
                 }
                 catch (Exception ex) {
                     CoreApp.logger.log($"Failed to delete staff model(StaffViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                    Thread thread = new Thread(() => this.HomeViewModel.setMessage($"Failed to delete the staff {SelectedStaff.FirstName.value} with ID {SelectedStaff.ID.value}.", false));
-                    thread.Start();
+                    this.HomeViewModel.setNotification($"Failed to delete the staff {SelectedStaff.FirstName.value} with ID {SelectedStaff.ID.value}.", false);
                 }
                 
             }
@@ -87,13 +85,11 @@ namespace UI.ViewModels
             try {
                 StaffsDocument.singleton.export(new List<StaffModel>(Staffs));
                 CoreApp.logger.log("Staff models successfully exported as PDF(StaffViewModel)");
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Staff details successfully exported!", true));
-                thread.Start();
+                this.HomeViewModel.setNotification("Staff details successfully exported!", true);
             }
             catch (Exception ex) {
                 CoreApp.logger.log($"Failed to export staff models(StaffViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to export staff details. Please make sure output directory is not deleted.", false));
-                thread.Start();
+                this.HomeViewModel.setNotification("Failed to export staff details. Please make sure output directory is not deleted.", false);
             }
         }
         private bool isSelectedStaffNotNull(object parameter) {

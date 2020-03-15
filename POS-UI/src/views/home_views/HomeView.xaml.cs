@@ -1,5 +1,6 @@
 ﻿using Core.DB.Models;
 using System.Windows.Controls;
+using System.Windows.Media;
 using UI.ViewModels;
 
 namespace UI.Views
@@ -16,7 +17,5 @@ namespace UI.Views
             this.HomeViewModel = new HomeViewModel(user, main_view, this);
             this.DataContext = HomeViewModel;
         }
-
-        
     }
 }

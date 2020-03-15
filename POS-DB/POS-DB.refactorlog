@@ -168,4 +168,39 @@
     <Property Name="ParentElementType" Value="SqlSchema" />
     <Property Name="NewName" Value="[Barcode]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="7cb9877e-c0da-462c-8559-08b4d1ef18d7" ChangeDateTime="03/15/2020 17:11:06">
+    <Property Name="ElementName" Value="[dbo].[Recipt].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Recipt]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d711c202-7841-43a3-a309-91824cee116c" ChangeDateTime="03/15/2020 17:50:15">
+    <Property Name="ElementName" Value="[dbo].[ProductReturn].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProductReturn]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Product_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5c19709a-8928-4c11-bc84-7ff7321cc47c" ChangeDateTime="03/15/2020 17:51:04">
+    <Property Name="ElementName" Value="[dbo].[ProductReturn].[Product_ID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProductReturn]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Recipt_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0a74a2c2-3284-4231-96e2-5f5829d33672" ChangeDateTime="03/15/2020 17:51:12">
+    <Property Name="ElementName" Value="[dbo].[ProductReturn].[Sale_ID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProductReturn]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Product_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c7c18f7a-e591-4e95-806e-e0afcdc10805" ChangeDateTime="03/15/2020 17:59:53">
+    <Property Name="ElementName" Value="[dbo].[ProductReturn].[Refund]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ProductReturn]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RefundAmount" />
+  </Operation>
 </Operations>

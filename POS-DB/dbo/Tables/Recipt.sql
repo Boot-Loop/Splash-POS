@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Recipt]
+(
+	[ID] VARCHAR(20) NOT NULL PRIMARY KEY, 
+    [Sale_ID] INT NULL, 
+    CONSTRAINT [FK_Recipt_Sale] FOREIGN KEY ([Sale_ID]) REFERENCES [Sale]([ID]) ON DELETE SET NULL
+)
