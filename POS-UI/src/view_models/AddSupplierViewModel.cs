@@ -76,6 +76,7 @@ namespace UI.ViewModels
             else {
                 this.UpdateOrCreate     = "Create";
             }
+            CoreApp.logger.log("AddSupplierViewModel successfully initialized.");
         }
 
         public void addOrUpdateSupplier(object parameter) {

@@ -44,7 +44,7 @@ namespace UI.ViewModels
             CoreApp.logger.log("StaffViewModel successfully initialized.");
         }
 
-        public void refresh() {
+        private void refresh() {
             try { 
                 this.Staffs = new ObservableCollection<StaffModel>(StaffAccess.singleton.getStaffs());
                 CoreApp.logger.log("Staffs successfully fetched from database(StaffViewModel)");
@@ -55,7 +55,6 @@ namespace UI.ViewModels
                 MessageBox.Show("Failed to fetch staff data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void openAddWindow(object parameter) {
             AddStaffView new_staff = new AddStaffView(null, HomeViewModel);
             new_staff.ShowDialog();

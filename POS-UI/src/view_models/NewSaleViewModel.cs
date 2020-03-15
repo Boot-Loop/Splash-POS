@@ -283,6 +283,7 @@ namespace UI.ViewModels
                 this.SearchByName = false;
                 this.IsSearchByBarcodeVisible = true;
                 this.IsSearchByNameVisible = false;
+                NewSale.search_by_barcode_txt_box.Text = "";
                 NewSale.search_by_barcode_txt_box.Focus();
                 NewSale.barcode_image.Source = new BitmapImage(new Uri("/res/icons/barcode_primary.png", UriKind.Relative));
                 NewSale.code_image.Source = new BitmapImage(new Uri("/res/icons/code_secondary.png", UriKind.Relative));
@@ -293,6 +294,7 @@ namespace UI.ViewModels
                 this.SearchByName = false;
                 this.IsSearchByBarcodeVisible = true;
                 this.IsSearchByNameVisible = false;
+                NewSale.search_by_barcode_txt_box.Text = "";
                 NewSale.search_by_barcode_txt_box.Focus();
                 NewSale.barcode_image.Source = new BitmapImage(new Uri("/res/icons/barcode_secondary.png", UriKind.Relative));
                 NewSale.code_image.Source = new BitmapImage(new Uri("/res/icons/code_primary.png", UriKind.Relative));
@@ -505,7 +507,7 @@ namespace UI.ViewModels
         }
 
         public SearchDataProvider() {
-            List<ProductModel> products = ProductAccess.singleton.getProducts();
+            List<ProductModel> products = ProductAccess.singleton.getProducts("");
             foreach(ProductModel product in products)
             {
                 dict.Add(Convert.ToInt32(product.Code.value), product.Name.value);

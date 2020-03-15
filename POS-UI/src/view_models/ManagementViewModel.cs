@@ -29,13 +29,13 @@ namespace UI.ViewModels
         }
 
         private void productButtonPressed(object parameter) {
-            HomeView.home_content_control.Content = new Products(HomeViewModel);
+            HomeView.home_content_control.Content = new ProductView(HomeViewModel);
         }
         private void supplierButtonPressed(object parameter) {
             HomeView.home_content_control.Content = new SupplierView(HomeViewModel);
         }
         private void stockButtonPressed(object parameter) {
-            HomeView.home_content_control.Content = new Stocks(HomeViewModel);
+            HomeView.home_content_control.Content = new StockView(HomeViewModel);
         }
         private void staffButtonPressed(object parameter) {
             HomeView.home_content_control.Content = new StaffView(HomeViewModel);

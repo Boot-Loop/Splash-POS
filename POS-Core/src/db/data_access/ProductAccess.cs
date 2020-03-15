@@ -31,17 +31,18 @@ namespace Core.DB.Access
 			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Brand");
 			return excuteObject<MeasurementUnitModel>(command).ToList();
 		}
-		public List<ProductModel> getProducts() {
-			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product ORDER BY Code");
+		public List<ProductModel> getProducts(string search_string) {
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product WHERE Name LIKE '%' + @SearchString + '%' ORDER BY Code");
+			command.Parameters.Add("@SearchString", System.Data.SqlDbType.VarChar, 100).Value = search_string;
 			return excuteObject<ProductModel>(command).ToList();
 		}
 		public List<ProductModel> searchProducts(string search_string) {
-			SqlCommand command = new SqlCommand("SELECT TOP 20 * FROM dbo.Product WHERE Name LIKE '%' + @Name + '%'");
-			command.Parameters.Add("@Name", System.Data.SqlDbType.VarChar, 100).Value = search_string;
+			SqlCommand command = new SqlCommand("SELECT TOP 20 * FROM dbo.Product WHERE Name LIKE '%' + @SearchString + '%'");
+			command.Parameters.Add("@SearchString", System.Data.SqlDbType.VarChar, 100).Value = search_string;
 			return excuteObject<ProductModel>(command).ToList();
 		}
-		public List<ProductModel> getProductsWithBarcodes() {
-			List<ProductModel> products = getProducts();
+		public List<ProductModel> getProductsWithBarcodes(string search_string) {
+			List<ProductModel> products = getProducts(search_string);
 			List<ProductModel> return_products = new List<ProductModel>();
 			foreach (ProductModel product in products) {
 				SqlCommand command = new SqlCommand("SELECT * FROM dbo.Barcode WHERE Product_ID = @ID");

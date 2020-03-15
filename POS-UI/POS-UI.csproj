@@ -113,11 +113,11 @@
     <Compile Include="src\views\main_views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\products_views\add_product_views\AddProduct.xaml.cs">
-      <DependentUpon>AddProduct.xaml</DependentUpon>
+    <Compile Include="src\views\products_views\add_product_views\AddProductView.xaml.cs">
+      <DependentUpon>AddProductView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\products_views\Products.xaml.cs">
-      <DependentUpon>Products.xaml</DependentUpon>
+    <Compile Include="src\views\products_views\ProductView.xaml.cs">
+      <DependentUpon>ProductView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\views\reports_views\Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
@@ -143,11 +143,11 @@
     <Compile Include="src\views\settings_views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\stock_views\add_stock_view\AddStock.xaml.cs">
-      <DependentUpon>AddStock.xaml</DependentUpon>
+    <Compile Include="src\views\stock_views\add_stock_view\AddStockView.xaml.cs">
+      <DependentUpon>AddStockView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\views\stock_views\Stocks.xaml.cs">
-      <DependentUpon>Stocks.xaml</DependentUpon>
+    <Compile Include="src\views\stock_views\StockView.xaml.cs">
+      <DependentUpon>StockView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\views\supplier_views\add_supplier_views\AddSupplierView.xaml.cs">
       <DependentUpon>AddSupplierView.xaml</DependentUpon>
@@ -240,11 +240,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\products_views\add_product_views\AddProduct.xaml">
+    <Page Include="src\views\products_views\add_product_views\AddProductView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\products_views\Products.xaml">
+    <Page Include="src\views\products_views\ProductView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -280,11 +280,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\stock_views\add_stock_view\AddStock.xaml">
+    <Page Include="src\views\stock_views\add_stock_view\AddStockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="src\views\stock_views\Stocks.xaml">
+    <Page Include="src\views\stock_views\StockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
