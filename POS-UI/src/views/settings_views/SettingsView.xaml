@@ -7,8 +7,99 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid>
-        <ComboBox Height="20" VerticalAlignment="Top" ItemsSource="{Binding PrinterNames}" SelectedItem="{Binding SelectedPrinter}"/>
-        <Button Height="20" Command="{Binding SaveCommand}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="200" MaxWidth="500"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
 
+        <GridSplitter Grid.Column="0" Width="2" Background="{StaticResource COLOR_PRIMARY_DARKER}"/>
+
+        <StackPanel Grid.Column="0" Margin="10">
+            <Label  Content="Setting Options"            FontSize="24" FontWeight="SemiBold"/>
+            <Button Tag = "0"  FontSize="18" Height="40" HorizontalContentAlignment="Left" Style="{DynamicResource ButtonCommon2}" Margin="5 36 5 2" BorderThickness="0"   Click="SettingButtonClick">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid x:Name="One" Tag="0" Height='40' Width="8"/>
+                        <TextBlock Text="Select Printer" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button  Tag = "1"  FontSize="18" Height="40" HorizontalContentAlignment="Left" Style="{DynamicResource ButtonCommon2}" Margin="5 2"      BorderThickness="0"   Click="SettingButtonClick">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid x:Name="Two" Tag="1" Height='40' Width="8"/>
+                        <TextBlock Text="Export Document" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button Tag = "2"  FontSize="18" Height="40" HorizontalContentAlignment="Left" Style="{DynamicResource ButtonCommon2}" Margin="5 2"      BorderThickness="0"   Click="SettingButtonClick">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid x:Name="Three" Tag="2" Height='40' Width="8"/>
+                        <TextBlock Text="Export Document" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button  Tag = "3"  FontSize="18" Height="40" HorizontalContentAlignment="Left" Style="{DynamicResource ButtonCommon2}" Margin="5 2"      BorderThickness="0"   Click="SettingButtonClick">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid x:Name="Four" Tag="3" Height='40' Width="8"/>
+                        <TextBlock Text="About" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button  Tag = "4" FontSize="18" Height="40" HorizontalContentAlignment="Left" Style="{DynamicResource ButtonCommon2}" Margin="5 2"      BorderThickness="0"   Click="SettingButtonClick">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid x:Name="Five" Tag="4" Height='40' Width="8"/>
+                        <TextBlock Text="Logout" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        
+        
+        <Grid Grid.Column="1">
+            <TabControl x:Name="setting_tab_control" Grid.Column="1" BorderThickness="0">
+                <TabItem Header="One">
+                    <Grid Margin="40" HorizontalAlignment="Left" Width="400">
+                        <StackPanel Margin="4">
+                            <Label Content="Select Printer" FontSize="24" FontWeight="SemiBold"/>
+                            <ComboBox ItemsSource="{Binding PrinterNames}" SelectedItem="{Binding SelectedPrinter}" Margin="0 24"/>
+                            <Button Content="Select" Height="20" Width="100" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="0 200 0 0" Style="{DynamicResource ButtonCommon2}"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Two">
+                    <Grid Margin="40" HorizontalAlignment="Left" Width="400">
+                        <StackPanel Margin="4">
+                            <Label Content="Export Documents" FontSize="24" FontWeight="SemiBold"/>
+                            <Label Content="C:Document/SplashShoes/New Member.pdf" FontSize="16" Margin="0 24"/>
+                            <Button Content="Browse" Height="20" Width="100" Command="" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Style="{DynamicResource ButtonCommon2}"/>
+                            <Button Content="Export" Height="20" Width="100" Command="" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 200 0 0" Style="{DynamicResource ButtonCommon2}"/>
+                        </StackPanel>
+                        
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Three">
+                    <Grid Margin="40">
+                        <Border Background="White" BorderBrush="Black" BorderThickness="2" />
+                        <StackPanel Margin="4">
+                            <Label Content="Select Printer" FontSize="16" FontWeight="SemiBold" Margin="5"/>
+                            <ComboBox Height="20" ItemsSource="{Binding PrinterNames}" SelectedItem="{Binding SelectedPrinter}" Margin="5 10"/>
+                        </StackPanel>
+                        <Button Content="Select" Height="20" Width="100" Command="{Binding SaveCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Style="{DynamicResource ButtonCommon2}"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Four">
+                    <TextBlock Text="Welcome to Boot Loop Technologies" TextWrapping="Wrap" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </TabItem>
+                <TabItem Header="Five">
+
+                </TabItem>
+            </TabControl>
+            <Grid Height="30" VerticalAlignment="Top" Background="White"/>
+        </Grid>
     </Grid>
 </UserControl>
