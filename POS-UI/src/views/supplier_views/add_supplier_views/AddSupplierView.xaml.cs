@@ -25,13 +25,31 @@ namespace UI.Views
         }
 
         private void StackPanel_PreviewKeyDown(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Enter) {
                 FrameworkElement s = e.Source as FrameworkElement;
+            if (e.Key == Key.Enter) {
                 if (s != null && s != comment_text_box) {
                     s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 }
                 if (s == comment_text_box) {
                     AddSupplierViewModel.addOrUpdateSupplier(null);
+                }
+                e.Handled = true;
+            }
+
+            else if (e.Key == Key.Down)
+            {
+                if (s != null)
+                {
+                    s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                }
+                e.Handled = true;
+            }
+
+            else if (e.Key == Key.Up)
+            {
+                if (s != null)
+                {
+                    s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
                 }
                 e.Handled = true;
             }

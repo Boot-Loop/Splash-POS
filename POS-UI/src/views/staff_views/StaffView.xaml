@@ -61,10 +61,10 @@
             </Grid.ColumnDefinitions>
             <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="5"/>
 
-            <GridSplitter Grid.Column="0" Width="1" Background="Black"/>
-            <GridSplitter Grid.Column="1" Width="1" Background="Black"/>
-            <GridSplitter Grid.Column="2" Width="1" Background="Black"/>
-            <GridSplitter Grid.Column="3" Width="1" Background="Black"/>
+            <GridSplitter Grid.Column="0" Width="1" Background="Black" Focusable="False"/>
+            <GridSplitter Grid.Column="1" Width="1" Background="Black" Focusable="False"/>
+            <GridSplitter Grid.Column="2" Width="1" Background="Black" Focusable="False"/>
+            <GridSplitter Grid.Column="3" Width="1" Background="Black" Focusable="False"/>
 
 
             <TextBlock Text="First Name"       Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>

@@ -36,7 +36,7 @@
             
         </Grid>
         <Grid>
-            <ContentControl x:Name="home_content_control"/>
+            <ContentControl x:Name="home_content_control" Focusable="False"/>
             <Border x:Name="notification_view" HorizontalAlignment="Right" VerticalAlignment="Top" Height="{Binding Height}" Width="300" Background="ForestGreen">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="{Binding Message}" FontSize="13" VerticalAlignment="Center" Width="272" Foreground="White" Margin="8 0 0 0"/>

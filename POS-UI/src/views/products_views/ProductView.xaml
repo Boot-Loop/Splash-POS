@@ -74,13 +74,13 @@
                     <ColumnDefinition Width="*" x:Name="column_8" MinWidth="100"/>
                 </Grid.ColumnDefinitions>
 
-                <GridSplitter Grid.Column="0" Width="1" Background="Black"/>
-                <GridSplitter Grid.Column="1" Width="1" Background="Black"/>
-                <GridSplitter Grid.Column="2" Width="1" Background="Black"/>
-                <GridSplitter Grid.Column="3" Width="1" Background="Black"/>
-                <GridSplitter Grid.Column="4" Width="1" Background="Black"/>
-                <GridSplitter Grid.Column="5" Width="1" Background="Black"/>
-                <GridSplitter Grid.Column="6" Width="1" Background="Black"/>
+                <GridSplitter Grid.Column="0" Width="1" Background="Black" Focusable="False"/>
+                <GridSplitter Grid.Column="1" Width="1" Background="Black" Focusable="False"/>
+                <GridSplitter Grid.Column="2" Width="1" Background="Black" Focusable="False"/>
+                <GridSplitter Grid.Column="3" Width="1" Background="Black" Focusable="False"/>
+                <GridSplitter Grid.Column="4" Width="1" Background="Black" Focusable="False"/>
+                <GridSplitter Grid.Column="5" Width="1" Background="Black" Focusable="False"/>
+                <GridSplitter Grid.Column="6" Width="1" Background="Black" Focusable="False"/>
                 
                 <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="8"/>
 
