@@ -86,8 +86,8 @@
                     <Grid Margin="40" HorizontalAlignment="Left" Width="400">
                         <StackPanel Margin="4">
                             <Label Content="Export Documents" FontSize="24" FontWeight="SemiBold"/>
-                            <Label Content="C:Document/SplashShoes/New Member.pdf" FontSize="16" Margin="0 24"/>
-                        <Button Content="Browse" Height="20" Width="100" Command="" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Style="{DynamicResource ButtonCommon2}"/>
+                            <Label Content="{Binding DocumentSavePath}" FontSize="16" Margin="0 24"/>
+                            <Button Command="{Binding BrowseCommand}" Content="Browse" Height="20" Width="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Style="{DynamicResource ButtonCommon2}"/>
                     </StackPanel>
                         
                     </Grid>
