@@ -44,7 +44,7 @@ namespace UI.ViewModels
             CoreApp.logger.log("SupplierViewModel successfully initialized.");
         }
 
-        public void refresh() {
+        private void refresh() {
             try {
                 this.Suppliers = new ObservableCollection<SupplierModel>(SupplierAccess.singleton.getSuppliers());
                 CoreApp.logger.log("Suppliers successfully fetched from database(SupplierViewModel)");
@@ -55,7 +55,6 @@ namespace UI.ViewModels
                 MessageBox.Show("Failed to fetch supplier data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void openAddWindow(object parameter) {
             AddSupplierView new_supplier = new AddSupplierView(null, HomeViewModel);
             new_supplier.ShowDialog();

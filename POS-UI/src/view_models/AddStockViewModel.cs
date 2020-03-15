@@ -1,9 +1,14 @@
-﻿using Core.DB.Access;
-using Core.DB.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
+
+using Core.DB.Access;
+using Core.DB.Models;
+using Core.Utils;
+using Core;
+using CoreApp = Core.Application;
+
 using UI.ViewModels.Commands;
 using UI.Views;
 
@@ -14,7 +19,6 @@ namespace UI.ViewModels
         private int _product_id;
         private int _supplier_id;
         private int _quantity;
-        private double _unit_price;
         private DateTime _date;
         private List<ProductModel> _products;
         private List<SupplierModel> _suppliers;
@@ -24,7 +28,7 @@ namespace UI.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand CreateOrUpdateCommand { get; private set; }
         public HomeViewModel HomeViewModel { get; set; }
-        public AddStock AddStock { get; set; }
+        public AddStockView AddStockView { get; set; }
 
         public int ID { get; set; }
         public int ProductID {
@@ -38,10 +42,6 @@ namespace UI.ViewModels
         public int Quantity {
             get { return _quantity; }
             set { _quantity = value; onPropertyRaised("Quantity"); }
-        }
-        public double UnitPrice {
-            get { return _unit_price; }
-            set { _unit_price = value; onPropertyRaised("UnitPrice"); }
         }
         public DateTime Date {
             get { return _date; }
@@ -62,73 +62,114 @@ namespace UI.ViewModels
             set { _update_or_create = value; onPropertyRaised("UpdateOrCreate"); }
         }
 
-        public AddStockViewModel(StockModel model, AddStock add_stock, HomeViewModel home_view_model) {
-            this.Products = ProductAccess.singleton.getProducts();
-            this.AddStock = add_stock;
-            this.HomeViewModel = home_view_model;
-            
-            this.Suppliers = SupplierAccess.singleton.getSuppliers();
+        public AddStockViewModel(StockModel model, AddStockView add_stock_view, HomeViewModel home_view_model) {
+            fetchProducts();
+            fetchSuppliers();
+            this.AddStockView           = add_stock_view;
+            this.HomeViewModel          = home_view_model;
+            this.CreateOrUpdateCommand  = new RelayCommand(addOrUpdateStock);
+
             if (model != null) {
                 this.UpdateOrCreate = "Update";
-                this.ID = Convert.ToInt32(model.ID.value);
-                this.ProductID = Convert.ToInt32(model.ProductID.value);
-                this.SupplierID = Convert.ToInt32(model.SupplierID.value);
+                this.ID                 = Convert.ToInt32(model.ID.value);
+                this.ProductID          = Convert.ToInt32(model.ProductID.value);
+                this.SupplierID         = Convert.ToInt32(model.SupplierID.value);
                 foreach (ProductModel product in Products) {
                     if (product.ID.value == ProductID) { this.SelectedProduct = product; break; }
                 }
                 foreach (SupplierModel supplier in Suppliers) {
                     if (supplier.ID.value == SupplierID) { this.SelectedSupplier = supplier; break; }
                 }
-                this.Quantity = Convert.ToInt32(model.Quantity.value);
-                this.Date = model.Date.value;
+                this.Quantity           = Convert.ToInt32(model.Quantity.value);
+                this.Date               = model.Date.value;
 
-                this.CreateOrUpdateCommand = new RelayCommand(updateStock);
             }
-            else
-            {
+            else {
                 this.UpdateOrCreate = "Create";
-                this.CreateOrUpdateCommand = new RelayCommand(addStock);
             }
+            CoreApp.logger.log("AddStockViewModel successfully initialized.");
         }
 
-        public void addStock(object parameter) {
-            try {
-                StockModel model = new StockModel();
-                model.ProductID.value = SelectedProduct.ID.value;
-                if (SelectedSupplier == null) model.SupplierID.setToNull();
-                else model.SupplierID.value = SelectedSupplier.ID.value;
-                model.Quantity.value = Quantity;
-                model.Date.value = Date;
-                StockAccess.singleton.addStock(model);
-                this.AddStock.Close();
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully inserted!", true));
-                thread.Start();
-            }
-            catch (Exception) {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to insert!", false));
-                thread.Start();
-            }
-        }
-        public void updateStock(object parameter) {
+        public void addOrUpdateStock(object parameter) {
             StockModel model = new StockModel();
-            model.ProductID.value = SelectedProduct.ID.value;
-            if (SelectedSupplier == null) model.SupplierID.setToNull();
-            else model.SupplierID.value = SelectedSupplier.ID.value;
-            model.Quantity.value = Quantity;
-            model.Date.value = Date;
 
-            try {
-                StockAccess.singleton.updateStock(model, this.ID);
-                this.AddStock.Close();
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Successfully updated!", true));
-                thread.Start();
+            if (this.UpdateOrCreate == "Create") {
+                try {
+                    validate();
+
+                    model.ProductID.value = SelectedProduct.ID.value;
+                    if (SelectedSupplier == null) model.SupplierID.setToNull();
+                    else model.SupplierID.value = SelectedSupplier.ID.value;
+                    model.Quantity.value = Quantity;
+                    model.Date.value = Date;
+
+                    StockAccess.singleton.addStock(model);
+                    this.AddStockView.Close();
+                    CoreApp.logger.log("Stock model successfully uploaded.(AddStockViewModel)");
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Stock details added successfully!", true));
+                    thread.Start();
+                }
+                catch (EmptyFieldException) {
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
+                    thread.Start();
+                }
+                catch (Exception ex) {
+                    CoreApp.logger.log($"Unexpected error while adding stock details.(AddStockViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while adding stock details.", false));
+                    thread.Start();
+                }
             }
-            catch (Exception) {
-                Thread thread = new Thread(() => this.HomeViewModel.setMessage("Failed to update!", false));
-                thread.Start();
-            } 
+            else {
+                try {
+                    validate();
+
+                    model.ProductID.value = SelectedProduct.ID.value;
+                    if (SelectedSupplier == null) model.SupplierID.setToNull();
+                    else model.SupplierID.value = SelectedSupplier.ID.value;
+                    model.Quantity.value = Quantity;
+                    model.Date.value = Date;
+
+                    StockAccess.singleton.updateStock(model, this.ID);
+                    this.AddStockView.Close();
+                    CoreApp.logger.log("Stock model successfully updated.(AddStockViewModel)");
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Stock details updated successfully!", true));
+                    thread.Start();
+                }
+                catch (EmptyFieldException) {
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Required fields cannot be empty.", false));
+                    thread.Start();
+                }
+                catch (Exception ex) {
+                    CoreApp.logger.log($"Unexpected error while updating stock details.(AddStockViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                    Thread thread = new Thread(() => this.HomeViewModel.setMessage("Some unexpected error occured while updating stock details.", false));
+                    thread.Start();
+                }
+            }
         }
 
+        private void fetchProducts() {
+            try {
+                this.Products = ProductAccess.singleton.getProducts("");
+                CoreApp.logger.log("Products successfully fetched from database(AddStockViewModel)");
+            }
+            catch (Exception ex) {
+                this.Products = new List<ProductModel>();
+                CoreApp.logger.log($"Products cannot be fetched from database(AddStockViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+            }
+        }
+        private void fetchSuppliers() {
+            try {
+                this.Suppliers = SupplierAccess.singleton.getSuppliers();
+                CoreApp.logger.log("Suppliers successfully fetched from database(AddStockViewModel)");
+            }
+            catch (Exception ex) {
+                this.Suppliers = new List<SupplierModel>();
+                CoreApp.logger.log($"Suppliers cannot be fetched from database(AddStockViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+            }
+        }
+        private void validate() {
+            if (SelectedProduct == null) throw new EmptyFieldException("Required fields cannot be empty!");
+        }
         private void onPropertyRaised(string property_name) {
             if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(property_name));
         }

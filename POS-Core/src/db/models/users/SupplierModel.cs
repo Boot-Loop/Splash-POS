@@ -26,5 +26,7 @@ namespace Core.DB.Models
             this.Telephone.value    = !data_row.IsNull("Telephone")     ? data_row["Telephone"].ToString()          : null;
             this.Comments.value     = !data_row.IsNull("Comments")      ? data_row["Comments"].ToString()           : null;
         }
+
+        public override string ToString() => this.FirstName.value;
     }
 }

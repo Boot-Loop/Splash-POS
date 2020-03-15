@@ -23,6 +23,7 @@ namespace UI.ViewModels
         public MainView MainView { get; set; }
         public HomeView HomeView { get; set; }
         public Sales Sales { get; set; }
+        public bool ProductsUpdated { get; set; }
         public string Title {
             get { return _title; }
             set { _title = value; onPropertyRaised("Title"); }
@@ -40,6 +41,7 @@ namespace UI.ViewModels
             this.LoggedInUser = user;
             this.MainView = main_view;
             this.HomeView = home_view;
+            this.ProductsUpdated = false;
             this.Sales = new Sales(this);
             this.HomeView.home_content_control.Content = Sales;
             this.LogoutCommand = new RelayCommand(logout);
