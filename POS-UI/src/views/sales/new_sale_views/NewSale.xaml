@@ -189,7 +189,14 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Command="{Binding DeleteItemCommand}" FontSize="16" Content="Delete" Margin="4 4 2 2" Focusable="False" Style="{DynamicResource ButtonWarning}"/>
-                <Button Grid.Column="1" Command="{Binding QuantityCommand}" Margin="2 4 2 2" Content="Quantity (F4)"   FontSize="16"  Style="{DynamicResource ButtonCommon2}" Focusable="False"/>
+                <Button Grid.Column="1" Command="{Binding QuantityCommand}" Margin="2 4 2 2"  FontSize="16"  Style="{DynamicResource ButtonCommon2}" Focusable="False">
+                    <Button.Content>
+                        <Grid Height="70" Width="{Binding ActualWidth, ElementName=discount_button}">
+                            <Label Content="F4" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Label Content="Quantity" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
                 <Button Grid.Column="2" Margin="2 4 4 2" Content="Search"     FontSize="16"  Style="{DynamicResource ButtonCommon2}" Focusable="False"/>
             </Grid>
             <Grid Grid.Row="1">
@@ -198,7 +205,14 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Command="{Binding DiscountCommand}" Margin="4 2 2 4" Content="Discount(F2)" FontSize="16"   Style="{DynamicResource ButtonCommon2}" Focusable="False"/>
+                <Button Grid.Column="0" Command="{Binding DiscountCommand}" Margin="4 2 2 4" FontSize="16"   Style="{DynamicResource ButtonCommon2}" Focusable="False" x:Name="discount_button">
+                    <Button.Content>
+                        <Grid Height="70" Width="{Binding ActualWidth, ElementName=discount_button}">
+                            <Label Content="F2" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Label Content="Discount" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
                 <Button Grid.Column="1" Margin="2 2 2 4" Content="Lock"     FontSize="16"       Style="{DynamicResource ButtonCommon2}" Focusable="False"/>
                 <Button Grid.Column="2" Command="{Binding VoidSaleCommand}" Margin="2 2 4 4" Content="Void"  Style="{DynamicResource ButtonWarning}"   FontSize="16" Focusable="False"/>
             </Grid>
@@ -248,7 +262,14 @@
                 </Grid.ColumnDefinitions>
               
                 <Button Grid.Column="0" Margin="4 4 2 4" Command="{Binding ReturnCommand}" Content="Return" FontSize="20" Style="{DynamicResource ButtonCommon2}" Focusable="False"/>
-                <Button Grid.Column="1" Margin="2 4 4 4" Command="{Binding PayCommand}" FontSize="20" Focusable="False" Content="Payment" Style="{DynamicResource ButtonGreen}"/>
+                <Button Grid.Column="1" Margin="2 4 4 4" Command="{Binding PayCommand}" FontSize="20" Focusable="False" Style="{DynamicResource ButtonGreen}" x:Name="payment_button">
+                    <Button.Content>
+                        <Grid Height="112" Width="{Binding ActualWidth, ElementName=payment_button}">
+                            <Label Content="F10" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Label Content="Payment" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
             </Grid>
 
         </Grid>
