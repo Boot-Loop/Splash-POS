@@ -26,6 +26,14 @@ namespace Core.Documents
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
 
+        public void exportToPrint(List<StaffModel> staff_models) {
+            try {
+                DataTable data_table = makeDataTable(staff_models);
+                exportDataTableToPdf(data_table, Path.Combine(Paths.TEMP_FILE), "Staffs List");
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+
         private DataTable makeDataTable(List<StaffModel> staff_models) {
 
             DataTable data_table = new DataTable();

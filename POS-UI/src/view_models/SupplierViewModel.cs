@@ -13,6 +13,10 @@ using CoreApp = Core.Application;
 
 using UI.ViewModels.Commands;
 using UI.Views;
+using System.Drawing.Printing;
+using Core;
+using System.Drawing;
+using PdfiumViewer;
 
 namespace UI.ViewModels
 {
@@ -25,6 +29,7 @@ namespace UI.ViewModels
         public RelayCommand EditCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
         public RelayCommand ExportPDFCommand { get; private set; }
+        public RelayCommand PrintCommand { get; private set; }
         public SupplierModel SelectedSupplier { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
 
@@ -39,6 +44,7 @@ namespace UI.ViewModels
             this.EditCommand        = new RelayCommand(openEditWindow, isSelectedSupplierNotNull);
             this.DeleteCommand      = new RelayCommand(deleteRecord, isSelectedSupplierNotNull);
             this.ExportPDFCommand   = new RelayCommand(exportPDF);
+            this.PrintCommand       = new RelayCommand(printDocument);
             home_view_model.Title   = "Suppliers";
             refresh();
             CoreApp.logger.log("SupplierViewModel successfully initialized.");
@@ -89,6 +95,34 @@ namespace UI.ViewModels
             catch (Exception ex) {
                 CoreApp.logger.log($"Failed to export supplier models(SupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
                 this.HomeViewModel.setNotification("Failed to export supplier details. Please make sure output directory is not deleted.", false);
+            }
+        }
+        private void printDocument(object parameter) {
+            bool success = true;
+            try {
+                SuppliersDocument.singleton.exportToPrint(new List<SupplierModel>(Suppliers));
+                CoreApp.logger.log("Supplier models successfully exported to temp for printing(SupplierViewModel)");
+                success = true;
+                this.HomeViewModel.setNotification("Supplier details successfully sent for print!", true);
+            }
+            catch (Exception ex) {
+                CoreApp.logger.log($"Failed to export supplier models for printing(SupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                this.HomeViewModel.setNotification("Failed to send supplier details for printing.", false);
+            }
+            if (success) {
+                string file_path = Paths.TEMP_FILE;
+                try {
+                    using (PdfDocument document = PdfDocument.Load(file_path)) {
+                        using (PrintDocument printDocument = document.CreatePrintDocument()) {
+                            printDocument.PrinterSettings.PrintFileName = "Suppliers.pdf";
+                            printDocument.PrinterSettings.PrinterName = CoreApp.singleton.readDocumentPrinterName();
+                            printDocument.PrintController = new StandardPrintController();
+                            printDocument.Print();
+                        }
+                    }
+                    CoreApp.logger.log("Supplier models successfully printer after exporting(SupplierViewModel)");
+                }
+                catch (Exception ex) { CoreApp.logger.log($"Failed to print supplier models after exporting(SupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR); }
             }
         }
         private bool isSelectedSupplierNotNull(object parameter) {

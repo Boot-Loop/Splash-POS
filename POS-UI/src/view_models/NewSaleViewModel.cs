@@ -23,6 +23,7 @@ namespace UI.ViewModels
     {
         private ObservableCollection<SaleProductModel> _sale_products;
         private ObservableCollection<ProductModel> _search_products;
+        private SearchDataProvider _search_data_provider;
         private int _phraseNumber = 0;
         private string _barcode_or_code;
         private string _subtotal;
@@ -41,7 +42,6 @@ namespace UI.ViewModels
         private bool _is_search_by_barcode_visible;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public SearchDataProvider SearchDataProvider { get { return new SearchDataProvider(); } }
         public RelayCommand BarcodeSearchCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand VoidSaleCommand { get; private set; }
@@ -128,6 +128,10 @@ namespace UI.ViewModels
             get { return _search_products; }
             set { _search_products = value; onPropertyRaised("SearchProducts"); }
         }
+        public SearchDataProvider SearchDataProvider {
+            get { return _search_data_provider; }
+            set { _search_data_provider = value; onPropertyRaised("SearchDataProvider"); } 
+        }
 
         public NewSaleViewModel(NewSale new_sale, SalesViewModel sales_view_model, HomeViewModel home_view_model) {
             this.NewSale                    = new_sale;
@@ -143,6 +147,7 @@ namespace UI.ViewModels
             this.ReturnCommand              = new RelayCommand(returnButtonPressed);
             this.SaleProducts               = new ObservableCollection<SaleProductModel>();
             this.SearchProducts             = new ObservableCollection<ProductModel>();
+            this.SearchDataProvider         = new SearchDataProvider();
             this.SubTotal                   = "0.00";
             this.Discount                   = "0.00";
             this.Total                      = "0.00";

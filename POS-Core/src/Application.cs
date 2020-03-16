@@ -24,11 +24,12 @@ namespace Core
 			if (!Directory.Exists(Paths.PROGRAMME_DATA)) Directory.CreateDirectory(Paths.PROGRAMME_DATA);
 			if (!Directory.Exists(Paths.LOGS)) Directory.CreateDirectory(Paths.LOGS);
             if (!Directory.Exists(Paths.DOCUMENT_SAVE_PATH)) Directory.CreateDirectory(Paths.DOCUMENT_SAVE_PATH);
+            if (!Directory.Exists(Paths.TEMP)) Directory.CreateDirectory(Paths.TEMP);
             logger = new Logger("logs");
 			createDatabase();
         }
         public void updateReciptPrinterName(string name) {
-            POSData printer_data = new POSData() { ReciptPrinterName = name, DocumentSavePath = readDocumentSavePath() };
+            POSData printer_data = new POSData() { ReciptPrinterName = name, DocumentSavePath = readDocumentSavePath(), DocumentPrinterName = readDocumentPrinterName() };
             try { XMLFile.ToXmlFile(printer_data, Paths.PROGRAME_DATA_FILE); logger.log("Recipt printer name successfully updated!"); }
             catch (Exception ex) { logger.log($"Failed to update printer name: {ex}", Logger.LogLevel.LEVEL_ERROR); } 
         }
@@ -44,7 +45,7 @@ namespace Core
             }
         }
         public void updateDocumentSavePath(string path) {
-            POSData document_data = new POSData() {ReciptPrinterName = readReciptPrinterName(), DocumentSavePath = path };
+            POSData document_data = new POSData() {ReciptPrinterName = readReciptPrinterName(), DocumentSavePath = path, DocumentPrinterName = readDocumentPrinterName() };
             try { XMLFile.ToXmlFile(document_data, Paths.PROGRAME_DATA_FILE); logger.log("Document save path successfully updated!"); }
             catch (Exception ex) { logger.log($"Failed to update document save path: {ex}", Logger.LogLevel.LEVEL_ERROR); }
         }
@@ -57,6 +58,22 @@ namespace Core
             catch (Exception ex) {
                 logger.log($"Failed to read document save path: {ex}", Logger.LogLevel.LEVEL_ERROR);
                 return Paths.DOCUMENT_SAVE_PATH;
+            }
+        }
+        public void updateDocumentPrinterName(string name) {
+            POSData printer_data = new POSData() { ReciptPrinterName = readReciptPrinterName(), DocumentSavePath = readDocumentSavePath(), DocumentPrinterName = name };
+            try { XMLFile.ToXmlFile(printer_data, Paths.PROGRAME_DATA_FILE); logger.log("Recipt printer name successfully updated!"); }
+            catch (Exception ex) { logger.log($"Failed to update printer name: {ex}", Logger.LogLevel.LEVEL_ERROR); }
+        }
+        public string readDocumentPrinterName() {
+            try {
+                POSData printer = XMLFile.FromXmlFile<POSData>(Paths.PROGRAME_DATA_FILE);
+                logger.log("Recipt printer name successfully read!");
+                return printer.DocumentPrinterName;
+            }
+            catch (Exception ex) {
+                logger.log($"Failed to read printer name: {ex}", Logger.LogLevel.LEVEL_ERROR);
+                return "";
             }
         }
 
@@ -111,5 +128,6 @@ namespace Core
     public class POSData {
         public string ReciptPrinterName { get; set; }
         public string DocumentSavePath { get; set; }
+        public string DocumentPrinterName { get; set; }
     }
 }

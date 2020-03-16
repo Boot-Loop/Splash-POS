@@ -24,11 +24,10 @@ namespace UI.Views
 
         private SettingsViewModel _settings_view_model;
 
-        public SettingsView(HomeViewModel home_view_model)
-        {
+        public SettingsView(HomeViewModel home_view_model) {
             SolidColorBrush color_primary_darker = FindResource("COLOR_PRIMARY_DARKER") as SolidColorBrush;
             InitializeComponent();
-            this._settings_view_model = new SettingsViewModel(home_view_model);
+            this._settings_view_model = new SettingsViewModel(home_view_model, this);
             this.DataContext = _settings_view_model;
             One.Background = color_primary_darker;
         }

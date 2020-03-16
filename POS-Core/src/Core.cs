@@ -9,6 +9,8 @@ namespace Core
         public static readonly string DOCUMENT              = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static readonly string PROGRAMME_DATA        = Path.Combine(APP_DATA, "Splash-POS/");
         public static readonly string LOGS                  = Path.Combine(PROGRAMME_DATA, "Logs/");
+        public static readonly string TEMP                  = Path.Combine(PROGRAMME_DATA, "temp/");
+        public static readonly string TEMP_FILE             = Path.Combine(TEMP, "temp.pdf");
         public static readonly string PROGRAME_DATA_FILE    = Path.Combine(PROGRAMME_DATA, "programe-data.xml");
         public static readonly string DOCUMENT_SAVE_PATH    = Path.Combine(DOCUMENT, "Splash-POS/");
     }

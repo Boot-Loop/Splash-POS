@@ -13,6 +13,9 @@ using CoreApp = Core.Application;
 
 using UI.ViewModels.Commands;
 using UI.Views;
+using Core;
+using PdfiumViewer;
+using System.Drawing.Printing;
 
 namespace UI.ViewModels
 {
@@ -25,6 +28,7 @@ namespace UI.ViewModels
         public RelayCommand EditCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
         public RelayCommand ExportPDFCommand { get; private set; }
+        public RelayCommand PrintCommand { get; private set; }
         public StockModel SelectedStock { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
 
@@ -39,6 +43,7 @@ namespace UI.ViewModels
             this.EditCommand        = new RelayCommand(openEditWindow, isSelectedStockNotNull);
             this.DeleteCommand      = new RelayCommand(deleteRecord, isSelectedStockNotNull);
             this.ExportPDFCommand   = new RelayCommand(exportPDF);
+            this.PrintCommand       = new RelayCommand(printDocument);
             home_view_model.Title   = "Stocks";
             refresh();
             CoreApp.logger.log("StockViewModel successfully initialized.");
@@ -90,6 +95,34 @@ namespace UI.ViewModels
             catch (Exception ex) {
                 CoreApp.logger.log($"Failed to export stock models(StockViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
                 this.HomeViewModel.setNotification("Failed to export stock details. Please make sure output directory is not deleted.", false);
+            }
+        }
+        private void printDocument(object parameter) {
+            bool success = true;
+            try {
+                StocksDocument.singleton.exportToPrint(new List<StockModel>(Stocks));
+                CoreApp.logger.log("Stocks models successfully exported to temp for printing(StocksViewModel)");
+                success = true;
+                this.HomeViewModel.setNotification("Stocks details successfully sent for print!", true);
+            }
+            catch (Exception ex) {
+                CoreApp.logger.log($"Failed to export stocks models for printing(StocksViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                this.HomeViewModel.setNotification("Failed to send stocks details for printing.", false);
+            }
+            if (success) {
+                string file_path = Paths.TEMP_FILE;
+                try {
+                    using (PdfDocument document = PdfDocument.Load(file_path)) {
+                        using (PrintDocument printDocument = document.CreatePrintDocument()) {
+                            printDocument.PrinterSettings.PrintFileName = "Stocks.pdf";
+                            printDocument.PrinterSettings.PrinterName = CoreApp.singleton.readDocumentPrinterName();
+                            printDocument.PrintController = new StandardPrintController();
+                            printDocument.Print();
+                        }
+                    }
+                    CoreApp.logger.log("Stocks models successfully printer after exporting(SupplierViewModel)");
+                }
+                catch (Exception ex) { CoreApp.logger.log($"Failed to print stocks models after exporting(SupplierViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR); }
             }
         }
         private bool isSelectedStockNotNull(object parameter) {

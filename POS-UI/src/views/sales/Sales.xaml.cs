@@ -25,6 +25,9 @@ namespace UI.Views
 
         private void salesViewLoaded(object sender, System.Windows.RoutedEventArgs e) {
             if (HomeViewModel.ProductsUpdated) {
+                foreach (NewSale new_sale in HomeViewModel.Sales.SalesViewModel.NewSales) {
+                    new_sale.NewSaleViewModel.SearchDataProvider = new SearchDataProvider();
+                }
                 SysForms.DialogResult result = SysForms.MessageBox.Show("Product detailes were updated. To make the changes affective please logout and login. (Changes will be automatically added to the products that are not in these sales.)?", "Products Updated", SysForms.MessageBoxButtons.OK, SysForms.MessageBoxIcon.Warning);
                 HomeViewModel.ProductsUpdated = false;
             }
