@@ -25,13 +25,31 @@ namespace UI.Views
         }
 
         private void stackPanelPreviewKeyDown(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Enter) {
                 FrameworkElement s = e.Source as FrameworkElement;
+            if (e.Key == Key.Enter) {
                 if (s != null && s != email_text_box) {
                     s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 }
                 if (s == email_text_box) {
                     AddStaffViewModel.addOrUpdateStaff(null);
+                }
+                e.Handled = true;
+            }
+
+            else if (e.Key == Key.Down)
+            {
+                if (s != null)
+                {
+                    s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                }
+                e.Handled = true;
+            }
+
+            else if (e.Key == Key.Up)
+            {
+                if (s != null)
+                {
+                    s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
                 }
                 e.Handled = true;
             }

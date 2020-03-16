@@ -130,10 +130,10 @@
                     </Grid.ColumnDefinitions>
                     <Border BorderThickness="1" BorderBrush="Black" Grid.Column="0" Grid.ColumnSpan="6"/>
 
-                    <GridSplitter Width="1" Background="Black" Grid.Column="0"/>
-                    <GridSplitter Width="1" Background="Black" Grid.Column="1"/>
-                    <GridSplitter Width="1" Background="Black" Grid.Column="2"/>
-                    <GridSplitter Width="1" Background="Black" Grid.Column="3"/>
+                    <GridSplitter Width="1" Background="Black" Grid.Column="0" Focusable="False"/>
+                    <GridSplitter Width="1" Background="Black" Grid.Column="1" Focusable="False"/>
+                    <GridSplitter Width="1" Background="Black" Grid.Column="2" Focusable="False"/>
+                    <GridSplitter Width="1" Background="Black" Grid.Column="3" Focusable="False"/>
 
 
                     <TextBlock Text="   Item" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -172,7 +172,7 @@
             </StackPanel>
         </Grid>
 
-        <GridSplitter Grid.Column="0" Width="3" Background="{DynamicResource COLOR_PRIMARY_DARKER}"/>
+        <GridSplitter Grid.Column="0" Width="3" Background="{DynamicResource COLOR_PRIMARY_DARKER}" Focusable="False"/>
 
         <Grid Grid.Column="1" >
             <Grid.RowDefinitions>

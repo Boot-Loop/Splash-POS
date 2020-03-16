@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <ComboBox IsEditable="False" ItemsSource="{Binding SaleDescriptions}" SelectedIndex="{Binding SelectedIndex}" Width="200" Margin="8 4 8 4">
+                <ComboBox IsEditable="False" ItemsSource="{Binding SaleDescriptions}" SelectedIndex="{Binding SelectedIndex}" Width="200" Margin="8 4 8 4" Focusable="False">
                     <!--<ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding NameOfSale}"/>
@@ -30,7 +30,7 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
-            <ContentControl x:Name="sales_content_control"/>
+            <ContentControl x:Name="sales_content_control" Focusable="False"/>
         </Grid>
     </Grid>
 </UserControl>
