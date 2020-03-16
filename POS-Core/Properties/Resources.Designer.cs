@@ -63,13 +63,13 @@ namespace POS_Core.Properties {
         /// <summary>
         ///   Looks up a localized string similar to USE [master]
         ///GO
-        ////****** Object:  Database [POS-DB]    Script Date: 3/16/2020 12:36:07 AM ******/
+        ////****** Object:  Database [POS-DB]    Script Date: 3/17/2020 3:50:01 AM ******/
         ///CREATE DATABASE [POS-DB]
         /// CONTAINMENT = NONE
         /// ON  PRIMARY 
         ///( NAME = N&apos;POS-DB&apos;, FILENAME = N&apos;C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\POS-DB_Primary.mdf&apos; , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
         /// LOG ON 
-        ///( NAME = N&apos;POS-DB_log&apos;, FILENAME = N&apos;C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\POS-DB_Primary.ldf&apos; , SIZE = 8192KB , MAXSIZE = 204 [rest of string was truncated]&quot;;.
+        ///( NAME = N&apos;POS-DB_log&apos;, FILENAME = N&apos;C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\POS-DB_Primary.ldf&apos; , SIZE = 8192KB , MAXSIZE = 2048 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string script {
             get {

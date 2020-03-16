@@ -49,6 +49,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>pos_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PdfiumViewer, Version=2.10.0.0, Culture=neutral, PublicKeyToken=91e4789cfb0609e0, processorArchitecture=MSIL">
       <HintPath>..\packages\PdfiumViewer.2.10.0.0\lib\net20\PdfiumViewer.dll</HintPath>
@@ -125,6 +128,9 @@
     <Compile Include="src\views\reports_views\Reports.xaml.cs">
       <DependentUpon>Reports.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\views\report_view\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\views\sales\new_sale_views\components\DiscountView.xaml.cs">
       <DependentUpon>DiscountView.xaml</DependentUpon>
     </Compile>
@@ -177,6 +183,7 @@
     <Compile Include="src\view_models\commands\RelayCommand.cs" />
     <Compile Include="src\view_models\NewSaleViewModel.cs" />
     <Compile Include="src\view_models\ProductViewModel.cs" />
+    <Compile Include="src\view_models\ReportViewModel.cs" />
     <Compile Include="src\view_models\SalesViewModel.cs" />
     <Compile Include="src\view_models\ManagementViewModel.cs" />
     <Compile Include="src\view_models\SettingsViewModel.cs" />
@@ -213,7 +220,18 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="src\styles\button\common_button_style\CommonButtonStyle.xaml">
       <SubType>Designer</SubType>
@@ -264,6 +282,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\views\reports_views\Reports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\views\report_view\ReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -331,9 +353,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="res\images\pos.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="res\icons\eye.png" />
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +393,8 @@
     <Resource Include="res\icons\print.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="res\images\pos.png" />
+    <Resource Include="pos_icon.ico" />
     <Content Include="x64\pdfium.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -394,12 +415,24 @@
     <None Include="Resources\header_image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="vender\System.Reactive.Core.dll" />
-    <Content Include="vender\System.Reactive.Interfaces.dll" />
-    <Content Include="vender\System.Reactive.Linq.dll" />
-    <Content Include="vender\System.Reactive.PlatformServices.dll" />
-    <Content Include="vender\System.Reactive.Windows.Threading.dll" />
-    <Content Include="vender\WpfAutoComplete.dll" />
+    <Content Include="vender\System.Reactive.Core.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="vender\System.Reactive.Interfaces.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="vender\System.Reactive.Linq.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="vender\System.Reactive.PlatformServices.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="vender\System.Reactive.Windows.Threading.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="vender\WpfAutoComplete.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

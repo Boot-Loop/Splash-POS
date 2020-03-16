@@ -81,6 +81,9 @@
     <Build Include="dbo\Views\StockView.sql" />
     <Build Include="dbo\Tables\Recipt.sql" />
     <Build Include="dbo\Tables\ProductReturn.sql" />
+    <Build Include="dbo\Views\ProductReturnView.sql" />
+    <Build Include="dbo\Views\SaleDetailView.sql" />
+    <Build Include="dbo\Views\SaleProductView.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="POS-DB.refactorlog" />

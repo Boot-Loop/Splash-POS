@@ -20,77 +20,9 @@ namespace Tester
 	{
 		static void Main(string[] args)
 		{
-			//List<StockModel> stocks = new List<StockModel>();
-			//stocks = StockAccess.singleton.getStocks();
-			//foreach (StockModel stock in stocks)
-			//{
-			//	Console.WriteLine(stock.Date.value);
-			//}
-			//StaffModel mod = new StaffModel();
-			//mod.FirstName.value = "updatefn";
-			//mod.LastName.value = "updateln";
-			//mod.UserName.value = "updateun";
-			//mod.Password.value = "updatepw";
-			//mod.AccessLevel.value = 7;
-			//StaffAccess.singleton.updateStaff(mod, 2);
-			//Console.WriteLine("updated");
-			//try
-			//{
-
-			//	StaffModel logged_in_user = StaffAccess.singleton.login("Passwoddrd");
-			//	Console.WriteLine(logged_in_user.UserName.value);
-			//}catch (Exception ex)
-			//{
-			//	Console.WriteLine(ex);
-			//}
-
-			//BarcodeModel bm = new BarcodeModel();
-			//bm.Value.value = "NEWTEST";
-			//List<BarcodeModel> bl = new List<BarcodeModel>();
-			//bl.Add(bm);
-
-			//SaleModel model = new SaleModel();
-			//model.UserID.value = 1;
-			//model.PaymentID.value = 17;
-			//int a = SaleAccess.singleton.addSale(model);
-			//int pms = 200;
-			//pms = ProductAccess.singleton.getLastProductCode();
-			//Console.WriteLine("sfdsadf: " + pms);
-
-			////var prod = DBAccess.singleton.getProducts();
-			////Console.WriteLine(supplier.LastName.value);
-			//Console.ReadKey();
-
-			//updatedatabase();
-			//Application.singleton.initialize();
-
-			//updatedatabase();
-			//ProductModel md = new ProductModel();
-			//md = ProductAccess.singleton.getProductUsingBarcode("1243123123");
-			//if (md == null) { Console.WriteLine("Null"); }
-			//else
-			//{
-			//	Console.WriteLine(md.ID.getName() + " " + md.ID.value);
-			//	Console.WriteLine(md.Name.getName() + " " + md.Name.value);
-			//	Console.WriteLine(md.ProductGroupID.getName() + " " + md.ProductGroupID.value);
-			//	Console.WriteLine(md.BrandID.getName() + " " + md.BrandID.value);
-			//	Console.WriteLine(md.MeasurementUnitID.getName() + " " + md.MeasurementUnitID.value);
-			//	Console.WriteLine(md.Code.getName() + " " + md.Code.value);
-			//	Console.WriteLine(md.Description.getName() + " " + md.Description.value);
-			//	Console.WriteLine(md.PLU.getName() + " " + md.PLU.value);
-			//	Console.WriteLine(md.Image.getName() + " " + md.Image.value);
-			//	Console.WriteLine(md.Color.getName() + " " + md.Color.value);
-			//	Console.WriteLine(md.Price.getName() + " " + md.Price.value);
-			//	Console.WriteLine(md.IsService.getName() + " " + md.IsService.value);
-			//	Console.WriteLine(md.DateCreated.getName() + " " + md.DateCreated.value);
-			//	Console.WriteLine(md.DateUpdated.getName() + " " + md.DateUpdated.value);
-			//	//Console.WriteLine("barcode: " + md.Barcode.ToString());
-			//}
-			//bool a = Core.Application.singleton.checkDatabaseExists("POS-DB");
-			//DateTime foo = DateTime.UtcNow;
-			//long unixTime = ((DateTimeOffset)foo).ToUnixTimeSeconds();
-			//Console.WriteLine(unixTime);
-			//Console.ReadKey();
+			List<ProductModel> models = ProductAccess.singleton.getProducts("");
+			//Console.WriteLine(models.Count);
+			Console.ReadKey();
 
 		}
 
