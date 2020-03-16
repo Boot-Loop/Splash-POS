@@ -35,7 +35,7 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-                <Button                     Height="48" Width="48" Margin="40 1 5 1" Style="{DynamicResource ButtonCommon2}">
+                <Button Command="{Binding ExportPDFCommand}" Height="48" Width="48" Margin="40 1 5 1" Style="{DynamicResource ButtonCommon2}">
                     <Button.Content>
                         <StackPanel>
                             <Image Source="/res/icons/pdf.png" Width="20" Height="20" Margin="0 2 0 0"/>

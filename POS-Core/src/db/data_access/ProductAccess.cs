@@ -54,7 +54,7 @@ namespace Core.DB.Access
 			return return_products;
 		}
 		public ProductModel getProductUsingBarcode(string barcode) {
-			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product AS pr LEFT JOIN dbo.Barcode AS bc ON pr.ID = bc.Product_ID  WHERE Value = @Value");
+			SqlCommand command = new SqlCommand("SELECT * FROM dbo.Product AS pr LEFT JOIN dbo.Barcode AS bc ON pr.ID = bc.Product_ID  WHERE bc.Value = @Value");
 			command.Parameters.Add("@Value", System.Data.SqlDbType.VarChar, 128).Value = barcode;
 			List<ProductModel> models = excuteObject<ProductModel>(command).ToList();
 			return models.Count == 0 ? null : models[0];

@@ -80,6 +80,7 @@ namespace UI.Views
                         return_model.ProductID.value = sale_product_model.ProductID.value;
                         return_model.Qunatity.value = sale_product_model.Qunatity.value;
                         return_model.RefuntAmount.value = Convert.ToDouble(RefundAmount);
+                        return_model.TransactionTime.value = DateTime.Now;
                         SaleAccess.singleton.addReturnProduct(return_model);
                     }
                 }
@@ -93,6 +94,7 @@ namespace UI.Views
                         return_model.ProductID.value = sale_product_model.ProductID.value;
                         return_model.Qunatity.value = sale_product_model.Qunatity.value;
                         return_model.RefuntAmount.value = Convert.ToDouble(RefundAmount);
+                        return_model.TransactionTime.value = DateTime.Now;
                         SaleAccess.singleton.addReturnProduct(return_model);
                     }
                 }

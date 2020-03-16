@@ -20,8 +20,8 @@
         <StackPanel Grid.Column="1" PreviewKeyDown="StackPanel_PreviewKeyDown">
             <ComboBox Margin="5 12 5 8" FontSize="16" Height="30" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Padding="1"/>
             <ComboBox Margin="5 4 5 8"  FontSize="16" Height="30" ItemsSource="{Binding Suppliers}" SelectedItem="{Binding SelectedSupplier}" Padding="1"/>
-            <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"     Margin="5 4 5 8"    FontSize="16" Height="30" Padding="1"/>
-            <TextBox x:Name="date_text_box" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}"  Margin="5 4 5 8"           FontSize="16" Height="30" Padding="1"/>
+            <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"     Margin="5 4 5 8"    FontSize="16" Height="30" Padding="1"  GotFocus="textBoxGotFocus"/>
+            <TextBox x:Name="date_text_box" Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}"  Margin="5 4 5 8"           FontSize="16" Height="30" Padding="1"  GotFocus="textBoxGotFocus"/>
             <Button Content="{Binding UpdateOrCreate}" Command="{Binding CreateOrUpdateCommand}" FontSize="18" Margin="5 6" Height="30" Width="200" HorizontalAlignment="Right" Style="{DynamicResource ButtonCommon}"/>
         </StackPanel>
     </Grid>

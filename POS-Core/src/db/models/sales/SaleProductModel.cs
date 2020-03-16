@@ -23,6 +23,7 @@ namespace Core.DB.Models
             this.Qunatity.value     = Convert.ToInt32(data_row["Qunatity"]);
             if (!data_row.IsNull("Discount")) this.Discount.value = Convert.ToDouble(data_row["Discount"]); else this.Discount.setToNull();
             this.Price.value        = Convert.ToInt32(data_row["Price"]);
+            this.SubTotal.value     = Convert.ToInt32(data_row["SubTotal"]);
         }
 
     }

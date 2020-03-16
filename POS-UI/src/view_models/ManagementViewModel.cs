@@ -40,7 +40,9 @@ namespace UI.ViewModels
         private void staffButtonPressed(object parameter) {
             HomeView.home_content_control.Content = new StaffView(HomeViewModel);
         }
-        private void reportsButtonPressed(object parameter) { }
+        private void reportsButtonPressed(object parameter) {
+            HomeView.home_content_control.Content = new ReportView(HomeViewModel);
+        }
         private void settingsButtonPressed(object parameter) {
             HomeView.home_content_control.Content = new SettingsView(HomeViewModel);
         }

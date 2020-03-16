@@ -5,6 +5,7 @@ using Core.DB.Models;
 using CoreApp = Core.Application;
 
 using UI.ViewModels;
+using System.Windows.Controls;
 
 namespace UI.Views
 {
@@ -36,23 +37,24 @@ namespace UI.Views
                 e.Handled = true;
             }
 
-            else if (e.Key == Key.Down)
-            {                
-                if (s != null)
-                {
+            else if (e.Key == Key.Down) {                
+                if (s != null) {
                     s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 }
                 e.Handled = true;
             }
 
             else if (e.Key == Key.Up){               
-                if (s != null)
-                {
+                if (s != null) {
                     s.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
                 }                
                 e.Handled = true;
             }
         }
-      
+
+        private void textBoxGotFocus(object sender, RoutedEventArgs e) {
+            TextBox text_box = (TextBox)sender;
+            text_box.SelectAll();
+        }
     }
 }

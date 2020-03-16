@@ -19,6 +19,20 @@ namespace Core.DB.Access
 			get { return instance; }
 		}
 
+		public List<ProductReturnWithNameModel> getReturnProductDetails(string from, string to) {
+			SqlCommand command = new SqlCommand($"SELECT * FROM dbo.ProductReturnView WHERE TransactionTime >= '{from}' AND TransactionTime < '{to}'");
+			return excuteObject<ProductReturnWithNameModel>(command).ToList();
+		}
+		public List<SaleDetailModel> getSaleDetails(string from, string to) {
+			SqlCommand command = new SqlCommand($"SELECT * FROM dbo.SaleDetailView WHERE TransactionTime >= '{from}' AND TransactionTime < '{to}'");
+			return excuteObject<SaleDetailModel>(command).ToList();
+		}
+		public List<SaleProductWithNameModel> getSaleProductsWithName(int sale_id) {
+			SqlCommand command = new SqlCommand($"SELECT * FROM dbo.SaleProductView WHERE Sale_ID=@SaleID");
+			command.Parameters.Add("@SaleID", System.Data.SqlDbType.Int).Value = sale_id;
+			return excuteObject<SaleProductWithNameModel>(command).ToList();
+		}
+
 		public int addPayment(PaymentModel model) {
 			int ID;
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
@@ -91,7 +105,7 @@ namespace Core.DB.Access
 		}
 		public void addSaleProduct(SaleProductModel model) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				string command_text = "INSERT INTO dbo.SaleProduct (Sale_ID, Product_ID, Quantity, Discount, Price) VALUES (@Sale_ID, @Product_ID, @Quantity, @Discount, @Price)";
+				string command_text = "INSERT INTO dbo.SaleProduct (Sale_ID, Product_ID, Quantity, Discount, Price, SubTotal) VALUES (@Sale_ID, @Product_ID, @Quantity, @Discount, @Price, @SubTotal)";
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
 					command.Parameters.Add("@Sale_ID", System.Data.SqlDbType.Int).Value		= model.SaleID.value;
@@ -99,6 +113,7 @@ namespace Core.DB.Access
 					command.Parameters.Add("@Quantity", System.Data.SqlDbType.Int).Value	= model.Qunatity.value;
 					command.Parameters.Add("@Discount", System.Data.SqlDbType.Float).Value	= !model.Discount.isNull() ? model.Discount.value : (object)DBNull.Value;
 					command.Parameters.Add("@Price", System.Data.SqlDbType.Float).Value		= model.Price.value;
+					command.Parameters.Add("@SubTotal", System.Data.SqlDbType.Float).Value = model.SubTotal.value;
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();
@@ -140,13 +155,14 @@ namespace Core.DB.Access
 		}
 		public void addReturnProduct(ProductReturnModel model) {
 			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING)) {
-				string command_text = "INSERT INTO dbo.ProductReturn (Recipt_ID, Product_ID, Quantity, RefundAmount) VALUES (@Recipt_ID, @Product_ID, @Quantity, @RefundAmount)";
+				string command_text = "INSERT INTO dbo.ProductReturn (Recipt_ID, Product_ID, Quantity, RefundAmount, TransactionTime) VALUES (@Recipt_ID, @Product_ID, @Quantity, @RefundAmount, @TransactionTime)";
 				using (SqlCommand command = new SqlCommand(command_text)) {
 					command.Connection = connection;
 					command.Parameters.Add("@Recipt_ID", System.Data.SqlDbType.VarChar, 20).Value = model.ReciptID.value;
 					command.Parameters.Add("@Product_ID", System.Data.SqlDbType.Int).Value = model.ProductID.value;
 					command.Parameters.Add("@Quantity", System.Data.SqlDbType.Int).Value = model.Qunatity.value;
 					command.Parameters.Add("@RefundAmount", System.Data.SqlDbType.Float).Value = model.RefuntAmount.value;
+					command.Parameters.Add("@TransactionTime", System.Data.SqlDbType.DateTime).Value = model.TransactionTime.value;
 					try {
 						connection.Open();
 						command.ExecuteNonQuery();

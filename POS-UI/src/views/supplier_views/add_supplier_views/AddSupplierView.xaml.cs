@@ -5,6 +5,7 @@ using Core.DB.Models;
 using CoreApp = Core.Application;
 
 using UI.ViewModels;
+using System.Windows.Controls;
 
 namespace UI.Views
 {
@@ -53,6 +54,10 @@ namespace UI.Views
                 }
                 e.Handled = true;
             }
+        }
+        private void textBoxGotFocus(object sender, RoutedEventArgs e) {
+            TextBox text_box = (TextBox)sender;
+            text_box.SelectAll();
         }
     }
 }
