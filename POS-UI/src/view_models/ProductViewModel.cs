@@ -13,6 +13,9 @@ using CoreApp = Core.Application;
 
 using UI.ViewModels.Commands;
 using UI.Views;
+using Core;
+using PdfiumViewer;
+using System.Drawing.Printing;
 
 namespace UI.ViewModels
 {
@@ -26,6 +29,7 @@ namespace UI.ViewModels
         public RelayCommand EditCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
         public RelayCommand ExportPDFCommand { get; private set; }
+        public RelayCommand PrintCommand { get; private set; }
         public ProductModel SelectedProduct { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
 
@@ -44,6 +48,7 @@ namespace UI.ViewModels
             this.EditCommand        = new RelayCommand(openEditWindow, isSelectedProductNotNull);
             this.DeleteCommand      = new RelayCommand(deleteRecord, isSelectedProductNotNull);
             this.ExportPDFCommand   = new RelayCommand(exportPDF);
+            this.PrintCommand       = new RelayCommand(printDocument);
             home_view_model.Title   = "Products";
             refresh();
             CoreApp.logger.log("ProductViewModel successfully initialized.");
@@ -106,6 +111,34 @@ namespace UI.ViewModels
             catch (Exception ex) {
                 CoreApp.logger.log($"Failed to export product models(ProductViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
                 this.HomeViewModel.setNotification("Failed to export product details. Please make sure output directory is not deleted.", false);
+            }
+        }
+        private void printDocument(object parameter) {
+            bool success = true;
+            try {
+                ProductsDocument.singleton.exportToPrint(new List<ProductModel>(Products));
+                CoreApp.logger.log("Product models successfully exported to temp for printing(ProductViewModel)");
+                success = true;
+                this.HomeViewModel.setNotification("Product details successfully sent for print!", true);
+            }
+            catch (Exception ex) {
+                CoreApp.logger.log($"Failed to export product models for printing(ProductViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                this.HomeViewModel.setNotification("Failed to send product details for printing.", false);
+            }
+            if (success) {
+                string file_path = Paths.TEMP_FILE;
+                try {
+                    using (PdfDocument document = PdfDocument.Load(file_path)) {
+                        using (PrintDocument printDocument = document.CreatePrintDocument()) {
+                            printDocument.PrinterSettings.PrintFileName = "Products.pdf";
+                            printDocument.PrinterSettings.PrinterName = CoreApp.singleton.readDocumentPrinterName();
+                            printDocument.PrintController = new StandardPrintController();
+                            printDocument.Print();
+                        }
+                    }
+                    CoreApp.logger.log("Product models successfully printer after exporting(ProductViewModel)");
+                }
+                catch (Exception ex) { CoreApp.logger.log($"Failed to print product models after exporting(ProductViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR); }
             }
         }
         private bool isSelectedProductNotNull(object parameter) {

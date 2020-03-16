@@ -13,6 +13,9 @@ using CoreApp = Core.Application;
 
 using UI.ViewModels.Commands;
 using UI.Views;
+using Core;
+using PdfiumViewer;
+using System.Drawing.Printing;
 
 namespace UI.ViewModels
 {
@@ -25,6 +28,7 @@ namespace UI.ViewModels
         public RelayCommand EditCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
         public RelayCommand ExportPDFCommand { get; private set; }
+        public RelayCommand PrintCommand { get; private set; }
         public StaffModel SelectedStaff { get; set; }
         public HomeViewModel HomeViewModel { get; set; }
 
@@ -39,6 +43,7 @@ namespace UI.ViewModels
             this.EditCommand        = new RelayCommand(openEditWindow, isSelectedStaffNotNull);
             this.DeleteCommand      = new RelayCommand(deleteRecord, isSelectedStaffNotAdmin);
             this.ExportPDFCommand   = new RelayCommand(exportPDF);
+            this.PrintCommand       = new RelayCommand(printDocument);
             home_view_model.Title   = "Staffs";
             refresh();
             CoreApp.logger.log("StaffViewModel successfully initialized.");
@@ -90,6 +95,34 @@ namespace UI.ViewModels
             catch (Exception ex) {
                 CoreApp.logger.log($"Failed to export staff models(StaffViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
                 this.HomeViewModel.setNotification("Failed to export staff details. Please make sure output directory is not deleted.", false);
+            }
+        }
+        private void printDocument(object parameter) {
+            bool success = true;
+            try {
+                StaffsDocument.singleton.exportToPrint(new List<StaffModel>(Staffs));
+                CoreApp.logger.log("Staff models successfully exported to temp for printing(StaffViewModel)");
+                success = true;
+                this.HomeViewModel.setNotification("Staff details successfully sent for print!", true);
+            }
+            catch (Exception ex) {
+                CoreApp.logger.log($"Failed to export staff models for printing(StaffViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR);
+                this.HomeViewModel.setNotification("Failed to send staff details for printing.", false);
+            }
+            if (success) {
+                string file_path = Paths.TEMP_FILE;
+                try {
+                    using (PdfDocument document = PdfDocument.Load(file_path)) {
+                        using (PrintDocument printDocument = document.CreatePrintDocument()) {
+                            printDocument.PrinterSettings.PrintFileName = "Staffs.pdf";
+                            printDocument.PrinterSettings.PrinterName = CoreApp.singleton.readDocumentPrinterName();
+                            printDocument.PrintController = new StandardPrintController();
+                            printDocument.Print();
+                        }
+                    }
+                    CoreApp.logger.log("Staffs models successfully printer after exporting(StaffViewModel)");
+                }
+                catch (Exception ex) { CoreApp.logger.log($"Failed to print staff models after exporting(StaffViewModel): {ex}", Logger.LogLevel.LEVEL_ERROR); }
             }
         }
         private bool isSelectedStaffNotNull(object parameter) {

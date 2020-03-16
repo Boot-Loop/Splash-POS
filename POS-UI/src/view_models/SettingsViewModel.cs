@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using CoreApp = Core.Application;
 
 using UI.ViewModels.Commands;
+using UI.Views;
 
 namespace UI.ViewModels
 {
@@ -14,12 +15,14 @@ namespace UI.ViewModels
     {
         private ObservableCollection<string> _printer_names;
         private string _selected_printer;
+        private string _selected_doc_printer;
         private string _document_save_path;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand BrowseCommand { get; private set; }
         public HomeViewModel HomeViewModel { get; set; }
+        public SettingsView SettingsView { get; set; }
 
         public ObservableCollection<string> PrinterNames {
             get { return _printer_names; }
@@ -29,19 +32,24 @@ namespace UI.ViewModels
             get { return _selected_printer; }
             set { _selected_printer = value; onPropertyRaised("SelectedPrinter"); }
         }
+        public string SelectedDocPrinter {
+            get { return _selected_doc_printer; }
+            set { _selected_doc_printer = value; onPropertyRaised("SelectedDocPrinter"); }
+        }
         public string DocumentSavePath {
             get { return _document_save_path; }
             set { _document_save_path = value; onPropertyRaised("DocumentSavePath"); CoreApp.singleton.updateDocumentSavePath(DocumentSavePath); }
         }
 
-        public SettingsViewModel(HomeViewModel home_view_model) {
+        public SettingsViewModel(HomeViewModel home_view_model, SettingsView settings_view) {
             this.HomeViewModel = home_view_model;
+            this.SettingsView = settings_view;
             this.SaveCommand = new RelayCommand(savePrinter);
             this.BrowseCommand = new RelayCommand(browseSavePath);
             DocumentSavePath = CoreApp.singleton.readDocumentSavePath();
             home_view_model.Title = "Settings";
             loadPrinters();
-            this.SelectedPrinter = loadPrinter();
+            setPrinters();
         }
 
         public void loadPrinters() {
@@ -52,19 +60,34 @@ namespace UI.ViewModels
             this.PrinterNames = printer_names;
         }
 
-        private string loadPrinter() {
-            try { return CoreApp.singleton.readReciptPrinterName(); }
-            catch (Exception) { return null; }
+        private void setPrinters() {
+            try { this.SelectedPrinter = CoreApp.singleton.readReciptPrinterName(); }
+            catch (Exception) { this.SelectedPrinter = null; }
+            try { this.SelectedDocPrinter = CoreApp.singleton.readDocumentPrinterName(); }
+            catch (Exception) { this.SelectedDocPrinter = null; }
         }
 
         private void savePrinter(object parameter) {
-            if (SelectedPrinter != null) {
-                try {
-                    CoreApp.singleton.updateReciptPrinterName(this.SelectedPrinter);
-                    this.HomeViewModel.setNotification("Printer Successfully Configured!", true);
+            if (SettingsView.setting_tab_control.SelectedIndex == 0) { //Recipt Printer
+                if (SelectedPrinter != null) {
+                    try {
+                        CoreApp.singleton.updateReciptPrinterName(this.SelectedPrinter);
+                        this.HomeViewModel.setNotification("Recipt printer successfully configured!", true);
+                    }
+                    catch (Exception) {
+                        this.HomeViewModel.setNotification("Recipt printer configuration Failed!", false);
+                    }
                 }
-                catch (Exception) {
-                    this.HomeViewModel.setNotification("Printer Configuration Failed!", false);
+            }
+            else if (SettingsView.setting_tab_control.SelectedIndex == 1) { //Document Printer
+                if (SelectedDocPrinter != null) {
+                    try {
+                        CoreApp.singleton.updateDocumentPrinterName(this.SelectedDocPrinter);
+                        this.HomeViewModel.setNotification("Document printer successfully configured!", true);
+                    }
+                    catch (Exception) {
+                        this.HomeViewModel.setNotification("Document printer configuration Failed!", false);
+                    }
                 }
             }
         }
